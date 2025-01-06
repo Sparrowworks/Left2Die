@@ -11,8 +11,19 @@ config_version=5
 [application]
 
 config/name="Zombie Survival 2"
+run/main_scene="res://src/MainMenu/MainMenu.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Composer="*res://src/Composer/Composer.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/resizable=false
 
 [rendering]
 
