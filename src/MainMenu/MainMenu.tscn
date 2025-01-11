@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b4dnsk44n2fp"]
+[gd_scene load_steps=4 format=3 uid="uid://b4dnsk44n2fp"]
 
 [ext_resource type="Script" path="res://src/MainMenu/MainMenu.gd" id="1_edpc0"]
 [ext_resource type="PackedScene" uid="uid://bsdhfmi104332" path="res://src/MainMenu/LobbyCreate/LobbyCreate.tscn" id="1_m0b8u"]
+[ext_resource type="PackedScene" uid="uid://8yvigcbl7uq2" path="res://src/MainMenu/GameSelect/GameSelect.tscn" id="3_qirse"]
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_edpc0")
@@ -57,5 +58,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Settings"
 
+[node name="GameSelect" parent="." instance=ExtResource("3_qirse")]
+visible = false
+
 [node name="LobbyCreate" parent="." instance=ExtResource("1_m0b8u")]
 visible = false
+
+[editable path="GameSelect"]
+[editable path="LobbyCreate"]
