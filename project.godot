@@ -18,6 +18,11 @@ config/icon="res://icon.svg"
 [autoload]
 
 Composer="*res://src/Composer/Composer.gd"
+Lobby="*res://src/Lobby/Lobby.gd"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=2
 
 [display]
 
