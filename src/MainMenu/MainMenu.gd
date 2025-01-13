@@ -8,6 +8,7 @@ extends CanvasLayer
 
 func _ready() -> void:
 	Lobby.game_joined.connect(_on_game_created)
+	Lobby.player_kicked.connect(_on_player_kicked)
 
 func _on_multi_button_pressed() -> void:
 	main_menu.hide()
@@ -39,6 +40,11 @@ func _on_leave_button_pressed() -> void:
 	main_menu.show()
 	lobby_menu.hide()
 
+func _on_player_kicked() -> void:
+	Lobby.clear_peer()
+
+	lobby_menu.hide()
+	main_menu.show()
 
 func _on_game_created() -> void:
 	lobby_create.hide()

@@ -3,6 +3,8 @@ extends Node
 signal game_joined()
 signal lobby_redraw_needed()
 
+signal player_kicked()
+
 var peer: ENetMultiplayerPeer = null
 
 var lobby_ip: String = ""
@@ -62,16 +64,36 @@ func greet_peer(peer_amount: Array[int], max_players: int) -> void:
 
 	lobby_redraw_needed.emit()
 
+@rpc("authority","call_remote","reliable")
+func kick_peer() -> void:
+	player_kicked.emit()
+
 func _on_peer_connected(id: int) -> void:
 	if multiplayer.get_unique_id() == 1:
+		if connected_peers.size() == lobby_max:
+			rpc_id(id,"kick_peer")
+			return
+
 		connected_peers.append(id)
 		lobby_redraw_needed.emit()
 		rpc_id(id,"greet_peer",connected_peers,lobby_max)
+	else:
+		if connected_peers.is_empty() or connected_peers.size() == lobby_max: return
+		connected_peers.append(id)
+		lobby_redraw_needed.emit()
 
 	prints("(",multiplayer.get_unique_id(),"): ",str(id),"Has connected")
 
 func _on_peer_disconnected(id: int) -> void:
 	if multiplayer.get_unique_id() == 1:
+		connected_peers.erase(id)
+		lobby_redraw_needed.emit()
+	else:
+		if connected_peers.is_empty(): return
+		if id == 1:
+			player_kicked.emit()
+			return
+
 		connected_peers.erase(id)
 		lobby_redraw_needed.emit()
 
