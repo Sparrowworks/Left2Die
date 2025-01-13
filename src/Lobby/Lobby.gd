@@ -19,6 +19,9 @@ func _ready() -> void:
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	multiplayer.connection_failed.connect(_on_connection_failed)
 
+func message(content: String) -> void:
+	prints("(", multiplayer.get_unique_id(), "): ", content)
+
 func create_server(port: int, max_players: int) -> Error:
 	lobby_port = port
 	lobby_max = max_players
@@ -69,40 +72,34 @@ func kick_peer() -> void:
 	player_kicked.emit()
 
 func _on_peer_connected(id: int) -> void:
+	connected_peers.append(id)
+
 	if multiplayer.get_unique_id() == 1:
 		if connected_peers.size() == lobby_max:
 			rpc_id(id,"kick_peer")
 			return
 
-		connected_peers.append(id)
-		lobby_redraw_needed.emit()
 		rpc_id(id,"greet_peer",connected_peers,lobby_max)
-	else:
-		if connected_peers.is_empty() or connected_peers.size() == lobby_max: return
-		connected_peers.append(id)
-		lobby_redraw_needed.emit()
 
-	prints("(",multiplayer.get_unique_id(),"): ",str(id),"Has connected")
+	lobby_redraw_needed.emit()
+
+	message(str(id) + " Has connected")
 
 func _on_peer_disconnected(id: int) -> void:
-	if multiplayer.get_unique_id() == 1:
-		connected_peers.erase(id)
-		lobby_redraw_needed.emit()
-	else:
-		if connected_peers.is_empty(): return
-		if id == 1:
-			player_kicked.emit()
-			return
+	connected_peers.erase(id)
+	lobby_redraw_needed.emit()
 
-		connected_peers.erase(id)
-		lobby_redraw_needed.emit()
+	if id == 1:
+		player_kicked.emit()
+		return
 
-	prints("(",multiplayer.get_unique_id(),"): ",str(id),"Has disconnected")
+	message(str(id) + " Has disconnected")
+
 ### CLIENT SIGNALS
 
 func _on_connected_to_server() -> void:
-	prints("(",multiplayer.get_unique_id(),"): ","Connected to server")
+	message("Connected to server")
 	game_joined.emit()
 
 func _on_connection_failed() -> void:
-	prints("(",multiplayer.get_unique_id(),"): ","Couldn't connect")
+	message("Couldn't connect")
