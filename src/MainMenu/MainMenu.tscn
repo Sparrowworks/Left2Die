@@ -73,6 +73,7 @@ visible = false
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control2/JoinGameButton" to="." method="_on_join_game_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control3/MenuButton" to="." method="_on_menu_button_pressed"]
 [connection signal="pressed" from="LobbyCreate/Panel/VBoxContainer/Control2/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="JoinMenu/Panel/VBoxContainer/Control2/BackButton" to="." method="_on_back_button_pressed"]
 
 [editable path="GameSelect"]
 [editable path="LobbyCreate"]

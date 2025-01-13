@@ -21,6 +21,7 @@ func _on_menu_button_pressed() -> void:
 
 func _on_back_button_pressed() -> void:
 	lobby_create.hide()
+	join_menu.hide()
 	game_select.show()
 
 
