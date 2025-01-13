@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4dnsk44n2fp"]
+[gd_scene load_steps=6 format=3 uid="uid://b4dnsk44n2fp"]
 
 [ext_resource type="Script" path="res://src/MainMenu/MainMenu.gd" id="1_edpc0"]
 [ext_resource type="PackedScene" uid="uid://bsdhfmi104332" path="res://src/MainMenu/LobbyCreate/LobbyCreate.tscn" id="1_m0b8u"]
 [ext_resource type="PackedScene" uid="uid://8yvigcbl7uq2" path="res://src/MainMenu/GameSelect/GameSelect.tscn" id="3_qirse"]
 [ext_resource type="PackedScene" uid="uid://dxv4kf348go2a" path="res://src/MainMenu/JoinMenu/JoinMenu.tscn" id="4_jybw2"]
+[ext_resource type="PackedScene" uid="uid://d2b4tkxtwc3op" path="res://src/Lobby/LobbyMenu.tscn" id="5_25oyt"]
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_edpc0")
@@ -68,13 +69,19 @@ visible = false
 [node name="JoinMenu" parent="." instance=ExtResource("4_jybw2")]
 visible = false
 
+[node name="LobbyMenu" parent="." instance=ExtResource("5_25oyt")]
+visible = false
+
 [connection signal="pressed" from="Menu/ButtonBox/MultiButton" to="." method="_on_multi_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control/HostCreateButton" to="." method="_on_host_create_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control2/JoinGameButton" to="." method="_on_join_game_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control3/MenuButton" to="." method="_on_menu_button_pressed"]
+[connection signal="game_created" from="LobbyCreate" to="." method="_on_game_created"]
 [connection signal="pressed" from="LobbyCreate/Panel/VBoxContainer/Control2/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="JoinMenu/Panel/VBoxContainer/Control2/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="LobbyMenu/PanelContainer/VBoxContainer/Control2/LeaveButton" to="." method="_on_leave_button_pressed"]
 
 [editable path="GameSelect"]
 [editable path="LobbyCreate"]
 [editable path="JoinMenu"]
+[editable path="LobbyMenu"]
