@@ -1,15 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://bsdhfmi104332"]
+[gd_scene load_steps=2 format=3 uid="uid://dxv4kf348go2a"]
 
-[ext_resource type="Script" path="res://src/MainMenu/LobbyCreate/lobby_create.gd" id="1_5nfcf"]
+[ext_resource type="Script" path="res://src/MainMenu/JoinMenu/join_menu.gd" id="1_w0pvo"]
 
-[node name="LobbyCreate" type="Control"]
+[node name="JoinMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_5nfcf")
+script = ExtResource("1_w0pvo")
 
 [node name="Panel" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -33,8 +33,35 @@ theme_override_constants/separation = 50
 [node name="Title" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Create a Lobby"
+text = "Join a Lobby"
 horizontal_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Enter IP:"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="Panel/VBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="IpEdit" type="LineEdit" parent="Panel/VBoxContainer/VBoxContainer2/Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_right = 100.0
+offset_bottom = 31.0
+grow_horizontal = 2
+text = "192.168.0.148"
+placeholder_text = "192.168.0.0"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer"]
 layout_mode = 2
@@ -64,40 +91,11 @@ text = "9999"
 placeholder_text = "9999"
 max_length = 5
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="Panel/VBoxContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Select player amount:"
-horizontal_alignment = 1
-
-[node name="Control" type="Control" parent="Panel/VBoxContainer/VBoxContainer2"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-
-[node name="PlayerAmountField" type="SpinBox" parent="Panel/VBoxContainer/VBoxContainer2/Control"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 25)
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -100.0
-offset_right = 100.0
-offset_bottom = 31.0
-grow_horizontal = 2
-min_value = 2.0
-max_value = 4.0
-value = 4.0
-suffix = "Players"
-
 [node name="Control" type="Control" parent="Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="HostButton" type="Button" parent="Panel/VBoxContainer/Control"]
+[node name="JoinButton" type="Button" parent="Panel/VBoxContainer/Control"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -107,7 +105,7 @@ offset_right = 75.0
 offset_bottom = 50.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
-text = "Host"
+text = "Join"
 
 [node name="Control2" type="Control" parent="Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
@@ -125,4 +123,4 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "Back"
 
-[connection signal="pressed" from="Panel/VBoxContainer/Control/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Control/JoinButton" to="." method="_on_join_button_pressed"]

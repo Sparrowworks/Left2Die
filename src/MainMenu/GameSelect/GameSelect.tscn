@@ -71,7 +71,7 @@ text = "Join Game"
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="BackButton" type="Button" parent="Panel/VBoxContainer/Control3"]
+[node name="MenuButton" type="Button" parent="Panel/VBoxContainer/Control3"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
 anchors_preset = 5

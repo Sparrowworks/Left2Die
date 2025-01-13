@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4dnsk44n2fp"]
+[gd_scene load_steps=5 format=3 uid="uid://b4dnsk44n2fp"]
 
 [ext_resource type="Script" path="res://src/MainMenu/MainMenu.gd" id="1_edpc0"]
 [ext_resource type="PackedScene" uid="uid://bsdhfmi104332" path="res://src/MainMenu/LobbyCreate/LobbyCreate.tscn" id="1_m0b8u"]
 [ext_resource type="PackedScene" uid="uid://8yvigcbl7uq2" path="res://src/MainMenu/GameSelect/GameSelect.tscn" id="3_qirse"]
+[ext_resource type="PackedScene" uid="uid://dxv4kf348go2a" path="res://src/MainMenu/JoinMenu/JoinMenu.tscn" id="4_jybw2"]
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_edpc0")
@@ -44,7 +45,7 @@ theme_override_constants/separation = 50
 custom_minimum_size = Vector2(225, 75)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Multiplayer"
+text = "LAN Game"
 
 [node name="SoloButton" type="Button" parent="Menu/ButtonBox"]
 custom_minimum_size = Vector2(225, 75)
@@ -64,5 +65,15 @@ visible = false
 [node name="LobbyCreate" parent="." instance=ExtResource("1_m0b8u")]
 visible = false
 
+[node name="JoinMenu" parent="." instance=ExtResource("4_jybw2")]
+visible = false
+
+[connection signal="pressed" from="Menu/ButtonBox/MultiButton" to="." method="_on_multi_button_pressed"]
+[connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control/HostCreateButton" to="." method="_on_host_create_button_pressed"]
+[connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control2/JoinGameButton" to="." method="_on_join_game_button_pressed"]
+[connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control3/MenuButton" to="." method="_on_menu_button_pressed"]
+[connection signal="pressed" from="LobbyCreate/Panel/VBoxContainer/Control2/BackButton" to="." method="_on_back_button_pressed"]
+
 [editable path="GameSelect"]
 [editable path="LobbyCreate"]
+[editable path="JoinMenu"]
