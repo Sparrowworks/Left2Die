@@ -19,11 +19,12 @@ func _on_join_button_pressed() -> void:
 	join_button.disabled = true
 	back_button.disabled = true
 
-func _on_join_failed() -> void:
+func _on_join_failed(quiet: bool) -> void:
 	join_button.disabled = false
 	back_button.disabled = false
 
 	Lobby.clear_peer()
 
-	var popup: MessagePopup = Messenger.create_popup("Join Timeout", "Connection was terminated, because the game didn't respond.")
-	add_child(popup)
+	if not quiet:
+		var popup: MessagePopup = Messenger.create_popup("Join Timeout", "Connection was terminated, because the game didn't respond.")
+		add_child(popup)
