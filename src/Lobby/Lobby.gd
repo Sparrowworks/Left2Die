@@ -71,10 +71,19 @@ func greet_peer(peer_amount: Array[int], max_players: int) -> void:
 func kick_peer() -> void:
 	player_kicked.emit()
 
+@rpc("authority","call_local","reliable")
+func start_game() -> void:
+	Composer.load_scene("res://src/Game/Game.tscn")
+
+func game_started() -> void:
+	print(multiplayer.is_server())
+	if multiplayer.is_server():
+		rpc("start_game")
+
 func _on_peer_connected(id: int) -> void:
 	connected_peers.append(id)
 
-	if multiplayer.get_unique_id() == 1:
+	if multiplayer.is_server():
 		if connected_peers.size() == lobby_max:
 			rpc_id(id,"kick_peer")
 			return

@@ -24,3 +24,8 @@ func draw_lobby(players: Array[int], max_players: int) -> void:
 		label.text = str(player)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		player_list.add_child(label)
+
+
+func _on_start_button_pressed() -> void:
+	if multiplayer.is_server():
+		Lobby.game_started()
