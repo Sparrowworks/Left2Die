@@ -12,3 +12,6 @@ func _on_host_button_pressed() -> void:
 	elif error == ERR_CANT_CREATE:
 		var popup: MessagePopup = Messenger.create_popup("Can't create", "The server couldn't be created.")
 		add_child(popup)
+	else:
+		var popup: MessagePopup = Messenger.create_popup("Unknown error", "Unknown error has been returned with code: " + str(error))
+		add_child(popup)

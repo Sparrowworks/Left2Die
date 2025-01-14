@@ -10,7 +10,12 @@ func _ready() -> void:
 	Lobby.join_failed.connect(_on_join_failed)
 
 func _on_join_button_pressed() -> void:
-	Lobby.create_client(ip_edit.text, int(port_edit.text))
+	var error: Error = Lobby.create_client(ip_edit.text, int(port_edit.text))
+	if error != OK:
+		var popup: MessagePopup = Messenger.create_popup("Unknown error", "Unknown error has been returned with code: " + str(error))
+		add_child(popup)
+		return
+
 	join_button.disabled = true
 	back_button.disabled = true
 
