@@ -18,7 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 Composer="*res://src/Composer/Composer.gd"
-Lobby="*res://src/Lobby/Lobby.gd"
+Lobby="*res://src/Network/Lobby.gd"
+Messenger="*res://src/Network/Messenger.gd"
 
 [debug]
 

@@ -14,7 +14,6 @@ func _on_multi_button_pressed() -> void:
 	main_menu.hide()
 	game_select.show()
 
-
 func _on_host_create_button_pressed() -> void:
 	game_select.hide()
 	lobby_create.show()
@@ -24,15 +23,14 @@ func _on_menu_button_pressed() -> void:
 	main_menu.show()
 
 func _on_back_button_pressed() -> void:
+	Lobby.clear_peer()
 	lobby_create.hide()
 	join_menu.hide()
 	game_select.show()
 
-
 func _on_join_game_button_pressed() -> void:
 	game_select.hide()
 	join_menu.show()
-
 
 func _on_leave_button_pressed() -> void:
 	Lobby.clear_peer()
@@ -40,7 +38,10 @@ func _on_leave_button_pressed() -> void:
 	main_menu.show()
 	lobby_menu.hide()
 
-func _on_player_kicked() -> void:
+func _on_player_kicked(error_title: String, error_content: String) -> void:
+	var popup: MessagePopup = Messenger.create_popup(error_title, error_content)
+	add_child(popup)
+
 	Lobby.clear_peer()
 
 	lobby_menu.hide()

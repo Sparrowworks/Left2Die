@@ -3,9 +3,11 @@ extends Node
 signal game_joined()
 signal lobby_redraw_needed()
 
-signal player_kicked()
+signal player_kicked(error_title: String, error_content: String)
+signal join_failed()
 
 var peer: ENetMultiplayerPeer = null
+var join_timer: SceneTreeTimer
 
 var lobby_ip: String = ""
 var lobby_port: int = 9999
@@ -18,9 +20,6 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	multiplayer.connection_failed.connect(_on_connection_failed)
-
-func message(content: String) -> void:
-	prints("(", multiplayer.get_unique_id(), "): ", content)
 
 func create_server(port: int, max_players: int) -> Error:
 	lobby_port = port
@@ -51,13 +50,19 @@ func create_client(ip: String, port: int) -> Error:
 
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	multiplayer.multiplayer_peer = peer
+
+	join_timer = get_tree().create_timer(10.0)
+	join_timer.timeout.connect(func() -> void: join_failed.emit())
+
 	return error
 
 func clear_peer() -> void:
 	connected_peers.clear()
 
-	multiplayer.multiplayer_peer.close()
-	multiplayer.multiplayer_peer = null
+	if multiplayer.multiplayer_peer:
+		multiplayer.multiplayer_peer.close()
+		multiplayer.multiplayer_peer = null
+
 	peer = null
 
 @rpc("authority","call_remote","reliable")
@@ -68,8 +73,8 @@ func greet_peer(peer_amount: Array[int], max_players: int) -> void:
 	lobby_redraw_needed.emit()
 
 @rpc("authority","call_remote","reliable")
-func kick_peer() -> void:
-	player_kicked.emit()
+func kick_peer(title: String, content: String) -> void:
+	player_kicked.emit(title, content)
 
 @rpc("authority","call_local","reliable")
 func start_game() -> void:
@@ -85,30 +90,31 @@ func _on_peer_connected(id: int) -> void:
 
 	if multiplayer.is_server():
 		if connected_peers.size() == lobby_max:
-			rpc_id(id,"kick_peer")
+			rpc_id(id,"kick_peer","Lobby is full","You cannot join this game, because the lobby is full.")
 			return
 
 		rpc_id(id,"greet_peer",connected_peers,lobby_max)
 
 	lobby_redraw_needed.emit()
 
-	message(str(id) + " Has connected")
+	Messenger.message(str(id) + " Has connected")
 
 func _on_peer_disconnected(id: int) -> void:
 	connected_peers.erase(id)
 	lobby_redraw_needed.emit()
 
 	if id == 1:
-		player_kicked.emit()
+		player_kicked.emit("Host Left","The game has ended because host has left.")
 		return
 
-	message(str(id) + " Has disconnected")
+	Messenger.message(str(id) + " Has disconnected")
 
 ### CLIENT SIGNALS
 
 func _on_connected_to_server() -> void:
-	message("Connected to server")
+	join_timer.stop()
+	Messenger.message("Connected to server")
 	game_joined.emit()
 
 func _on_connection_failed() -> void:
-	message("Couldn't connect")
+	Messenger.message("Couldn't connect")

@@ -6,5 +6,9 @@ extends Control
 signal game_created()
 
 func _on_host_button_pressed() -> void:
-	if Lobby.create_server(int(port_edit.text),player_amount_field.value) == OK:
+	var error: Error = Lobby.create_server(int(port_edit.text),player_amount_field.value)
+	if error == OK:
 		game_created.emit()
+	elif error == ERR_CANT_CREATE:
+		var popup: MessagePopup = Messenger.create_popup("Can't create", "The server couldn't be created.")
+		add_child(popup)
