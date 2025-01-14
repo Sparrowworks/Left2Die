@@ -20,6 +20,7 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	multiplayer.connection_failed.connect(_on_connection_failed)
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 	join_timer = Timer.new()
 	join_timer.wait_time = 10
@@ -108,10 +109,6 @@ func _on_peer_disconnected(id: int) -> void:
 	connected_peers.erase(id)
 	lobby_redraw_needed.emit()
 
-	if id == 1:
-		player_kicked.emit("Host Left","The game has ended because host has left.")
-		return
-
 	Messenger.message(str(id) + " Has disconnected")
 
 ### CLIENT SIGNALS
@@ -125,3 +122,6 @@ func _on_connected_to_server() -> void:
 
 func _on_connection_failed() -> void:
 	Messenger.message("Couldn't connect")
+
+func _on_server_disconnected() -> void:
+	player_kicked.emit("Host Left","The game has ended because host has left.")
