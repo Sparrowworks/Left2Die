@@ -7,9 +7,12 @@
 size = Vector2(34, 48)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_h8r3e"]
-properties/0/path = NodePath(".:rotation")
+properties/0/path = NodePath(".:sync_pos")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath(".:sync_rot")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="Player" type="Area2D"]
 script = ExtResource("1_5cqo4")
@@ -23,5 +26,4 @@ shape = SubResource("RectangleShape2D_b7ufv")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
-delta_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_h8r3e")
