@@ -15,6 +15,8 @@ var lobby_max: int = 4
 
 var connected_peers: Array[int] = []
 
+var has_game_started: bool = false
+
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
@@ -88,12 +90,19 @@ func start_game() -> void:
 
 func game_started() -> void:
 	if multiplayer.is_server():
+		has_game_started = true
+
 		rpc("start_game")
 
 func _on_peer_connected(id: int) -> void:
 	if connected_peers.size() == lobby_max:
 		if multiplayer.is_server():
 			rpc_id(id,"kick_peer","Lobby is full","You cannot join this game, because the lobby is full.")
+		return
+
+	if has_game_started:
+		if multiplayer.is_server():
+			rpc_id(id,"kick_peer","Game has started","You cannot join this game, because the game has already started.")
 		return
 
 	connected_peers.append(id)

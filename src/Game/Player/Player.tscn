@@ -14,7 +14,7 @@ properties/1/path = NodePath(".:sync_rot")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="Area2D" groups=["Players"]]
 script = ExtResource("1_5cqo4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -24,6 +24,16 @@ texture = ExtResource("1_rglww")
 position = Vector2(-7, 0)
 shape = SubResource("RectangleShape2D_b7ufv")
 
+[node name="BulletPos" type="Marker2D" parent="."]
+position = Vector2(24, 10)
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_h8r3e")
+
+[node name="FirerateTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true
