@@ -1,20 +1,21 @@
 class_name Zombie extends Area2D
 
-const SPEED: float = 250.0
+const SPEED: float = 150.0
 
 @export var health: float = 25.0
 @export var target_id: int = 0:
 	set(val):
-		if val == 0:
+		target_id = val
+
+		if target_id == 0:
 			return
 
-		target = get_target(val)
+		target = get_target(target_id)
 
 var direction: Vector2 = Vector2.RIGHT
 var target: Player = null
 
 func get_closest_target_id() -> int:
-	var distances: Array = []
 	var players: Array[Node] = get_tree().get_nodes_in_group("Players")
 	var player_amount: int = players.size()
 
@@ -52,9 +53,8 @@ func get_target(id: int) -> Player:
 	return null
 
 func _physics_process(delta: float) -> void:
-	if multiplayer.is_server():
+	if is_multiplayer_authority():
 		target_id = get_closest_target_id()
-		return
 
 	if target == null:
 		return
