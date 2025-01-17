@@ -2,7 +2,12 @@ class_name Zombie extends Area2D
 
 const SPEED: float = 150.0
 
-@export var health: float = 25.0
+@export var health: float = 25.0:
+	set(val):
+		health = val
+		if health <= 0.0:
+			queue_free()
+
 @export var target_id: int = 0:
 	set(val):
 		target_id = val
@@ -61,3 +66,7 @@ func _physics_process(delta: float) -> void:
 
 	look_at(target.global_position)
 	global_position += direction.rotated(rotation) * SPEED * delta
+
+func _on_area_entered(area: Area2D) -> void:
+	if area.is_in_group("Bullets"):
+		health -= 5.0

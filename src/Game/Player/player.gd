@@ -1,5 +1,7 @@
 class_name Player extends Area2D
 
+signal spawn_enabled()
+
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var bullet_pos: Marker2D = $BulletPos
 
@@ -36,6 +38,10 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("shoot"):
 		shoot()
 
+	if Input.is_action_just_pressed("spawn_enable"):
+		if multiplayer.is_server():
+			spawn_enabled.emit()
+
 	look_at(get_global_mouse_position())
 
 	sync_pos = global_position
@@ -59,3 +65,4 @@ func create_bullet(p_pos: Vector2, p_rot: float) -> void:
 	game.bullets.add_child(bullet, true)
 	bullet.global_position = p_pos
 	bullet.rotation = p_rot
+	bullet.set_multiplayer_authority(1)

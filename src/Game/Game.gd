@@ -20,9 +20,6 @@ var player_sprites: Array = [
 func _ready() -> void:
 	spawn_players()
 
-	if multiplayer.is_server():
-		zombie_spawn_timer.start()
-
 func spawn_players() -> void:
 	for idx in range(0, Lobby.connected_peers.size()):
 		var player: Player = PLAYER.instantiate()
@@ -32,12 +29,18 @@ func spawn_players() -> void:
 		player.global_position = player_pos.get_child(idx).global_position
 		player.set_multiplayer_authority(Lobby.connected_peers[idx])
 
+		if multiplayer.is_server() && Lobby.connected_peers[idx] == 1:
+			player.spawn_enabled.connect(_on_spawn_enabled)
+
 @rpc("call_local","authority","reliable")
 func spawn_zombie(z_pos: Vector2) -> void:
 	var zombie: Zombie = ZOMBIE.instantiate()
 	zombies.add_child(zombie, true)
 	zombie.global_position = z_pos
 	zombie.set_multiplayer_authority(1)
+
+func _on_spawn_enabled() -> void:
+	zombie_spawn_timer.start()
 
 func _on_zombie_spawn_timer_timeout() -> void:
 	zombie_spawn_point.progress_ratio = randf()

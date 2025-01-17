@@ -9,12 +9,12 @@ size = Vector2(34, 48)
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_e3wub"]
 properties/0/path = NodePath(".:health")
 properties/0/spawn = true
-properties/0/replication_mode = 2
+properties/0/replication_mode = 1
 properties/1/path = NodePath(".:target_id")
 properties/1/spawn = true
 properties/1/replication_mode = 2
 
-[node name="Zombie" type="Area2D"]
+[node name="Zombie" type="Area2D" groups=["Zombies"]]
 script = ExtResource("1_pckpu")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -24,5 +24,8 @@ texture = ExtResource("1_hl5if")
 shape = SubResource("RectangleShape2D_qwv03")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.1
 delta_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_e3wub")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
