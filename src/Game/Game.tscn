@@ -54,6 +54,6 @@ position = Vector2(130, 515)
 [node name="Bullets" type="Node" parent="."]
 
 [node name="ZombieSpawnTimer" type="Timer" parent="."]
-one_shot = true
+wait_time = 2.0
 
 [connection signal="timeout" from="ZombieSpawnTimer" to="." method="_on_zombie_spawn_timer_timeout"]
