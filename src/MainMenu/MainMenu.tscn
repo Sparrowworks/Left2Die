@@ -72,6 +72,18 @@ visible = false
 [node name="LobbyMenu" parent="." instance=ExtResource("5_25oyt")]
 visible = false
 
+[node name="VersionText" type="Label" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -59.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "v0.0.0.1"
+
 [connection signal="pressed" from="Menu/ButtonBox/MultiButton" to="." method="_on_multi_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control/HostCreateButton" to="." method="_on_host_create_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control2/JoinGameButton" to="." method="_on_join_game_button_pressed"]

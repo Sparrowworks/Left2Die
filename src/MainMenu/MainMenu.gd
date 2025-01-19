@@ -10,6 +10,8 @@ func _ready() -> void:
 	Lobby.game_joined.connect(_on_game_created)
 	Lobby.player_kicked.connect(_on_player_kicked)
 
+	$VersionText.text = "v" + ProjectSettings.get_setting("application/config/version")
+
 func _on_multi_button_pressed() -> void:
 	main_menu.hide()
 	game_select.show()
