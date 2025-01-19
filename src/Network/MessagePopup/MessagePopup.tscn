@@ -67,3 +67,5 @@ offset_bottom = 50.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "OK"
+
+[connection signal="pressed" from="Panel/VBoxContainer/Control/OkButton" to="." method="_on_ok_button_pressed"]

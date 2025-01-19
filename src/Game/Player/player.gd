@@ -27,7 +27,7 @@ var is_dead: bool:
 		return health <= 0.0
 
 func _ready() -> void:
-	game = get_parent()
+	game = get_parent().get_parent()
 
 func _physics_process(delta: float) -> void:
 	if get_multiplayer_authority() != multiplayer.get_unique_id():
@@ -59,7 +59,7 @@ func shoot() -> void:
 		firerate_timer.start()
 		rpc("create_bullet", bullet_pos.global_position, self.rotation)
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable",1)
 func create_bullet(p_pos: Vector2, p_rot: float) -> void:
 	var bullet: Bullet = BULLET.instantiate()
 	game.bullets.add_child(bullet, true)

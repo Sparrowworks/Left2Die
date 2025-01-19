@@ -49,11 +49,15 @@ position = Vector2(130, 415)
 [node name="4" type="Marker2D" parent="PlayerPos"]
 position = Vector2(130, 515)
 
+[node name="Players" type="Node" parent="."]
+
 [node name="Zombies" type="Node" parent="."]
 
 [node name="Bullets" type="Node" parent="."]
 
 [node name="ZombieSpawnTimer" type="Timer" parent="."]
 wait_time = 2.0
+
+[node name="UI" type="CanvasLayer" parent="."]
 
 [connection signal="timeout" from="ZombieSpawnTimer" to="." method="_on_zombie_spawn_timer_timeout"]

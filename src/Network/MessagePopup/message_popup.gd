@@ -21,6 +21,7 @@ signal ok_pressed()
 		content.text = val
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	ok_button.pressed.connect(default_ok)
 
 func default_ok() -> void:

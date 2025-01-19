@@ -116,7 +116,9 @@ func _on_peer_connected(id: int) -> void:
 
 func _on_peer_disconnected(id: int) -> void:
 	connected_peers.erase(id)
-	lobby_redraw_needed.emit()
+
+	if not has_game_started:
+		lobby_redraw_needed.emit()
 
 	Messenger.message(str(id) + " Has disconnected")
 
