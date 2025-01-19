@@ -2,6 +2,7 @@ extends Node
 
 signal game_joined()
 signal lobby_redraw_needed()
+signal lobby_start_set(disabled: bool)
 
 signal player_kicked(error_title: String, error_content: String)
 signal join_failed(quiet: bool)

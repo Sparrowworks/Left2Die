@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2b4tkxtwc3op"]
+[gd_scene load_steps=3 format=3 uid="uid://d2b4tkxtwc3op"]
 
 [ext_resource type="Script" path="res://src/Network/LobbyMenu/lobby_menu.gd" id="1_ko31f"]
+[ext_resource type="PackedScene" uid="uid://blw0l3qkfjeho" path="res://src/Network/LobbyMenu/LobbyPlayer/LobbyPlayer.tscn" id="2_lnl3i"]
 
 [node name="LobbyMenu" type="Control"]
 layout_mode = 3
@@ -42,25 +43,17 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/PlayerList"]
+[node name="LobbyPlayer" parent="PanelContainer/VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
 layout_mode = 2
-text = "Test"
-horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/PlayerList"]
+[node name="LobbyPlayer2" parent="PanelContainer/VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
 layout_mode = 2
-text = "Test"
-horizontal_alignment = 1
 
-[node name="Label3" type="Label" parent="PanelContainer/VBoxContainer/PlayerList"]
+[node name="LobbyPlayer3" parent="PanelContainer/VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
 layout_mode = 2
-text = "Test"
-horizontal_alignment = 1
 
-[node name="Label4" type="Label" parent="PanelContainer/VBoxContainer/PlayerList"]
+[node name="LobbyPlayer4" parent="PanelContainer/VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
 layout_mode = 2
-text = "Test"
-horizontal_alignment = 1
 
 [node name="Control" type="Control" parent="PanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
@@ -95,4 +88,8 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "Leave"
 
+[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer" to="." method="_on_lobby_player_player_kicked"]
+[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer2" to="." method="_on_lobby_player_player_kicked"]
+[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer3" to="." method="_on_lobby_player_player_kicked"]
+[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer4" to="." method="_on_lobby_player_player_kicked"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Control/StartButton" to="." method="_on_start_button_pressed"]

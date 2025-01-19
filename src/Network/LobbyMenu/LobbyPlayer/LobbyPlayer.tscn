@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://blw0l3qkfjeho"]
+
+[ext_resource type="Script" path="res://src/Network/LobbyMenu/LobbyPlayer/lobby_player.gd" id="1_u80ig"]
+
+[node name="LobbyPlayer" type="HBoxContainer"]
+theme_override_constants/separation = 30
+alignment = 1
+script = ExtResource("1_u80ig")
+
+[node name="PlayerNameText" type="Label" parent="."]
+layout_mode = 2
+text = "PlayerID"
+
+[node name="KickButton" type="Button" parent="."]
+layout_mode = 2
+text = "Kick"
+
+[connection signal="pressed" from="KickButton" to="." method="_on_kick_button_pressed"]
