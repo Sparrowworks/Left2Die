@@ -8,6 +8,7 @@ extends Control
 
 func _ready() -> void:
 	Lobby.join_failed.connect(_on_join_failed)
+	Lobby.join_success.connect(_on_join_success)
 
 func _on_join_button_pressed() -> void:
 	var error: Error = Lobby.create_client(ip_edit.text, int(port_edit.text))
@@ -18,6 +19,10 @@ func _on_join_button_pressed() -> void:
 
 	join_button.disabled = true
 	back_button.disabled = true
+
+func _on_join_success() -> void:
+	join_button.disabled = false
+	back_button.disabled = false
 
 func _on_join_failed(quiet: bool) -> void:
 	join_button.disabled = false

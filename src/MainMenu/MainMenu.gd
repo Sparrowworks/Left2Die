@@ -7,7 +7,7 @@ extends CanvasLayer
 @onready var lobby_menu: Control = $LobbyMenu
 
 func _ready() -> void:
-	Lobby.game_joined.connect(_on_game_created)
+	Lobby.join_success.connect(_on_game_created)
 	Lobby.player_kicked.connect(_on_player_kicked)
 
 	$VersionText.text = "v" + ProjectSettings.get_setting("application/config/version")

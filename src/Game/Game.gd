@@ -37,8 +37,7 @@ func _ready() -> void:
 func player_spawned(id: int) -> void:
 	have_players_spawned[id] = true
 
-	if not have_players_spawned.has(false):
-		rpc("start_game")
+	check_if_game_is_ready()
 
 @rpc("authority","call_local","reliable",1)
 func start_game() -> void:
@@ -61,8 +60,13 @@ func spawn_players() -> void:
 
 	if multiplayer.is_server():
 		have_players_spawned[1] = true
+		check_if_game_is_ready()
 	else:
 		rpc_id(1,"player_spawned",multiplayer.get_unique_id())
+
+func check_if_game_is_ready() -> void:
+	if not have_players_spawned.has(false):
+		rpc("start_game")
 
 @rpc("call_local","authority","reliable",1)
 func spawn_zombie(z_pos: Vector2) -> void:
@@ -87,7 +91,9 @@ func _on_player_disconnected(id: int) -> void:
 			player.queue_free()
 			break
 
+	have_players_spawned.erase(id)
 	Lobby.connected_peers.erase(id)
+	check_if_game_is_ready()
 
 func _on_server_disconnected() -> void:
 	process_mode = PROCESS_MODE_DISABLED

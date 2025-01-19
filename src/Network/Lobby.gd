@@ -1,8 +1,8 @@
 extends Node
 
-signal game_joined()
-
 signal player_kicked(error_title: String, error_content: String)
+
+signal join_success()
 signal join_failed(quiet: bool)
 
 var peer: ENetMultiplayerPeer = null
@@ -113,7 +113,7 @@ func _on_connected_to_server() -> void:
 		join_timer.stop()
 
 	Messenger.message("Connected to server")
-	game_joined.emit()
+	join_success.emit()
 
 func _on_connection_failed() -> void:
 	Messenger.message("Couldn't connect")
