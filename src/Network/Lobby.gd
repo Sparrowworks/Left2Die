@@ -1,8 +1,6 @@
 extends Node
 
 signal game_joined()
-signal lobby_redraw_needed()
-signal lobby_start_set(disabled: bool)
 
 signal player_kicked(error_title: String, error_content: String)
 signal join_failed(quiet: bool)
@@ -74,13 +72,6 @@ func clear_peer() -> void:
 	peer = null
 
 @rpc("authority","call_remote","reliable")
-func greet_peer(peer_amount: Array[int], max_players: int) -> void:
-	connected_peers = peer_amount
-	lobby_max = max_players
-
-	lobby_redraw_needed.emit()
-
-@rpc("authority","call_remote","reliable")
 func kick_peer(title: String, content: String) -> void:
 	player_kicked.emit(title, content)
 	join_failed.emit(true)
@@ -108,18 +99,10 @@ func _on_peer_connected(id: int) -> void:
 
 	connected_peers.append(id)
 
-	if multiplayer.is_server():
-		rpc_id(id,"greet_peer",connected_peers,lobby_max)
-
-	lobby_redraw_needed.emit()
-
 	Messenger.message(str(id) + " Has connected")
 
 func _on_peer_disconnected(id: int) -> void:
 	connected_peers.erase(id)
-
-	if not has_game_started:
-		lobby_redraw_needed.emit()
 
 	Messenger.message(str(id) + " Has disconnected")
 

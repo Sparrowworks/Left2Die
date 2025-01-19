@@ -5,10 +5,8 @@ extends Control
 @onready var start_button: Button = %StartButton
 
 func _ready() -> void:
-	Lobby.lobby_redraw_needed.connect(
-		func() -> void:
-			draw_lobby(Lobby.connected_peers, Lobby.lobby_max)
-	)
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
 func draw_lobby(players: Array[int], max_players: int) -> void:
 	if multiplayer.get_unique_id() != 1:
@@ -30,10 +28,33 @@ func draw_lobby(players: Array[int], max_players: int) -> void:
 
 		lobby_player.show()
 
+@rpc("authority","call_remote","reliable")
+func greet_peer(peer_amount: Array[int], max_players: int) -> void:
+	Lobby.connected_peers = peer_amount
+	Lobby.lobby_max = max_players
+
+	draw_lobby(Lobby.connected_peers, Lobby.lobby_max)
+
+	#rpc_id(1,"peer_respond_back",multiplayer.get_unique_id())
+
 func _on_start_button_pressed() -> void:
 	if multiplayer.is_server():
 		Lobby.game_started()
 
 
+func _on_peer_connected(id: int) -> void:
+	if Lobby.connected_peers.size() == Lobby.lobby_max or Lobby.has_game_started:
+		return
+
+	if multiplayer.is_server():
+		rpc_id(id, "greet_peer", Lobby.connected_peers, Lobby.lobby_max)
+
+	draw_lobby(Lobby.connected_peers, Lobby.lobby_max)
+
+func _on_peer_disconnected(id: int) -> void:
+	if not Lobby.has_game_started:
+		draw_lobby(Lobby.connected_peers, Lobby.lobby_max)
+
 func _on_lobby_player_player_kicked(player_name: String) -> void:
-	pass # Replace with function body.
+	if multiplayer.is_server():
+		Lobby.rpc_id(player_name.to_int(),"kick_peer", "Kicked", "You have been kicked from the lobby.")
