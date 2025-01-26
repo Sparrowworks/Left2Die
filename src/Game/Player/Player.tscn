@@ -30,6 +30,7 @@ position = Vector2(24, 10)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_h8r3e")
+public_visibility = false
 
 [node name="FirerateTimer" type="Timer" parent="."]
 wait_time = 0.1

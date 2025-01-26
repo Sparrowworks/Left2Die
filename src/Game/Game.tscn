@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=4 uid="uid://6g7tcubrkmpk"]
+[gd_scene load_steps=7 format=4 uid="uid://6g7tcubrkmpk"]
 
 [ext_resource type="Script" path="res://src/Game/Game.gd" id="1_ecail"]
 [ext_resource type="Texture2D" uid="uid://bl8k24dwfa2fh" path="res://assets/images/tile_01.png" id="1_o3yky"]
+[ext_resource type="Script" path="res://src/Game/game_ready.gd" id="3_lqwi1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vmrci"]
 texture = ExtResource("1_o3yky")
@@ -59,5 +60,8 @@ position = Vector2(130, 515)
 wait_time = 2.0
 
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="GameReady" type="Node" parent="."]
+script = ExtResource("3_lqwi1")
 
 [connection signal="timeout" from="ZombieSpawnTimer" to="." method="_on_zombie_spawn_timer_timeout"]

@@ -5,6 +5,9 @@ signal player_kicked(error_title: String, error_content: String)
 signal join_success()
 signal join_failed(quiet: bool)
 
+signal host_game_ready()
+signal host_player_ready()
+
 var peer: ENetMultiplayerPeer = null
 var join_timer: Timer
 
@@ -15,6 +18,8 @@ var lobby_max: int = 4
 var connected_peers: Array[int] = []
 
 var has_game_started: bool = false
+
+var is_host_game_ready: bool = false
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -85,6 +90,12 @@ func game_started() -> void:
 		has_game_started = true
 
 		rpc("start_game")
+
+@rpc("authority","call_local","reliable")
+func set_host_game_ready() -> void:
+	prints(multiplayer.get_unique_id(), "set_host_game_ready DONE")
+	is_host_game_ready = true
+	host_game_ready.emit()
 
 func _on_peer_connected(id: int) -> void:
 	if connected_peers.size() == lobby_max:

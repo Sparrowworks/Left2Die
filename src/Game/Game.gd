@@ -12,6 +12,8 @@ const ZOMBIE = preload("res://src/Game/Zombie/Zombie.tscn")
 @onready var zombie_spawn_point: PathFollow2D = %ZombieSpawnPoint
 @onready var zombie_spawn_timer: Timer = $ZombieSpawnTimer
 
+@onready var game_ready_node: GameReady = $GameReady
+
 var player_sprites: Array = [
 	preload("res://assets/images/player1.png"),
 	preload("res://assets/images/player2.png"),
@@ -19,54 +21,45 @@ var player_sprites: Array = [
 	preload("res://assets/images/player4.png")
 ]
 
-var have_players_spawned: Dictionary = {
-
-}
-
 func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
-	if multiplayer.is_server():
-		for peer in Lobby.connected_peers:
-			have_players_spawned[peer] = false
+	await game_ready_node.game_ready
+
+	print(multiplayer.get_unique_id()," Game is ready")
 
 	spawn_players()
 
-@rpc("any_peer","call_remote","reliable",1)
-func player_spawned(id: int) -> void:
-	have_players_spawned[id] = true
+	await game_ready_node.players_ready
 
-	check_if_game_is_ready()
-
-@rpc("authority","call_local","reliable",1)
-func start_game() -> void:
-	for player in players.get_children():
-		player.process_mode = Node.PROCESS_MODE_INHERIT
+	start_game()
 
 func spawn_players() -> void:
 	for idx in range(0, Lobby.connected_peers.size()):
 		var player: Player = PLAYER.instantiate()
-		player.process_mode = Node.PROCESS_MODE_DISABLED
 		player.name = str(Lobby.connected_peers[idx])
 		player.global_position = player_pos.get_child(idx).global_position
 		player.sync_pos = player_pos.get_child(idx).global_position
 		players.add_child(player)
+
 		player.sprite.texture = player_sprites[idx]
 		player.set_multiplayer_authority(Lobby.connected_peers[idx])
+
+		if not is_instance_valid(player):
+			await player.ready
 
 		if multiplayer.is_server() && Lobby.connected_peers[idx] == 1:
 			player.spawn_enabled.connect(_on_spawn_enabled)
 
-	if multiplayer.is_server():
-		have_players_spawned[1] = true
-		check_if_game_is_ready()
+	if multiplayer.get_unique_id() != 1:
+		game_ready_node.rpc_id(1,"add_players_spawned",multiplayer.get_unique_id())
 	else:
-		rpc_id(1,"player_spawned",multiplayer.get_unique_id())
+		game_ready_node.add_players_spawned(1)
 
-func check_if_game_is_ready() -> void:
-	if not have_players_spawned.has(false):
-		rpc("start_game")
+func start_game() -> void:
+	for plr: Player in players.get_children():
+		plr.synchronizer.public_visibility = true
 
 @rpc("call_local","authority","reliable",1)
 func spawn_zombie(z_pos: Vector2) -> void:
@@ -91,9 +84,7 @@ func _on_player_disconnected(id: int) -> void:
 			player.queue_free()
 			break
 
-	have_players_spawned.erase(id)
 	Lobby.connected_peers.erase(id)
-	check_if_game_is_ready()
 
 func _on_server_disconnected() -> void:
 	process_mode = PROCESS_MODE_DISABLED

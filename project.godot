@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Zombie Survival 2"
-config/version="0.1.1.0"
+config/version="0.1.2.0"
 run/main_scene="res://src/MainMenu/MainMenu.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
