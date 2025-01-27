@@ -56,13 +56,20 @@ func _physics_process(delta: float) -> void:
 
 		sync_pos = global_position
 		sync_rot = rotation_degrees
+
 		sync_health = health
+		if health <= 0:
+			clean()
 	else:
 		global_position = global_position.lerp(sync_pos, synchronizer.replication_interval)
 		rotation_degrees = lerpf(rotation_degrees, sync_rot, synchronizer.replication_interval)
-		health = sync_health
-		#if health <= 0 and sync_health <= 0:
-			#kill()
+
+		if sync_health <= health:
+			health = sync_health
+
+		if health <= 0:
+			clean()
+
 	if target == null:
 		return
 
@@ -126,6 +133,12 @@ func activate() -> void:
 	collision_shape_2d.set_deferred("disabled",false)
 
 func clean() -> void:
+	if game_manager:
+		if multiplayer.get_unique_id() == 1:
+			game_manager.add_dead_zombie(self.name, 1)
+		else:
+			game_manager.rpc_id(1, "add_dead_zombie", self.name, multiplayer.get_unique_id())
+
 	synchronizer.public_visibility = false
 
 	collision_shape_2d.set_deferred("disabled",true)
