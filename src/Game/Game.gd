@@ -1,5 +1,7 @@
 class_name Game extends Node2D
 
+signal zombie_spawned()
+
 const PLAYER = preload("res://src/Game/Player/Player.tscn")
 const ZOMBIE = preload("res://src/Game/Zombie/Zombie.tscn")
 
@@ -12,7 +14,7 @@ const ZOMBIE = preload("res://src/Game/Zombie/Zombie.tscn")
 @onready var zombie_spawn_point: PathFollow2D = %ZombieSpawnPoint
 @onready var zombie_spawn_timer: Timer = $ZombieSpawnTimer
 
-@onready var game_ready_node: GameReady = $GameReady
+@onready var game_manager: GameManager = $GameManager
 
 var player_sprites: Array = [
 	preload("res://assets/images/player1.png"),
@@ -25,13 +27,16 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
-	await game_ready_node.game_ready
+	print(game_manager.is_game_ready)
+	if not game_manager.is_game_ready:
+		await game_manager.game_ready
 
 	print(multiplayer.get_unique_id()," Game is ready")
 
 	spawn_players()
 
-	await game_ready_node.players_ready
+	if not game_manager.are_players_ready:
+		await game_manager.players_ready
 
 	start_game()
 
@@ -53,30 +58,31 @@ func spawn_players() -> void:
 			player.spawn_enabled.connect(_on_spawn_enabled)
 
 	if multiplayer.get_unique_id() != 1:
-		game_ready_node.rpc_id(1,"add_players_spawned",multiplayer.get_unique_id())
+		game_manager.rpc_id(1,"add_players_spawned",multiplayer.get_unique_id())
 	else:
-		game_ready_node.add_players_spawned(1)
+		game_manager.add_players_spawned(1)
+
+@rpc("call_remote","authority","reliable",1)
+func spawn_zombie(z_pos: Vector2) -> void:
+	var zombie: Zombie = ZOMBIE.instantiate()
+	zombie.global_position = z_pos
+	zombie.sync_pos = z_pos
+	zombie.set_multiplayer_authority(1)
+	zombies.add_child(zombie, true)
 
 func start_game() -> void:
 	for plr: Player in players.get_children():
 		plr.synchronizer.public_visibility = true
-
-@rpc("call_local","authority","reliable",1)
-func spawn_zombie(z_pos: Vector2) -> void:
-	var zombie: Zombie = ZOMBIE.instantiate()
-	zombie.hide()
-	zombie.global_position = z_pos
-	zombie.sync_pos = z_pos
-	zombies.add_child(zombie, true)
-	zombie.set_multiplayer_authority(1)
-	zombie.show()
 
 func _on_spawn_enabled() -> void:
 	zombie_spawn_timer.start()
 
 func _on_zombie_spawn_timer_timeout() -> void:
 	zombie_spawn_point.progress_ratio = randf()
-	rpc("spawn_zombie", zombie_spawn_point.global_position)
+
+	print(multiplayer.get_unique_id())
+	if multiplayer.get_unique_id() == 1:
+		spawn_zombie(zombie_spawn_point.global_position)
 
 func _on_player_disconnected(id: int) -> void:
 	for player in players.get_children():

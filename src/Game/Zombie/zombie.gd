@@ -1,21 +1,24 @@
 class_name Zombie extends Area2D
 
-const SPEED: float = 100.0
+@onready var synchronizer: MultiplayerSynchronizer = $MovementSynchronizer
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
-@onready var movement_synchronizer: MultiplayerSynchronizer = $MovementSynchronizer
+@export var max_health: float = 25.0:
+	set(val):
+		health = max_health
 
-@export var health: float = 25.0:
+@export var max_speed: float = 100.0:
+	set(val):
+		speed = max_speed
+
+var health: float = 25.0:
 	set(val):
 		health = val
-		if health <= 0.0:
-			if is_multiplayer_authority():
-				rpc("kill")
-			else:
-				hide()
-				set_physics_process(false)
 
 
-@export var target_id: int = 0:
+var speed: float = 100.0
+
+var target_id: int = 0:
 	set(val):
 		target_id = val
 
@@ -24,11 +27,47 @@ const SPEED: float = 100.0
 
 		target = get_target(target_id)
 
-@export var sync_pos: Vector2 = Vector2.ZERO
-@export var sync_rot: float = 0
-
 var direction: Vector2 = Vector2.RIGHT
 var target: Player = null
+
+@export var sync_pos: Vector2 = Vector2.ZERO
+@export var sync_rot: float = 0
+@export var sync_health: float = max_health
+
+var game_manager: GameManager
+
+func _ready() -> void:
+	clean()
+
+	game_manager = get_parent().get_parent().game_manager as GameManager
+	game_manager.zombie_ready.connect(_on_zombie_ready)
+	game_manager.zombie_dead.connect(_on_zombie_dead)
+
+	game_manager.add_zombie(self.name, global_position)
+
+	if multiplayer.get_unique_id() == 1:
+		game_manager.add_spawned_zombie(self.name, 1)
+	else:
+		game_manager.rpc_id(1, "add_spawned_zombie", self.name, multiplayer.get_unique_id())
+
+func _physics_process(delta: float) -> void:
+	if is_multiplayer_authority():
+		target_id = get_closest_target_id()
+
+		sync_pos = global_position
+		sync_rot = rotation_degrees
+		sync_health = health
+	else:
+		global_position = global_position.lerp(sync_pos, synchronizer.replication_interval)
+		rotation_degrees = lerpf(rotation_degrees, sync_rot, synchronizer.replication_interval)
+		health = sync_health
+		#if health <= 0 and sync_health <= 0:
+			#kill()
+	if target == null:
+		return
+
+	look_at(target.global_position)
+	global_position += direction.rotated(rotation) * speed * delta
 
 func get_closest_target_id() -> int:
 	var players: Array[Node] = get_tree().get_nodes_in_group("Players")
@@ -67,27 +106,31 @@ func get_target(id: int) -> Player:
 
 	return null
 
-@rpc("authority","call_local","reliable",1)
-func kill() -> void:
-	$MultiplayerSynchronizer.process_mode = Node.PROCESS_MODE_DISABLED
-	queue_free()
-
-func _physics_process(delta: float) -> void:
-	if is_multiplayer_authority():
-		target_id = get_closest_target_id()
-
-		sync_pos = global_position
-		sync_rot = rotation_degrees
-	else:
-		global_position = global_position.lerp(sync_pos, movement_synchronizer.replication_interval)
-		rotation_degrees = lerpf(rotation_degrees, sync_rot, movement_synchronizer.replication_interval)
-
-	if target == null:
-		return
-
-	look_at(target.global_position)
-	global_position += direction.rotated(rotation) * SPEED * delta
-
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Bullets"):
 		health -= 5.0
+
+func _on_zombie_ready(zombie_name: String) -> void:
+	if self.name == zombie_name:
+		activate()
+
+func _on_zombie_dead(zombie_name: String) -> void:
+	if self.name == zombie_name:
+		kill()
+
+func activate() -> void:
+	synchronizer.public_visibility = true
+
+	show()
+	set_physics_process(true)
+	collision_shape_2d.set_deferred("disabled",false)
+
+func clean() -> void:
+	synchronizer.public_visibility = false
+
+	collision_shape_2d.set_deferred("disabled",true)
+	hide()
+	set_physics_process(false)
+
+func kill() -> void:
+	queue_free()
