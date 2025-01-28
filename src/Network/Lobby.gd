@@ -68,6 +68,9 @@ func create_client(ip: String, port: int) -> Error:
 	return error
 
 func clear_peer() -> void:
+	has_game_started = false
+	is_host_game_ready = false
+
 	connected_peers.clear()
 
 	if multiplayer.multiplayer_peer:

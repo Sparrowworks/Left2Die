@@ -1,5 +1,8 @@
 class_name Zombie extends Area2D
 
+signal score_updated(id: int, value: int)
+signal zombie_killed(id: int)
+
 @onready var synchronizer: MultiplayerSynchronizer = $MovementSynchronizer
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
@@ -11,11 +14,10 @@ class_name Zombie extends Area2D
 	set(val):
 		speed = max_speed
 
-var health: float = 25.0:
-	set(val):
-		health = val
+@export var hit_score: int = 10
+@export var kill_score: int = 25
 
-
+var health: float = 25.0
 var speed: float = 100.0
 
 var target_id: int = 0:
@@ -35,6 +37,7 @@ var target: Player = null
 @export var sync_health: float = max_health
 
 var game_manager: GameManager
+var last_player_hit: int
 
 func _ready() -> void:
 	clean()
@@ -115,7 +118,11 @@ func get_target(id: int) -> Player:
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Bullets"):
+		last_player_hit = area.player_id
 		health -= 5.0
+
+		if multiplayer.get_unique_id() == 1:
+			score_updated.emit(last_player_hit, hit_score)
 
 func _on_zombie_ready(zombie_name: String) -> void:
 	if self.name == zombie_name:
@@ -135,6 +142,8 @@ func activate() -> void:
 func clean() -> void:
 	if game_manager:
 		if multiplayer.get_unique_id() == 1:
+			score_updated.emit(last_player_hit, kill_score)
+			zombie_killed.emit(last_player_hit)
 			game_manager.add_dead_zombie(self.name, 1)
 		else:
 			game_manager.rpc_id(1, "add_dead_zombie", self.name, multiplayer.get_unique_id())

@@ -2,6 +2,8 @@ class_name Bullet extends Area2D
 
 const SPEED: float = 1000.0
 
+@export var player_id: int = 0
+
 var direction: Vector2 = Vector2.RIGHT
 
 func _physics_process(delta: float) -> void:

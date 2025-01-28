@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbhb0foyyu6wx"]
+[gd_scene load_steps=7 format=3 uid="uid://dbhb0foyyu6wx"]
 
 [ext_resource type="Script" path="res://src/Game/Player/player.gd" id="1_5cqo4"]
 [ext_resource type="Texture2D" uid="uid://chuheiw3vyp02" path="res://assets/images/player1.png" id="1_rglww"]
@@ -14,8 +14,24 @@ properties/1/path = NodePath(".:sync_rot")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f3tpj"]
+bg_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m8rkq"]
+bg_color = Color(0, 1, 0, 1)
+
 [node name="Player" type="Area2D" groups=["Players"]]
 script = ExtResource("1_5cqo4")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+zoom = Vector2(1.5, 1.5)
+limit_left = 0
+limit_top = 0
+limit_right = 1280
+limit_bottom = 720
+limit_smoothed = true
+position_smoothing_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_rglww")
@@ -25,7 +41,7 @@ position = Vector2(-7, 0)
 shape = SubResource("RectangleShape2D_b7ufv")
 
 [node name="BulletPos" type="Marker2D" parent="."]
-position = Vector2(24, 10)
+position = Vector2(23, 9)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
@@ -37,4 +53,83 @@ wait_time = 0.1
 one_shot = true
 
 [node name="ReloadTimer" type="Timer" parent="."]
+wait_time = 1.5
 one_shot = true
+
+[node name="AttackTimer" type="Timer" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Control" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/PanelContainer"]
+custom_minimum_size = Vector2(200, 150)
+layout_mode = 2
+
+[node name="UsernameText" type="Label" parent="UI/Control/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "USERNAME"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="ScoreText" type="Label" parent="UI/Control/PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(95, 0)
+layout_mode = 2
+text = "Score: 0"
+horizontal_alignment = 1
+
+[node name="KillsText" type="Label" parent="UI/Control/PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(95, 0)
+layout_mode = 2
+text = "Kills: 0"
+horizontal_alignment = 1
+
+[node name="AmmoText" type="Label" parent="UI/Control/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ammo: 30"
+horizontal_alignment = 1
+
+[node name="Health" type="Label" parent="UI/Control/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Health:"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="UI/Control/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_f3tpj")
+theme_override_styles/fill = SubResource("StyleBoxFlat_m8rkq")
+value = 100.0
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
