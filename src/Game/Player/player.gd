@@ -1,7 +1,5 @@
 class_name Player extends Area2D
 
-signal spawn_enabled()
-
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var bullet_pos: Marker2D = $BulletPos
 
@@ -68,10 +66,6 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("reload"):
 		reload()
 
-	if Input.is_action_just_pressed("spawn_enable"):
-		if multiplayer.is_server():
-			spawn_enabled.emit()
-
 	look_at(get_global_mouse_position())
 
 	sync_pos = global_position
@@ -115,7 +109,7 @@ func _on_area_exited(area: Area2D) -> void:
 
 func _on_attack_timer_timeout() -> void:
 	if is_multiplayer_authority():
-		health -= 10.0
+		health -= 20.0
 
 func _on_reload_timer_timeout() -> void:
 	if is_multiplayer_authority():

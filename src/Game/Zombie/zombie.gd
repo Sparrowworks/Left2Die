@@ -118,11 +118,11 @@ func get_target(id: int) -> Player:
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Bullets"):
+		prints("ZOMBIE HIT",multiplayer.get_unique_id(), area.player_id)
 		last_player_hit = area.player_id
 		health -= 5.0
 
-		if multiplayer.get_unique_id() == 1:
-			score_updated.emit(last_player_hit, hit_score)
+		score_updated.emit(last_player_hit, hit_score)
 
 func _on_zombie_ready(zombie_name: String) -> void:
 	if self.name == zombie_name:
@@ -141,9 +141,10 @@ func activate() -> void:
 
 func clean() -> void:
 	if game_manager:
+		score_updated.emit(last_player_hit, kill_score)
+		zombie_killed.emit(last_player_hit)
+
 		if multiplayer.get_unique_id() == 1:
-			score_updated.emit(last_player_hit, kill_score)
-			zombie_killed.emit(last_player_hit)
 			game_manager.add_dead_zombie(self.name, 1)
 		else:
 			game_manager.rpc_id(1, "add_dead_zombie", self.name, multiplayer.get_unique_id())

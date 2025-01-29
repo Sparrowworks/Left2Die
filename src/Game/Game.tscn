@@ -102,7 +102,6 @@ position = Vector2(130, 515)
 
 [node name="ZombieSpawnTimer" type="Timer" parent="."]
 wait_time = 2.0
-one_shot = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 5
@@ -191,105 +190,124 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/GameHUD/GameEndPanel"]
 custom_minimum_size = Vector2(300, 315)
 layout_mode = 2
-theme_override_constants/separation = 25
+theme_override_constants/separation = 15
 
 [node name="Title" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer"]
 layout_mode = 2
 text = "Game Over!
 You survived for 0 waves.
-Player stats:"
+Players' stats:"
 horizontal_alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer"]
+[node name="PlayerScoreContainer" type="VBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
-columns = 3
+theme_override_constants/separation = 10
 
-[node name="Title1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
+layout_mode = 2
+
+[node name="Title1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Player:"
 horizontal_alignment = 1
 
-[node name="Title2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Title2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Score:"
 horizontal_alignment = 1
 
-[node name="Title3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Title3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Kills:"
 horizontal_alignment = 1
 
-[node name="Player1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Player1Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Player1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player1Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "1:"
 horizontal_alignment = 1
 
-[node name="Score1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Score1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player1Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
 
-[node name="Kills1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Kills1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player1Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
 
-[node name="Player2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Player2Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Player2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player2Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "1:"
 horizontal_alignment = 1
 
-[node name="Score2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Score2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player2Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
 
-[node name="Kills2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Kills2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player2Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
 
-[node name="Player3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Player3Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Player3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player3Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "1:"
 horizontal_alignment = 1
 
-[node name="Score3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Score3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player3Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
 
-[node name="Kills3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Kills3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player3Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
 
-[node name="Player4" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Player4Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Player4" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player4Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "1:"
 horizontal_alignment = 1
 
-[node name="Score4" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Score4" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player4Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
 
-[node name="Kills4" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/GridContainer"]
+[node name="Kills4" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player4Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "0"
