@@ -3,8 +3,8 @@ extends Control
 @onready var ip_edit: LineEdit = %IpEdit
 @onready var port_edit: LineEdit = %PortEdit
 
-@onready var join_button: Button = %JoinButton
-@onready var back_button: Button = %BackButton
+@onready var join_button: TextureButton = %JoinButton
+@onready var back_button: TextureButton = %BackButton
 
 func _ready() -> void:
 	Lobby.join_failed.connect(_on_join_failed)

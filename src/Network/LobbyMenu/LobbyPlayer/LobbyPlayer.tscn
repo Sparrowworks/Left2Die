@@ -1,18 +1,53 @@
-[gd_scene load_steps=2 format=3 uid="uid://blw0l3qkfjeho"]
+[gd_scene load_steps=4 format=3 uid="uid://blw0l3qkfjeho"]
 
+[ext_resource type="Texture2D" uid="uid://cdsy3u8j53a5r" path="res://assets/images/SmallLineEdit.png" id="1_hubn3"]
 [ext_resource type="Script" path="res://src/Network/LobbyMenu/LobbyPlayer/lobby_player.gd" id="1_u80ig"]
+[ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="3_l0l3d"]
 
-[node name="LobbyPlayer" type="HBoxContainer"]
-theme_override_constants/separation = 30
-alignment = 1
+[node name="LobbyPlayer" type="TextureRect"]
+offset_right = 202.0
+offset_bottom = 51.0
+texture = ExtResource("1_hubn3")
 script = ExtResource("1_u80ig")
 
-[node name="PlayerNameText" type="Label" parent="."]
-layout_mode = 2
-text = "PlayerID"
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+alignment = 1
 
-[node name="KickButton" type="Button" parent="."]
+[node name="PlayerNameText" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_l0l3d")
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="KickButton" type="Button" parent="HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -17.0
+offset_right = 20.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_l0l3d")
 text = "Kick"
 
-[connection signal="pressed" from="KickButton" to="." method="_on_kick_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Control/KickButton" to="HBoxContainer" method="_on_kick_button_pressed"]

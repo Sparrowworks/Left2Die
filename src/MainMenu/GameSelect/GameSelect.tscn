@@ -1,4 +1,9 @@
-[gd_scene format=3 uid="uid://8yvigcbl7uq2"]
+[gd_scene load_steps=5 format=3 uid="uid://8yvigcbl7uq2"]
+
+[ext_resource type="Texture2D" uid="uid://cwgil6drkq2da" path="res://assets/images/Panel.png" id="1_3llbt"]
+[ext_resource type="Texture2D" uid="uid://bsudayvhfm1nh" path="res://assets/images/Default.png" id="2_wkclh"]
+[ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="3_atbte"]
+[ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="4_ummon"]
 
 [node name="GameSelect" type="Control"]
 layout_mode = 3
@@ -8,78 +13,126 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="."]
+[node name="Panel" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -276.0
+offset_top = -297.5
+offset_right = 276.0
+offset_bottom = 297.5
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("1_3llbt")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-custom_minimum_size = Vector2(500, 400)
-layout_mode = 2
-theme_override_constants/separation = 50
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -147.0
+offset_top = -420.0
+offset_right = 147.0
+offset_bottom = -70.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 15
 
 [node name="Title" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_ummon")
 theme_override_font_sizes/font_size = 32
 text = "Select an option:"
 horizontal_alignment = 1
 
 [node name="Control" type="Control" parent="Panel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
 
-[node name="HostCreateButton" type="Button" parent="Panel/VBoxContainer/Control"]
-custom_minimum_size = Vector2(200, 0)
+[node name="HostGameButton" type="TextureButton" parent="Panel/VBoxContainer/Control"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -75.0
-offset_right = 75.0
-offset_bottom = 50.0
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Host Game"
+texture_normal = ExtResource("2_wkclh")
+texture_hover = ExtResource("3_atbte")
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Control/HostGameButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_ummon")
+theme_override_font_sizes/font_size = 26
+text = "HOST GAME"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Control2" type="Control" parent="Panel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
 
-[node name="JoinGameButton" type="Button" parent="Panel/VBoxContainer/Control2"]
-custom_minimum_size = Vector2(200, 0)
+[node name="JoinGameButton" type="TextureButton" parent="Panel/VBoxContainer/Control2"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -75.0
-offset_right = 75.0
-offset_bottom = 50.0
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Join Game"
+texture_normal = ExtResource("2_wkclh")
+texture_hover = ExtResource("3_atbte")
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Control2/JoinGameButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_ummon")
+theme_override_font_sizes/font_size = 26
+text = "JOIN GAME"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Control3" type="Control" parent="Panel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
 
-[node name="MenuButton" type="Button" parent="Panel/VBoxContainer/Control3"]
-custom_minimum_size = Vector2(200, 0)
+[node name="MenuButton" type="TextureButton" parent="Panel/VBoxContainer/Control3"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -75.0
-offset_right = 75.0
-offset_bottom = 50.0
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Menu"
+texture_normal = ExtResource("2_wkclh")
+texture_hover = ExtResource("3_atbte")
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Control3/MenuButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_ummon")
+theme_override_font_sizes/font_size = 26
+text = "MENU"
+horizontal_alignment = 1
+vertical_alignment = 1

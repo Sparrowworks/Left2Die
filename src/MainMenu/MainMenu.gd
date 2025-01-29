@@ -16,7 +16,7 @@ func _on_multi_button_pressed() -> void:
 	main_menu.hide()
 	game_select.show()
 
-func _on_host_create_button_pressed() -> void:
+func _on_host_game_button_pressed() -> void:
 	game_select.hide()
 	lobby_create.show()
 

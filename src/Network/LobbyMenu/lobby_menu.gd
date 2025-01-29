@@ -2,7 +2,7 @@ extends Control
 
 @onready var lobby_title: Label = %LobbyTitle
 @onready var player_list: VBoxContainer = %PlayerList
-@onready var start_button: Button = %StartButton
+@onready var start_button: TextureButton = %StartButton
 
 var has_player_joined: Dictionary = {
 
@@ -28,7 +28,7 @@ func draw_lobby(players: Array[int], max_players: int) -> void:
 
 		lobby_player.player_name = str(peer_id)
 		if peer_id == 1 or not multiplayer.is_server():
-			lobby_player.hide_kick()
+			lobby_player.remove_kick()
 
 		lobby_player.show()
 

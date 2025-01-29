@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://d2b4tkxtwc3op"]
+[gd_scene load_steps=7 format=3 uid="uid://d2b4tkxtwc3op"]
 
 [ext_resource type="Script" path="res://src/Network/LobbyMenu/lobby_menu.gd" id="1_ko31f"]
+[ext_resource type="Texture2D" uid="uid://cwgil6drkq2da" path="res://assets/images/Panel.png" id="2_3aj2o"]
 [ext_resource type="PackedScene" uid="uid://blw0l3qkfjeho" path="res://src/Network/LobbyMenu/LobbyPlayer/LobbyPlayer.tscn" id="2_lnl3i"]
+[ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="3_yqpec"]
+[ext_resource type="Texture2D" uid="uid://bsudayvhfm1nh" path="res://assets/images/Default.png" id="5_ll2ls"]
+[ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="6_50qfr"]
 
 [node name="LobbyMenu" type="Control"]
 layout_mode = 3
@@ -12,28 +16,38 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ko31f")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -345.0
+offset_top = -100.0
+offset_right = 345.0
+offset_bottom = 643.75
+grow_horizontal = 2
+texture = ExtResource("2_3aj2o")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -142.5
+offset_top = -161.875
+offset_right = 142.5
+offset_bottom = 311.125
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
-custom_minimum_size = Vector2(600, 400)
-layout_mode = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 15
 
 [node name="LobbyTitle" type="Label" parent="PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_yqpec")
 theme_override_font_sizes/font_size = 24
 text = "Players in Lobby (4/4):"
 horizontal_alignment = 1
@@ -56,40 +70,62 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Control" type="Control" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
 
-[node name="StartButton" type="Button" parent="PanelContainer/VBoxContainer/Control"]
+[node name="StartButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Control"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -75.0
-offset_right = 75.0
-offset_bottom = 50.0
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Start"
+texture_normal = ExtResource("5_ll2ls")
+texture_hover = ExtResource("6_50qfr")
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/Control/StartButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_yqpec")
+theme_override_font_sizes/font_size = 26
+text = "START"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Control2" type="Control" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
 
-[node name="LeaveButton" type="Button" parent="PanelContainer/VBoxContainer/Control2"]
+[node name="LeaveButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Control2"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -75.0
-offset_right = 75.0
-offset_bottom = 50.0
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Leave"
+texture_normal = ExtResource("5_ll2ls")
+texture_hover = ExtResource("6_50qfr")
 
-[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer" to="." method="_on_lobby_player_player_kicked"]
-[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer2" to="." method="_on_lobby_player_player_kicked"]
-[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer3" to="." method="_on_lobby_player_player_kicked"]
-[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer4" to="." method="_on_lobby_player_player_kicked"]
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/Control2/LeaveButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_yqpec")
+theme_override_font_sizes/font_size = 26
+text = "LEAVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Control/StartButton" to="." method="_on_start_button_pressed"]

@@ -1,13 +1,32 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4dnsk44n2fp"]
+[gd_scene load_steps=10 format=4 uid="uid://b4dnsk44n2fp"]
 
 [ext_resource type="Script" path="res://src/MainMenu/MainMenu.gd" id="1_edpc0"]
 [ext_resource type="PackedScene" uid="uid://bsdhfmi104332" path="res://src/MainMenu/LobbyCreate/LobbyCreate.tscn" id="1_m0b8u"]
+[ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="2_a1vwl"]
+[ext_resource type="TileSet" uid="uid://dqhvr481fnr7v" path="res://assets/GroundTileSet.tres" id="2_pu3oi"]
+[ext_resource type="Texture2D" uid="uid://bsudayvhfm1nh" path="res://assets/images/Default.png" id="2_sod4v"]
 [ext_resource type="PackedScene" uid="uid://8yvigcbl7uq2" path="res://src/MainMenu/GameSelect/GameSelect.tscn" id="3_qirse"]
 [ext_resource type="PackedScene" uid="uid://dxv4kf348go2a" path="res://src/MainMenu/JoinMenu/JoinMenu.tscn" id="4_jybw2"]
 [ext_resource type="PackedScene" uid="uid://d2b4tkxtwc3op" path="res://src/Network/LobbyMenu/LobbyMenu.tscn" id="5_25oyt"]
+[ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="5_t2kaj"]
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_edpc0")
+
+[node name="Background" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAsAAAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAABAAYAAAAAAAAAAAABAAcAAAAAAAAAAAABAAgAAAAAAAAAAAABAAkAAAAAAAAAAAABAAoAAAAAAAAAAAABAAsAAAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAACAAUAAAAAAAAAAAACAAYAAAAAAAAAAAACAAcAAAAAAAAAAAACAAgAAAAAAAAAAAACAAkAAAAAAAAAAAACAAoAAAAAAAAAAAACAAsAAAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAADAAgAAAAAAAAAAAADAAkAAAAAAAAAAAADAAoAAAAAAAAAAAADAAsAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAcAAAAAAAAAAAAEAAgAAAAAAAAAAAAEAAkAAAAAAAAAAAAEAAoAAAAAAAAAAAAEAAsAAAAAAAAAAAAFAAAAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAcAAAAAAAAAAAAFAAgAAAAAAAAAAAAFAAkAAAAAAAAAAAAFAAoAAAAAAAAAAAAFAAsAAAAAAAAAAAAGAAAAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAAAAAAAAAAGAAYAAAAAAAAAAAAGAAcAAAAAAAAAAAAGAAgAAAAAAAAAAAAGAAkAAAAAAAAAAAAGAAoAAAAAAAAAAAAGAAsAAAAAAAAAAAAHAAAAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAUAAAAAAAAAAAAHAAYAAAAAAAAAAAAHAAcAAAAAAAAAAAAHAAgAAAAAAAAAAAAHAAkAAAAAAAAAAAAHAAoAAAAAAAAAAAAHAAsAAAAAAAAAAAAIAAAAAAAAAAAAAAAIAAEAAAAAAAAAAAAIAAIAAAAAAAAAAAAIAAMAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAUAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAcAAAAAAAAAAAAIAAgAAAAAAAAAAAAIAAkAAAAAAAAAAAAIAAoAAAAAAAAAAAAIAAsAAAAAAAAAAAAJAAAAAAAAAAAAAAAJAAEAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAMAAAAAAAAAAAAJAAQAAAAAAAAAAAAJAAUAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAcAAAAAAAAAAAAJAAgAAAAAAAAAAAAJAAkAAAAAAAAAAAAJAAoAAAAAAAAAAAAJAAsAAAAAAAAAAAAKAAAAAAAAAAAAAAAKAAEAAAAAAAAAAAAKAAIAAAAAAAAAAAAKAAMAAAAAAAAAAAAKAAQAAAAAAAAAAAAKAAUAAAAAAAAAAAAKAAYAAAAAAAAAAAAKAAcAAAAAAAAAAAAKAAgAAAAAAAAAAAAKAAkAAAAAAAAAAAAKAAoAAAAAAAAAAAAKAAsAAAAAAAAAAAALAAAAAAAAAAAAAAALAAEAAAAAAAAAAAALAAIAAAAAAAAAAAALAAMAAAAAAAAAAAALAAQAAAAAAAAAAAALAAUAAAAAAAAAAAALAAYAAAAAAAAAAAALAAcAAAAAAAAAAAALAAgAAAAAAAAAAAALAAkAAAAAAAAAAAALAAoAAAAAAAAAAAALAAsAAAAAAAAAAAAMAAAAAAAAAAAAAAAMAAEAAAAAAAAAAAAMAAIAAAAAAAAAAAAMAAMAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAYAAAAAAAAAAAAMAAcAAAAAAAAAAAAMAAgAAAAAAAAAAAAMAAkAAAAAAAAAAAAMAAoAAAAAAAAAAAAMAAsAAAAAAAAAAAANAAAAAAAAAAAAAAANAAEAAAAAAAAAAAANAAIAAAAAAAAAAAANAAMAAAAAAAAAAAANAAQAAAAAAAAAAAANAAUAAAAAAAAAAAANAAYAAAAAAAAAAAANAAcAAAAAAAAAAAANAAgAAAAAAAAAAAANAAkAAAAAAAAAAAANAAoAAAAAAAAAAAANAAsAAAAAAAAAAAAOAAAAAAAAAAAAAAAOAAEAAAAAAAAAAAAOAAIAAAAAAAAAAAAOAAMAAAAAAAAAAAAOAAQAAAAAAAAAAAAOAAUAAAAAAAAAAAAOAAYAAAAAAAAAAAAOAAcAAAAAAAAAAAAOAAgAAAAAAAAAAAAOAAkAAAAAAAAAAAAOAAoAAAAAAAAAAAAOAAsAAAAAAAAAAAAPAAAAAAAAAAAAAAAPAAEAAAAAAAAAAAAPAAIAAAAAAAAAAAAPAAMAAAAAAAAAAAAPAAQAAAAAAAAAAAAPAAUAAAAAAAAAAAAPAAYAAAAAAAAAAAAPAAcAAAAAAAAAAAAPAAgAAAAAAAAAAAAPAAkAAAAAAAAAAAAPAAoAAAAAAAAAAAAPAAsAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAEAAAAAAAAAAAAQAAIAAAAAAAAAAAAQAAMAAAAAAAAAAAAQAAQAAAAAAAAAAAAQAAUAAAAAAAAAAAAQAAYAAAAAAAAAAAAQAAcAAAAAAAAAAAAQAAgAAAAAAAAAAAAQAAkAAAAAAAAAAAAQAAoAAAAAAAAAAAAQAAsAAAAAAAAAAAARAAAAAAAAAAAAAAARAAEAAAAAAAAAAAARAAIAAAAAAAAAAAARAAMAAAAAAAAAAAARAAQAAAAAAAAAAAARAAUAAAAAAAAAAAARAAYAAAAAAAAAAAARAAcAAAAAAAAAAAARAAgAAAAAAAAAAAARAAkAAAAAAAAAAAARAAoAAAAAAAAAAAARAAsAAAAAAAAAAAASAAAAAAAAAAAAAAASAAEAAAAAAAAAAAASAAIAAAAAAAAAAAASAAMAAAAAAAAAAAASAAQAAAAAAAAAAAASAAUAAAAAAAAAAAASAAYAAAAAAAAAAAASAAcAAAAAAAAAAAASAAgAAAAAAAAAAAASAAkAAAAAAAAAAAASAAoAAAAAAAAAAAASAAsAAAAAAAAAAAATAAAAAAAAAAAAAAATAAEAAAAAAAAAAAATAAIAAAAAAAAAAAATAAMAAAAAAAAAAAATAAQAAAAAAAAAAAATAAUAAAAAAAAAAAATAAYAAAAAAAAAAAATAAcAAAAAAAAAAAATAAgAAAAAAAAAAAATAAkAAAAAAAAAAAATAAoAAAAAAAAAAAATAAsAAAAAAAAAAAAMAAUAAAAAAAAAAAAHAAQAAAAAAAAAAAA=")
+tile_set = ExtResource("2_pu3oi")
+metadata/_edit_lock_ = true
+
+[node name="Title" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 108.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_a1vwl")
+theme_override_font_sizes/font_size = 96
+text = "LEFT2DIE"
+horizontal_alignment = 1
 
 [node name="Menu" type="Control" parent="."]
 layout_mode = 3
@@ -17,16 +36,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="Menu"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 23.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 96
-text = "LEFT2DIE"
-horizontal_alignment = 1
-
 [node name="ButtonBox" type="VBoxContainer" parent="Menu"]
 layout_mode = 1
 anchors_preset = 8
@@ -34,34 +43,78 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -80.0
+offset_top = -177.5
+offset_right = 80.0
+offset_bottom = 177.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 50
+alignment = 1
 
-[node name="MultiButton" type="Button" parent="Menu/ButtonBox"]
-custom_minimum_size = Vector2(225, 75)
+[node name="MultiButton" type="TextureButton" parent="Menu/ButtonBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Multiplayer"
+texture_normal = ExtResource("2_sod4v")
+texture_hover = ExtResource("5_t2kaj")
 
-[node name="SoloButton" type="Button" parent="Menu/ButtonBox"]
-custom_minimum_size = Vector2(225, 75)
+[node name="Label" type="Label" parent="Menu/ButtonBox/MultiButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_a1vwl")
+theme_override_font_sizes/font_size = 20
+text = "MULTIPLAYER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SoloButton" type="TextureButton" parent="Menu/ButtonBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+texture_normal = ExtResource("2_sod4v")
+texture_hover = ExtResource("5_t2kaj")
+
+[node name="Label" type="Label" parent="Menu/ButtonBox/SoloButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_a1vwl")
+theme_override_font_sizes/font_size = 20
 text = "Singleplayer"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Settings" type="Button" parent="Menu/ButtonBox"]
-custom_minimum_size = Vector2(225, 75)
+[node name="Settings" type="TextureButton" parent="Menu/ButtonBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Settings"
+texture_normal = ExtResource("2_sod4v")
+texture_hover = ExtResource("5_t2kaj")
+
+[node name="Label" type="Label" parent="Menu/ButtonBox/Settings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_a1vwl")
+theme_override_font_sizes/font_size = 26
+text = "settings"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="GameSelect" parent="." instance=ExtResource("3_qirse")]
 visible = false
+
+[node name="Panel" parent="GameSelect" index="0"]
+offset_top = -360.0
+offset_bottom = 235.0
 
 [node name="LobbyCreate" parent="." instance=ExtResource("1_m0b8u")]
 visible = false
@@ -85,7 +138,7 @@ grow_vertical = 0
 text = "v0.0.0.1"
 
 [connection signal="pressed" from="Menu/ButtonBox/MultiButton" to="." method="_on_multi_button_pressed"]
-[connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control/HostCreateButton" to="." method="_on_host_create_button_pressed"]
+[connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control/HostGameButton" to="." method="_on_host_game_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control2/JoinGameButton" to="." method="_on_join_game_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control3/MenuButton" to="." method="_on_menu_button_pressed"]
 [connection signal="game_created" from="LobbyCreate" to="." method="_on_game_created"]

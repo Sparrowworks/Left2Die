@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://bsdhfmi104332"]
+[gd_scene load_steps=10 format=3 uid="uid://bsdhfmi104332"]
 
 [ext_resource type="Script" path="res://src/MainMenu/LobbyCreate/lobby_create.gd" id="1_5nfcf"]
+[ext_resource type="Texture2D" uid="uid://cwgil6drkq2da" path="res://assets/images/Panel.png" id="2_fbm6o"]
+[ext_resource type="Texture2D" uid="uid://bsudayvhfm1nh" path="res://assets/images/Default.png" id="3_j2jq6"]
+[ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="4_8lw48"]
+[ext_resource type="Texture2D" uid="uid://o0nfxhatn0ex" path="res://assets/images/LineEdit.png" id="4_vqnko"]
+[ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="5_tyg46"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dv1qx"]
+texture = ExtResource("4_vqnko")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_n7pg2"]
+texture = ExtResource("4_vqnko")
+
+[sub_resource type="Theme" id="Theme_g233w"]
+default_font = ExtResource("5_tyg46")
+LineEdit/styles/normal = SubResource("StyleBoxTexture_n7pg2")
 
 [node name="LobbyCreate" type="Control"]
 layout_mode = 3
@@ -11,27 +26,35 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5nfcf")
 
-[node name="Panel" type="PanelContainer" parent="."]
+[node name="Panel" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -276.0
+offset_right = 276.0
+offset_bottom = 595.0
+grow_horizontal = 2
+texture = ExtResource("2_fbm6o")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -115.5
+offset_top = -129.5
+offset_right = 115.5
+offset_bottom = 329.5
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-custom_minimum_size = Vector2(500, 500)
-layout_mode = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 15
 
 [node name="Title" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_tyg46")
 theme_override_font_sizes/font_size = 32
 text = "Create a Lobby"
 horizontal_alignment = 1
@@ -42,7 +65,8 @@ alignment = 1
 
 [node name="Label" type="Label" parent="Panel/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "Enter Port"
+theme_override_fonts/font = ExtResource("5_tyg46")
+text = "Enter Port:"
 horizontal_alignment = 1
 
 [node name="Control" type="Control" parent="Panel/VBoxContainer/VBoxContainer"]
@@ -60,8 +84,11 @@ offset_left = -100.0
 offset_right = 100.0
 offset_bottom = 31.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("5_tyg46")
+theme_override_styles/normal = SubResource("StyleBoxTexture_dv1qx")
 text = "9999"
 placeholder_text = "9999"
+alignment = 1
 max_length = 5
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Panel/VBoxContainer"]
@@ -70,6 +97,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="Panel/VBoxContainer/VBoxContainer2"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_tyg46")
 text = "Select player amount:"
 horizontal_alignment = 1
 
@@ -88,41 +116,71 @@ offset_left = -100.0
 offset_right = 100.0
 offset_bottom = 31.0
 grow_horizontal = 2
+theme = SubResource("Theme_g233w")
 min_value = 2.0
 max_value = 4.0
 value = 4.0
+alignment = 1
 suffix = "Players"
 
 [node name="Control" type="Control" parent="Panel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
 
-[node name="HostButton" type="Button" parent="Panel/VBoxContainer/Control"]
+[node name="HostButton" type="TextureButton" parent="Panel/VBoxContainer/Control"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -75.0
-offset_right = 75.0
-offset_bottom = 50.0
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Host"
+texture_normal = ExtResource("3_j2jq6")
+texture_hover = ExtResource("4_8lw48")
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Control/HostButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tyg46")
+theme_override_font_sizes/font_size = 26
+text = "Host game"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Control2" type="Control" parent="Panel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
 
-[node name="BackButton" type="Button" parent="Panel/VBoxContainer/Control2"]
+[node name="BackButton" type="TextureButton" parent="Panel/VBoxContainer/Control2"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -75.0
-offset_right = 75.0
-offset_bottom = 50.0
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Back"
+texture_normal = ExtResource("3_j2jq6")
+texture_hover = ExtResource("4_8lw48")
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Control2/BackButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_tyg46")
+theme_override_font_sizes/font_size = 26
+text = "MENU"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="Panel/VBoxContainer/Control/HostButton" to="." method="_on_host_button_pressed"]

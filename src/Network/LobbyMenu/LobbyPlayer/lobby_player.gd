@@ -1,9 +1,9 @@
-class_name LobbyPlayer extends HBoxContainer
+class_name LobbyPlayer extends TextureRect
 
 signal player_kicked(player_name: String)
 
-@onready var player_name_text: Label = $PlayerNameText
-@onready var kick_button: Button = $KickButton
+@onready var player_name_text: Label = $HBoxContainer/PlayerNameText
+@onready var kick_button: Button = $HBoxContainer/Control/KickButton
 
 @export var player_name: String = "":
 	set(val):
@@ -17,8 +17,8 @@ signal player_kicked(player_name: String)
 
 		return player_name_text.text
 
-func hide_kick() -> void:
-	kick_button.hide()
+func remove_kick() -> void:
+	kick_button.get_parent().queue_free()
 
 func _on_kick_button_pressed() -> void:
 	player_kicked.emit(player_name)
