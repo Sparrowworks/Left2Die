@@ -1,18 +1,20 @@
-[gd_scene load_steps=13 format=4 uid="uid://6g7tcubrkmpk"]
+[gd_scene load_steps=17 format=4 uid="uid://6g7tcubrkmpk"]
 
 [ext_resource type="Script" path="res://src/Game/Game.gd" id="1_ecail"]
 [ext_resource type="Script" path="res://src/Game/GameManager/GameManager.gd" id="3_lqwi1"]
 [ext_resource type="PackedScene" uid="uid://bwpcx00qej3h7" path="res://src/Game/WaveSystem/WaveSystem.tscn" id="3_n0ebj"]
 [ext_resource type="TileSet" uid="uid://dqhvr481fnr7v" path="res://assets/GroundTileSet.tres" id="4_nt570"]
+[ext_resource type="Texture2D" uid="uid://bl8k24dwfa2fh" path="res://assets/images/tile_01.png" id="5_5np3a"]
+[ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="5_jaams"]
+[ext_resource type="Texture2D" uid="uid://cwgil6drkq2da" path="res://assets/images/Panel.png" id="7_q4edt"]
+[ext_resource type="Texture2D" uid="uid://bsudayvhfm1nh" path="res://assets/images/Default.png" id="8_weaar"]
+[ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="9_trgkw"]
 
 [sub_resource type="Curve2D" id="Curve2D_ji02s"]
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 720, 0, 0, 0, 0, 1280, 720, 0, 0, 0, 0, 1280, 0, 0, 0, 0, 0, 0, 0)
 }
 point_count = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d8oo3"]
-bg_color = Color(0.20871, 0.20871, 0.20871, 1)
 
 [sub_resource type="Animation" id="Animation_kxf6k"]
 resource_name = "Load"
@@ -115,16 +117,16 @@ rotation = 1.5708
 [node name="PlayerPos" type="Node" parent="."]
 
 [node name="1" type="Marker2D" parent="PlayerPos"]
-position = Vector2(130, 215)
+position = Vector2(450, 386)
 
 [node name="2" type="Marker2D" parent="PlayerPos"]
-position = Vector2(130, 315)
+position = Vector2(575, 386)
 
 [node name="3" type="Marker2D" parent="PlayerPos"]
-position = Vector2(130, 415)
+position = Vector2(700, 386)
 
 [node name="4" type="Marker2D" parent="PlayerPos"]
-position = Vector2(130, 515)
+position = Vector2(825, 386)
 
 [node name="Players" type="Node" parent="."]
 
@@ -140,7 +142,6 @@ layer = 5
 
 [node name="LoadingScreen" type="Control" parent="UI"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -149,14 +150,15 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_lock_ = true
 
-[node name="Panel" type="Panel" parent="UI/LoadingScreen"]
+[node name="Panel" type="TextureRect" parent="UI/LoadingScreen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_d8oo3")
+texture = ExtResource("5_5np3a")
+stretch_mode = 1
 
 [node name="Loading" type="Label" parent="UI/LoadingScreen/Panel"]
 layout_mode = 1
@@ -165,12 +167,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+offset_left = -345.0
+offset_top = -54.0
+offset_right = 345.0
+offset_bottom = 54.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 theme_override_font_sizes/font_size = 96
 text = "Loading game..."
 horizontal_alignment = 1
@@ -200,6 +203,7 @@ offset_bottom = 23.0
 grow_horizontal = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_jaams")
 theme_override_font_sizes/font_size = 36
 horizontal_alignment = 1
 
@@ -209,7 +213,7 @@ libraries = {
 "": SubResource("AnimationLibrary_mfjah")
 }
 
-[node name="GameEndPanel" type="PanelContainer" parent="UI/GameHUD"]
+[node name="GameEndPanel" type="TextureRect" parent="UI/GameHUD"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(200, 200)
@@ -219,20 +223,34 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -100.0
-offset_right = 100.0
-offset_bottom = 100.0
+offset_left = -222.0
+offset_top = -360.0
+offset_right = 330.0
+offset_bottom = 235.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("7_q4edt")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/GameHUD/GameEndPanel"]
 custom_minimum_size = Vector2(300, 315)
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -107.5
+offset_right = 154.0
+offset_bottom = 207.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 15
 
 [node name="Title" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
+theme_override_font_sizes/font_size = 20
 text = "Game Over!
 You survived for 0 waves.
 Players' stats:"
@@ -249,126 +267,150 @@ layout_mode = 2
 [node name="Title1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "Player:"
 horizontal_alignment = 1
 
 [node name="Title2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "Score:"
 horizontal_alignment = 1
 
 [node name="Title3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "Kills:"
 horizontal_alignment = 1
 
 [node name="Player1Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
-visible = false
 layout_mode = 2
 
 [node name="Player1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player1Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "1:"
 horizontal_alignment = 1
 
 [node name="Score1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player1Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "0"
 horizontal_alignment = 1
 
 [node name="Kills1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player1Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "0"
 horizontal_alignment = 1
 
 [node name="Player2Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
-visible = false
 layout_mode = 2
 
 [node name="Player2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player2Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "1:"
 horizontal_alignment = 1
 
 [node name="Score2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player2Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "0"
 horizontal_alignment = 1
 
 [node name="Kills2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player2Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "0"
 horizontal_alignment = 1
 
 [node name="Player3Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
-visible = false
 layout_mode = 2
 
 [node name="Player3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player3Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "1:"
 horizontal_alignment = 1
 
 [node name="Score3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player3Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "0"
 horizontal_alignment = 1
 
 [node name="Kills3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player3Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "0"
 horizontal_alignment = 1
 
 [node name="Player4Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
-visible = false
 layout_mode = 2
 
 [node name="Player4" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player4Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "1:"
 horizontal_alignment = 1
 
 [node name="Score4" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player4Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "0"
 horizontal_alignment = 1
 
 [node name="Kills4" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player4Box"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
 text = "0"
 horizontal_alignment = 1
 
 [node name="Control" type="Control" parent="UI/GameHUD/GameEndPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
 
-[node name="MenuButton" type="Button" parent="UI/GameHUD/GameEndPanel/VBoxContainer/Control"]
-custom_minimum_size = Vector2(100, 50)
+[node name="MenuButton" type="TextureButton" parent="UI/GameHUD/GameEndPanel/VBoxContainer/Control"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Menu"
+texture_normal = ExtResource("8_weaar")
+texture_hover = ExtResource("9_trgkw")
 
-[node name="PausePanel" type="PanelContainer" parent="UI/GameHUD"]
+[node name="Label" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/Control/MenuButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_jaams")
+theme_override_font_sizes/font_size = 26
+text = "MENU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PausePanel" type="TextureRect" parent="UI/GameHUD"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -383,45 +425,88 @@ offset_right = 100.0
 offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("7_q4edt")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/GameHUD/PausePanel"]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -47.5
+offset_right = 100.0
+offset_bottom = 152.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 25
 alignment = 1
 
+[node name="Title" type="Label" parent="UI/GameHUD/PausePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jaams")
+theme_override_font_sizes/font_size = 36
+text = "PAUSE MENU"
+horizontal_alignment = 1
+
 [node name="Control2" type="Control" parent="UI/GameHUD/PausePanel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
 
-[node name="ResumeButton" type="Button" parent="UI/GameHUD/PausePanel/VBoxContainer/Control2"]
-custom_minimum_size = Vector2(100, 50)
+[node name="ResumeButton" type="TextureButton" parent="UI/GameHUD/PausePanel/VBoxContainer/Control2"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Resume"
+texture_normal = ExtResource("8_weaar")
+texture_hover = ExtResource("9_trgkw")
+
+[node name="Label" type="Label" parent="UI/GameHUD/PausePanel/VBoxContainer/Control2/ResumeButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_jaams")
+theme_override_font_sizes/font_size = 26
+text = "RESUME"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Control" type="Control" parent="UI/GameHUD/PausePanel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
 
-[node name="MenuButton" type="Button" parent="UI/GameHUD/PausePanel/VBoxContainer/Control"]
-custom_minimum_size = Vector2(100, 50)
+[node name="MenuButton" type="TextureButton" parent="UI/GameHUD/PausePanel/VBoxContainer/Control"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Menu"
+texture_normal = ExtResource("8_weaar")
+texture_hover = ExtResource("9_trgkw")
+
+[node name="Label" type="Label" parent="UI/GameHUD/PausePanel/VBoxContainer/Control/MenuButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_jaams")
+theme_override_font_sizes/font_size = 26
+text = "MENU"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="update_info_text" from="WaveSystem" to="." method="_on_wave_system_update_info_text"]
 [connection signal="wave_ended" from="WaveSystem" to="." method="_on_wave_system_wave_ended"]

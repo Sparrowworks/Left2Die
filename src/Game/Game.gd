@@ -13,8 +13,8 @@ const ZOMBIE = preload("res://src/Game/Zombie/Zombie.tscn")
 @onready var loading_animation: AnimationPlayer = %AnimationPlayer
 
 @onready var info_text: Label = %InfoText
-@onready var game_end_panel: PanelContainer = %GameEndPanel
-@onready var pause_panel: PanelContainer = %PausePanel
+@onready var game_end_panel: TextureRect = %GameEndPanel
+@onready var pause_panel: TextureRect = %PausePanel
 @onready var player_score_container: VBoxContainer = %PlayerScoreContainer
 
 @onready var zombie_spawn_point: PathFollow2D = %ZombieSpawnPoint
