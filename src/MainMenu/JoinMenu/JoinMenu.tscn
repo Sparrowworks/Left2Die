@@ -2,17 +2,7 @@
 
 [ext_resource type="Script" path="res://src/MainMenu/JoinMenu/join_menu.gd" id="1_w0pvo"]
 
-[node name="JoinMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_w0pvo")
-
-[node name="Panel" type="PanelContainer" parent="."]
-layout_mode = 1
+[node name="JoinMenu" type="PanelContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -24,32 +14,33 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_w0pvo")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(500, 500)
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="Title" type="Label" parent="Panel/VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Join a Lobby"
 horizontal_alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/VBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer/VBoxContainer2"]
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2"]
 layout_mode = 2
 text = "Enter IP:"
 horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="Panel/VBoxContainer/VBoxContainer2"]
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="IpEdit" type="LineEdit" parent="Panel/VBoxContainer/VBoxContainer2/Control"]
+[node name="IpEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer2/Control"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 25)
 layout_mode = 1
@@ -63,20 +54,20 @@ grow_horizontal = 2
 text = "192.168.0.148"
 placeholder_text = "192.168.0.0"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Enter Port"
 horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="Panel/VBoxContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="PortEdit" type="LineEdit" parent="Panel/VBoxContainer/VBoxContainer/Control"]
+[node name="PortEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/Control"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 25)
 layout_mode = 1
@@ -91,11 +82,11 @@ text = "9999"
 placeholder_text = "9999"
 max_length = 5
 
-[node name="Control" type="Control" parent="Panel/VBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="JoinButton" type="Button" parent="Panel/VBoxContainer/Control"]
+[node name="JoinButton" type="Button" parent="VBoxContainer/Control"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
@@ -108,11 +99,11 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "Join"
 
-[node name="Control2" type="Control" parent="Panel/VBoxContainer"]
+[node name="Control2" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="BackButton" type="Button" parent="Panel/VBoxContainer/Control2"]
+[node name="BackButton" type="Button" parent="VBoxContainer/Control2"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
@@ -125,4 +116,4 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "Back"
 
-[connection signal="pressed" from="Panel/VBoxContainer/Control/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Control/JoinButton" to="." method="_on_join_button_pressed"]

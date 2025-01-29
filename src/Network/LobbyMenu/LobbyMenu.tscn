@@ -3,17 +3,7 @@
 [ext_resource type="Script" path="res://src/Network/LobbyMenu/lobby_menu.gd" id="1_ko31f"]
 [ext_resource type="PackedScene" uid="uid://blw0l3qkfjeho" path="res://src/Network/LobbyMenu/LobbyPlayer/LobbyPlayer.tscn" id="2_lnl3i"]
 
-[node name="LobbyMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_ko31f")
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
-layout_mode = 1
+[node name="PanelContainer" type="PanelContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -25,41 +15,42 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ko31f")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(600, 400)
 layout_mode = 2
 theme_override_constants/separation = 40
 
-[node name="LobbyTitle" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="LobbyTitle" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Players in Lobby (4/4):"
 horizontal_alignment = 1
 
-[node name="PlayerList" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="PlayerList" type="VBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="LobbyPlayer" parent="PanelContainer/VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
+[node name="LobbyPlayer" parent="VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
 layout_mode = 2
 
-[node name="LobbyPlayer2" parent="PanelContainer/VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
+[node name="LobbyPlayer2" parent="VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
 layout_mode = 2
 
-[node name="LobbyPlayer3" parent="PanelContainer/VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
+[node name="LobbyPlayer3" parent="VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
 layout_mode = 2
 
-[node name="LobbyPlayer4" parent="PanelContainer/VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
+[node name="LobbyPlayer4" parent="VBoxContainer/PlayerList" instance=ExtResource("2_lnl3i")]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="PanelContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="StartButton" type="Button" parent="PanelContainer/VBoxContainer/Control"]
+[node name="StartButton" type="Button" parent="VBoxContainer/Control"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
@@ -72,11 +63,11 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "Start"
 
-[node name="Control2" type="Control" parent="PanelContainer/VBoxContainer"]
+[node name="Control2" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="LeaveButton" type="Button" parent="PanelContainer/VBoxContainer/Control2"]
+[node name="LeaveButton" type="Button" parent="VBoxContainer/Control2"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -88,8 +79,8 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "Leave"
 
-[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer" to="." method="_on_lobby_player_player_kicked"]
-[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer2" to="." method="_on_lobby_player_player_kicked"]
-[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer3" to="." method="_on_lobby_player_player_kicked"]
-[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer4" to="." method="_on_lobby_player_player_kicked"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/Control/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="player_kicked" from="VBoxContainer/PlayerList/LobbyPlayer" to="." method="_on_lobby_player_player_kicked"]
+[connection signal="player_kicked" from="VBoxContainer/PlayerList/LobbyPlayer2" to="." method="_on_lobby_player_player_kicked"]
+[connection signal="player_kicked" from="VBoxContainer/PlayerList/LobbyPlayer3" to="." method="_on_lobby_player_player_kicked"]
+[connection signal="player_kicked" from="VBoxContainer/PlayerList/LobbyPlayer4" to="." method="_on_lobby_player_player_kicked"]
+[connection signal="pressed" from="VBoxContainer/Control/StartButton" to="." method="_on_start_button_pressed"]

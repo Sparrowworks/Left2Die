@@ -1,15 +1,6 @@
 [gd_scene format=3 uid="uid://8yvigcbl7uq2"]
 
-[node name="GameSelect" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Panel" type="PanelContainer" parent="."]
-layout_mode = 1
+[node name="GameSelect" type="PanelContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -22,22 +13,22 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="Title" type="Label" parent="Panel/VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Select an option:"
 horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="Panel/VBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="HostCreateButton" type="Button" parent="Panel/VBoxContainer/Control"]
+[node name="HostCreateButton" type="Button" parent="VBoxContainer/Control"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
 anchors_preset = 5
@@ -50,11 +41,11 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "Host Game"
 
-[node name="Control2" type="Control" parent="Panel/VBoxContainer"]
+[node name="Control2" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="JoinGameButton" type="Button" parent="Panel/VBoxContainer/Control2"]
+[node name="JoinGameButton" type="Button" parent="VBoxContainer/Control2"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
 anchors_preset = 5
@@ -67,11 +58,11 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "Join Game"
 
-[node name="Control3" type="Control" parent="Panel/VBoxContainer"]
+[node name="Control3" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="MenuButton" type="Button" parent="Panel/VBoxContainer/Control3"]
+[node name="MenuButton" type="Button" parent="VBoxContainer/Control3"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
 anchors_preset = 5
