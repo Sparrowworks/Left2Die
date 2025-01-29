@@ -127,8 +127,12 @@ func get_target(id: int) -> Player:
 	return null
 
 @rpc("authority", "call_remote", "reliable", 2)
-func update_score_on_hit(id: int) -> void:
-	score_updated.emit(id, hit_score)
+func update_score_on_hit(id: int, score: int) -> void:
+	score_updated.emit(id, score)
+
+@rpc("authority", "call_remote", "reliable", 2)
+func update_kill(id: int) -> void:
+	zombie_killed.emit(id)
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Bullets") && is_multiplayer_authority():
@@ -139,7 +143,7 @@ func _on_area_entered(area: Area2D) -> void:
 			score_updated.emit(last_player_hit, hit_score)
 		else:
 			print(last_player_hit)
-			rpc_id(last_player_hit, "update_score_on_hit", last_player_hit)
+			rpc_id(last_player_hit, "update_score_on_hit", last_player_hit, hit_score)
 
 func _on_zombie_ready(zombie_name: String) -> void:
 	if self.name == zombie_name:
@@ -159,11 +163,15 @@ func activate() -> void:
 
 func clean() -> void:
 	if game_manager:
-		score_updated.emit(last_player_hit, kill_score)
-		zombie_killed.emit(last_player_hit)
-
 		if multiplayer.get_unique_id() == 1:
 			game_manager.add_dead_zombie(self.name, 1)
+
+			if last_player_hit == 1:
+				score_updated.emit(last_player_hit, kill_score)
+				zombie_killed.emit(last_player_hit)
+			else:
+				rpc_id(last_player_hit, "update_score_on_hit", last_player_hit, kill_score)
+				rpc_id(last_player_hit, "update_kill", last_player_hit)
 		else:
 			game_manager.rpc_id(1, "add_dead_zombie", self.name, multiplayer.get_unique_id())
 
