@@ -118,11 +118,11 @@ func get_target(id: int) -> Player:
 
 	return null
 
-@rpc("authority", "call_remote", "reliable", 2)
+@rpc("authority", "call_local", "reliable", 2)
 func update_score_on_hit(id: int, score: int) -> void:
 	score_updated.emit(id, score)
 
-@rpc("authority", "call_remote", "reliable", 2)
+@rpc("authority", "call_local", "reliable", 2)
 func update_kill(id: int) -> void:
 	zombie_killed.emit(id)
 
@@ -162,8 +162,8 @@ func clean() -> void:
 				score_updated.emit(last_player_hit, kill_score)
 				zombie_killed.emit(last_player_hit)
 			else:
-				rpc_id(last_player_hit, "update_score_on_hit", last_player_hit, kill_score)
-				rpc_id(last_player_hit, "update_kill", last_player_hit)
+				rpc("update_score_on_hit", last_player_hit, kill_score)
+				rpc("update_kill", last_player_hit)
 		else:
 			game_manager.rpc_id(1, "add_dead_zombie", self.name, multiplayer.get_unique_id())
 
