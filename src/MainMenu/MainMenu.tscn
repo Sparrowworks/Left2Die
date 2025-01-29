@@ -131,10 +131,12 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -59.0
-offset_top = -23.0
+offset_left = -66.0
+offset_top = -21.0
 grow_horizontal = 0
 grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_a1vwl")
+theme_override_font_sizes/font_size = 18
 text = "v0.0.0.1"
 
 [connection signal="pressed" from="Menu/ButtonBox/MultiButton" to="." method="_on_multi_button_pressed"]
