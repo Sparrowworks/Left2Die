@@ -9,14 +9,6 @@ signal zombie_killed(id: int)
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var soft_collision: SoftCollision = $SoftCollision
 
-@export var max_health: float = 25.0:
-	set(val):
-		health = max_health
-
-@export var max_speed: float = 100.0:
-	set(val):
-		speed = max_speed
-
 @export var hit_score: int = 10
 @export var kill_score: int = 25
 
@@ -37,7 +29,7 @@ var target: Player = null
 
 @export var sync_pos: Vector2 = Vector2.ZERO
 @export var sync_rot: float = 0
-@export var sync_health: float = max_health
+@export var sync_health: float = health
 
 var game_manager: GameManager
 var last_player_hit: int
@@ -49,7 +41,7 @@ func _ready() -> void:
 	game_manager.zombie_ready.connect(_on_zombie_ready)
 	game_manager.zombie_dead.connect(_on_zombie_dead)
 
-	game_manager.add_zombie(self.name, global_position)
+	game_manager.add_zombie(self.name, global_position, health, speed)
 
 	if multiplayer.get_unique_id() == 1:
 		game_manager.add_spawned_zombie(self.name, 1)

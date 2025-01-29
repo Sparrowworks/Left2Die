@@ -432,7 +432,6 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "Menu"
 
-[connection signal="zombie_killed" from="." to="WaveSystem" method="_on_zombie_killed"]
 [connection signal="update_info_text" from="WaveSystem" to="." method="_on_wave_system_update_info_text"]
 [connection signal="wave_ended" from="WaveSystem" to="." method="_on_wave_system_wave_ended"]
 [connection signal="wave_started" from="WaveSystem" to="." method="_on_wave_system_wave_started"]

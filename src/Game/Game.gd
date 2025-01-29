@@ -1,7 +1,5 @@
 class_name Game extends Node2D
 
-signal zombie_killed()
-
 const PLAYER = preload("res://src/Game/Player/Player.tscn")
 const ZOMBIE = preload("res://src/Game/Zombie/Zombie.tscn")
 
@@ -87,15 +85,23 @@ func spawn_players() -> void:
 		game_manager.add_players_spawned(1)
 
 @rpc("call_remote","authority","reliable",1)
-func spawn_zombie(z_pos: Vector2) -> void:
+func spawn_zombie(z_pos: Vector2, health: float, speed: float) -> void:
 	var zombie: Zombie = ZOMBIE.instantiate()
+
 	zombie.global_position = z_pos
 	zombie.sync_pos = z_pos
+
+	zombie.health = health
+	zombie.sync_health = health
+
+	zombie.speed = speed
+
 	zombie.set_multiplayer_authority(1)
 	zombies.add_child(zombie, true)
 
 	zombie.score_updated.connect(_on_zombie_score_updated)
 	zombie.zombie_killed.connect(_on_zombie_killed)
+	zombie.zombie_killed.connect(wave_system._on_zombie_killed)
 
 	var player: Player = players.get_node(str(multiplayer.get_unique_id()))
 	zombie.score_updated.connect(player._on_zombie_score_updated)
@@ -158,11 +164,11 @@ func kill_player(id: int) -> void:
 		if not is_player_dead.values().has(false):
 			rpc("end_game", player_scores)
 
-func _on_zombie_spawned() -> void:
+func _on_zombie_spawned(health: float, speed: float) -> void:
 	zombie_spawn_point.progress_ratio = randf()
 
 	if multiplayer.get_unique_id() == 1:
-		spawn_zombie(zombie_spawn_point.global_position)
+		spawn_zombie(zombie_spawn_point.global_position, health, speed)
 
 func _on_zombie_score_updated(id: int, value: int) -> void:
 	if multiplayer.get_unique_id() == 1:
@@ -171,8 +177,6 @@ func _on_zombie_score_updated(id: int, value: int) -> void:
 func _on_zombie_killed(id: int) -> void:
 	if multiplayer.get_unique_id() == 1:
 		player_scores[id]["kills"] += 1
-
-		zombie_killed.emit()
 
 func _on_player_disconnected(id: int) -> void:
 	kill_player(id)
@@ -216,3 +220,7 @@ func _on_wave_system_wave_ended() -> void:
 		for id: int in player_scores.keys():
 			if not is_player_dead[id]:
 				player_scores[id]["wave"] += 1
+
+	var player: Player = players.get_node_or_null(str(multiplayer.get_unique_id()))
+	if player:
+		player.health = 100

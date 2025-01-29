@@ -36,7 +36,7 @@ func _ready() -> void:
 
 		rpc_id(1,"add_launched_game",multiplayer.get_unique_id())
 
-func add_zombie(zombie_name: String, z_pos: Vector2) -> void:
+func add_zombie(zombie_name: String, z_pos: Vector2, health: float, speed: float) -> void:
 	is_zombie_spawned[zombie_name] = {}
 	is_zombie_dead[zombie_name] = {}
 
@@ -45,7 +45,7 @@ func add_zombie(zombie_name: String, z_pos: Vector2) -> void:
 			is_zombie_spawned[zombie_name][idx] = false
 			is_zombie_dead[zombie_name][idx] = false
 
-		game.rpc("spawn_zombie", z_pos)
+		game.rpc("spawn_zombie", z_pos, health, speed)
 
 @rpc("any_peer","call_remote","reliable",1)
 func add_spawned_zombie(zombie_name: String, idx: int = 0) -> void:
