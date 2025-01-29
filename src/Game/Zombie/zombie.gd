@@ -4,6 +4,8 @@ signal score_updated(id: int, value: int)
 signal zombie_killed(id: int)
 
 @onready var synchronizer: MultiplayerSynchronizer = $MovementSynchronizer
+@onready var health_synchronizer: MultiplayerSynchronizer = $HealthSynchronizer
+
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var soft_collision: SoftCollision = $SoftCollision
 
@@ -56,6 +58,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if is_multiplayer_authority():
+		#prints(multiplayer.get_unique_id(), name, health, sync_health)
 		target_id = get_closest_target_id()
 
 		sync_pos = global_position
@@ -68,6 +71,7 @@ func _physics_process(delta: float) -> void:
 		global_position = global_position.lerp(sync_pos, synchronizer.replication_interval)
 		rotation_degrees = lerpf(rotation_degrees, sync_rot, synchronizer.replication_interval)
 
+		#prints(multiplayer.get_unique_id(), name, sync_health, health)
 		if sync_health <= health:
 			health = sync_health
 
@@ -122,13 +126,20 @@ func get_target(id: int) -> Player:
 
 	return null
 
+@rpc("authority", "call_remote", "reliable", 2)
+func update_score_on_hit(id: int) -> void:
+	score_updated.emit(id, hit_score)
+
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("Bullets"):
-		prints("ZOMBIE HIT",multiplayer.get_unique_id(), area.player_id)
+	if area.is_in_group("Bullets") && is_multiplayer_authority():
 		last_player_hit = area.player_id
 		health -= 5.0
 
-		score_updated.emit(last_player_hit, hit_score)
+		if last_player_hit == 1:
+			score_updated.emit(last_player_hit, hit_score)
+		else:
+			print(last_player_hit)
+			rpc_id(last_player_hit, "update_score_on_hit", last_player_hit)
 
 func _on_zombie_ready(zombie_name: String) -> void:
 	if self.name == zombie_name:
@@ -140,6 +151,7 @@ func _on_zombie_dead(zombie_name: String) -> void:
 
 func activate() -> void:
 	synchronizer.public_visibility = true
+	health_synchronizer.public_visibility = true
 
 	show()
 	set_physics_process(true)
@@ -162,4 +174,6 @@ func clean() -> void:
 	set_physics_process(false)
 
 func kill() -> void:
+	health_synchronizer.public_visibility = false
+
 	queue_free()

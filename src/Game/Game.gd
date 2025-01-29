@@ -1,6 +1,6 @@
 class_name Game extends Node2D
 
-signal zombie_spawned()
+signal zombie_killed()
 
 const PLAYER = preload("res://src/Game/Player/Player.tscn")
 const ZOMBIE = preload("res://src/Game/Zombie/Zombie.tscn")
@@ -20,7 +20,7 @@ const ZOMBIE = preload("res://src/Game/Zombie/Zombie.tscn")
 @onready var player_score_container: VBoxContainer = %PlayerScoreContainer
 
 @onready var zombie_spawn_point: PathFollow2D = %ZombieSpawnPoint
-@onready var zombie_spawn_timer: Timer = $ZombieSpawnTimer
+@onready var wave_system: WaveSystem = $WaveSystem
 
 @onready var game_manager: GameManager = $GameManager
 
@@ -39,7 +39,7 @@ var is_player_dead: Dictionary = {
 
 }
 
-var current_wave: int = 1
+var is_dead: bool = false
 
 func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
@@ -49,11 +49,8 @@ func _ready() -> void:
 	loading_screen.show()
 	loading_animation.play("Load")
 
-	print(game_manager.is_game_ready)
 	if not game_manager.is_game_ready:
 		await game_manager.game_ready
-
-	print(multiplayer.get_unique_id()," Game is ready")
 
 	spawn_players()
 
@@ -114,20 +111,19 @@ func start_game() -> void:
 
 	set_process(true)
 
-	zombie_spawn_timer.start()
+	wave_system.start()
 
 @rpc("authority","call_local","reliable",1)
 func end_game(scores: Dictionary) -> void:
 	$UI/GameHUD/GameEndPanel/VBoxContainer/Title.text = "Game Over!\nYou survived for " + str(scores[multiplayer.get_unique_id()]["wave"]) + " waves.\nPlayers' stats:"
 
-	zombie_spawn_timer.stop()
+	wave_system.stop()
 
 	for idx in range(0, player_score_container.get_child_count()):
 		var child: HBoxContainer = player_score_container.get_child(idx)
 		if child.name == "HBoxContainer": continue
 
 		var actual_index: int = idx - 1
-		prints("Game end", Lobby.connected_peers.size(), actual_index)
 		if Lobby.connected_peers.size() <= actual_index:
 			break
 
@@ -152,15 +148,19 @@ func kill_player(id: int) -> void:
 			player.queue_free()
 			break
 
+	if multiplayer.get_unique_id() == id:
+		info_text.text = "You're dead!"
+		is_dead = true
+		%InfoAnimation.play("RESET")
+
 	if multiplayer.get_unique_id() == 1:
 		is_player_dead[id] = true
 		if not is_player_dead.values().has(false):
 			rpc("end_game", player_scores)
 
-func _on_zombie_spawn_timer_timeout() -> void:
+func _on_zombie_spawned() -> void:
 	zombie_spawn_point.progress_ratio = randf()
 
-	print(multiplayer.get_unique_id())
 	if multiplayer.get_unique_id() == 1:
 		spawn_zombie(zombie_spawn_point.global_position)
 
@@ -171,6 +171,8 @@ func _on_zombie_score_updated(id: int, value: int) -> void:
 func _on_zombie_killed(id: int) -> void:
 	if multiplayer.get_unique_id() == 1:
 		player_scores[id]["kills"] += 1
+
+		zombie_killed.emit()
 
 func _on_player_disconnected(id: int) -> void:
 	kill_player(id)
@@ -197,3 +199,20 @@ func _on_menu_button_pressed() -> void:
 
 func _on_resume_button_pressed() -> void:
 	pause_panel.hide()
+
+
+func _on_wave_system_update_info_text(text: String) -> void:
+	if not is_dead:
+		info_text.text = text
+
+
+func _on_wave_system_wave_started() -> void:
+	%InfoAnimation.play("WaveStart")
+
+func _on_wave_system_wave_ended() -> void:
+	%InfoAnimation.play("RESET")
+
+	if multiplayer.get_unique_id() == 1:
+		for id: int in player_scores.keys():
+			if not is_player_dead[id]:
+				player_scores[id]["wave"] += 1

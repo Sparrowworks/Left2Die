@@ -34,17 +34,11 @@ func _ready() -> void:
 		if not Lobby.is_host_game_ready:
 			await Lobby.host_game_ready
 
-		prints(multiplayer.get_unique_id(), "ALLOWED")
-
 		rpc_id(1,"add_launched_game",multiplayer.get_unique_id())
 
 func add_zombie(zombie_name: String, z_pos: Vector2) -> void:
-	print("ADDING ZOMBIE")
-
 	is_zombie_spawned[zombie_name] = {}
 	is_zombie_dead[zombie_name] = {}
-
-	print(is_zombie_spawned)
 
 	if multiplayer.get_unique_id() == 1:
 		for idx in Lobby.connected_peers:
@@ -56,10 +50,7 @@ func add_zombie(zombie_name: String, z_pos: Vector2) -> void:
 @rpc("any_peer","call_remote","reliable",1)
 func add_spawned_zombie(zombie_name: String, idx: int = 0) -> void:
 	if idx > 0:
-		prints(multiplayer.get_unique_id(), str(idx), "ADD ZOMBIE", zombie_name)
-
 		is_zombie_spawned[zombie_name][idx] = true
-		print(is_zombie_spawned)
 
 	if not is_zombie_spawned[zombie_name].values().has(false):
 		rpc("set_zombie_ready", zombie_name)
@@ -74,10 +65,8 @@ func set_zombie_ready(zombie_name: String) -> void:
 @rpc("any_peer","call_remote","reliable",1)
 func add_dead_zombie(zombie_name: String, idx: int = 0) -> void:
 	if idx > 0:
-		prints(multiplayer.get_unique_id(), str(idx), "DEAD ZOMBIE", zombie_name)
-
 		is_zombie_dead[zombie_name][idx] = true
-		print(is_zombie_dead)
+		prints(is_zombie_dead)
 
 	if not is_zombie_dead[zombie_name].values().has(false):
 		rpc("set_zombie_dead", zombie_name)
@@ -92,14 +81,10 @@ func set_zombie_dead(zombie_name: String) -> void:
 @rpc("any_peer","call_remote","reliable",1)
 func add_launched_game(idx: int = 0) -> void:
 	if idx > 0:
-		prints(multiplayer.get_unique_id(), str(idx), "SET LAUNCHED GAME")
 		if idx == 1:
 			Lobby.rpc("set_host_game_ready")
 
 		has_launched_game[idx] = true
-		print(has_launched_game)
-
-		prints(has_launched_game.values(), has_launched_game.values().has(false))
 
 	if not has_launched_game.values().has(false):
 		rpc("set_game_ready")
@@ -112,12 +97,7 @@ func set_game_ready() -> void:
 @rpc("any_peer","call_remote","reliable",1)
 func add_players_spawned(idx: int = 0) -> void:
 	if idx > 0:
-		prints(multiplayer.get_unique_id(), str(idx), "SET PLAYERS SPAWNED")
-
 		has_players_spawned[idx] = true
-		print(has_players_spawned)
-
-		print(has_players_spawned.values().has(false))
 
 	if not has_players_spawned.values().has(false):
 		rpc("set_player_ready")

@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwpcx00qej3h7"]
+
+[ext_resource type="Script" path="res://src/Game/WaveSystem/WaveSystem.gd" id="1_02e3c"]
+
+[node name="WaveSystem" type="Node"]
+script = ExtResource("1_02e3c")
+
+[node name="ZombieSpawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="AnticipationTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="ZombieSpawnTimer" to="." method="_on_zombie_spawn_timer_timeout"]
+[connection signal="timeout" from="AnticipationTimer" to="." method="_on_anticipation_timer_timeout"]

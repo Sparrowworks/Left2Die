@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://src/Game/Zombie/SoftCollision/soft_collision.gd" id="1_tvwup"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ya4fg"]
-radius = 7.5
 
 [node name="SoftCollision" type="Area2D"]
 collision_layer = 2

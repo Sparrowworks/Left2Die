@@ -109,14 +109,14 @@ func _on_area_exited(area: Area2D) -> void:
 
 func _on_attack_timer_timeout() -> void:
 	if is_multiplayer_authority():
-		health -= 20.0
+		health -= 0.0
 
 func _on_reload_timer_timeout() -> void:
 	if is_multiplayer_authority():
 		magazine = 30
 
 func _on_zombie_score_updated(id: int, value: int) -> void:
-	prints(multiplayer.get_unique_id(), id)
+	prints("Update", multiplayer.get_unique_id(), id)
 	if id == multiplayer.get_unique_id():
 		score += value
 		score_text.text = "Score: " + str(score)
