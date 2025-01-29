@@ -24,7 +24,7 @@ anchor_right = 1.0
 offset_bottom = 23.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 96
-text = "ZOMBIE SURVIVAL 2"
+text = "LEFT2DIE"
 horizontal_alignment = 1
 
 [node name="ButtonBox" type="VBoxContainer" parent="Menu"]
@@ -46,7 +46,7 @@ theme_override_constants/separation = 50
 custom_minimum_size = Vector2(225, 75)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "LAN Game"
+text = "Multiplayer"
 
 [node name="SoloButton" type="Button" parent="Menu/ButtonBox"]
 custom_minimum_size = Vector2(225, 75)

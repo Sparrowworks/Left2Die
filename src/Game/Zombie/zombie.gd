@@ -5,6 +5,7 @@ signal zombie_killed(id: int)
 
 @onready var synchronizer: MultiplayerSynchronizer = $MovementSynchronizer
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var soft_collision: SoftCollision = $SoftCollision
 
 @export var max_health: float = 25.0:
 	set(val):
@@ -77,7 +78,12 @@ func _physics_process(delta: float) -> void:
 		return
 
 	look_at(target.global_position)
-	global_position += direction.rotated(rotation) * speed * delta
+
+	if soft_collision.check_for_overlap():
+		global_position += soft_collision.get_push_vector() * delta * 50.0
+
+	if not global_position.distance_squared_to(target.global_position) < 350:
+		global_position += direction.rotated(rotation) * speed * delta
 
 func get_closest_target_id() -> int:
 	var players: Array[Node] = get_tree().get_nodes_in_group("Players")

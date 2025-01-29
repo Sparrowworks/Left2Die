@@ -89,6 +89,8 @@ layout_mode = 2
 [node name="UsernameText" type="Label" parent="UI/Control/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 text = "USERNAME"
 horizontal_alignment = 1
 
@@ -101,6 +103,8 @@ alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(95, 0)
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 text = "Score: 0"
 horizontal_alignment = 1
 
@@ -108,17 +112,23 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(95, 0)
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 text = "Kills: 0"
 horizontal_alignment = 1
 
 [node name="AmmoText" type="Label" parent="UI/Control/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 text = "Ammo: 30"
 horizontal_alignment = 1
 
 [node name="Health" type="Label" parent="UI/Control/PanelContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 text = "Health:"
 horizontal_alignment = 1
 
