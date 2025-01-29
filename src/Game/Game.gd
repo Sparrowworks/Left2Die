@@ -103,9 +103,11 @@ func spawn_zombie(z_pos: Vector2, health: float, speed: float) -> void:
 	zombie.zombie_killed.connect(_on_zombie_killed)
 	zombie.zombie_killed.connect(wave_system._on_zombie_killed)
 
-	var player: Player = players.get_node(str(multiplayer.get_unique_id()))
-	zombie.score_updated.connect(player._on_zombie_score_updated)
-	zombie.zombie_killed.connect(player._on_zombie_killed)
+	var player: Player = players.get_node_or_null(str(multiplayer.get_unique_id()))
+	if player:
+		zombie.score_updated.connect(player._on_zombie_score_updated)
+		zombie.zombie_killed.connect(player._on_zombie_killed)
+
 	print("Spawning zombie for: ", str(multiplayer.get_unique_id(), " " , str(get_multiplayer_authority())))
 
 func start_game() -> void:

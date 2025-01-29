@@ -41,9 +41,6 @@ func stop() -> void:
 	anticipation_timer.stop()
 	zombie_spawn_timer.stop()
 
-func _process(delta: float) -> void:
-	prints(multiplayer.get_unique_id(), this_wave_remaining)
-
 func _start_anticipation() -> void:
 	this_anticipation_time = 0
 	current_wave += 1
