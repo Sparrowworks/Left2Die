@@ -138,6 +138,8 @@ func end_game(scores: Dictionary) -> void:
 		child.show()
 		var p_nick: Label = child.get_child(0)
 		p_nick.text = str(Lobby.connected_peers[actual_index]) + ":"
+		if Lobby.connected_peers[actual_index] == multiplayer.get_unique_id():
+			p_nick.modulate = Color.GREEN
 
 		var p_score: Label = child.get_child(1)
 		p_score.text = str(scores[Lobby.connected_peers[actual_index]]["score"])
