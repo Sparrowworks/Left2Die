@@ -18,7 +18,8 @@ signal player_kicked(player_name: String)
 		return player_name_text.text
 
 func remove_kick() -> void:
-	kick_button.get_parent().queue_free()
+	kick_button.get_parent().hide()
 
 func _on_kick_button_pressed() -> void:
+	$ButtonClick.play()
 	player_kicked.emit(player_name)

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwpcx00qej3h7"]
+[gd_scene load_steps=3 format=3 uid="uid://bwpcx00qej3h7"]
 
 [ext_resource type="Script" path="res://src/Game/WaveSystem/WaveSystem.gd" id="1_02e3c"]
+[ext_resource type="AudioStream" uid="uid://b6y76mxvqi36x" path="res://assets/audio/waveSurvived.mp3" id="2_8ipg0"]
 
 [node name="WaveSystem" type="Node"]
 script = ExtResource("1_02e3c")
@@ -9,6 +10,14 @@ script = ExtResource("1_02e3c")
 wait_time = 2.0
 
 [node name="AnticipationTimer" type="Timer" parent="."]
+
+[node name="GameTheme" type="AudioStreamPlayer" parent="."]
+volume_db = -5.0
+bus = &"Music"
+
+[node name="WaveSurvived" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_8ipg0")
+bus = &"Music"
 
 [connection signal="timeout" from="ZombieSpawnTimer" to="." method="_on_zombie_spawn_timer_timeout"]
 [connection signal="timeout" from="AnticipationTimer" to="." method="_on_anticipation_timer_timeout"]

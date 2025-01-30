@@ -43,9 +43,10 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
-	set_process(false)
 	loading_screen.show()
 	loading_animation.play("Load")
+
+	set_process(false)
 
 	if not game_manager.is_game_ready:
 		await game_manager.game_ready
@@ -126,6 +127,7 @@ func end_game(scores: Dictionary) -> void:
 	$UI/GameHUD/GameEndPanel/VBoxContainer/Title.text = "Game Over!\nYou survived for " + str(scores[multiplayer.get_unique_id()]["wave"]) + " waves.\nPlayers' stats:"
 
 	wave_system.stop()
+	$GameOver.play()
 
 	for idx in range(0, player_score_container.get_child_count()):
 		var child: HBoxContainer = player_score_container.get_child(idx)
@@ -193,6 +195,7 @@ func _on_server_disconnected() -> void:
 	var popup: MessagePopup = Messenger.create_popup("Host Left", "Host has left the game.")
 	popup.ok_pressed.connect(
 		func() -> void:
+			$ButtonClick.play()
 			Lobby.clear_peer()
 			Composer.load_scene("res://src/MainMenu/MainMenu.tscn")
 	)
@@ -200,14 +203,15 @@ func _on_server_disconnected() -> void:
 
 
 func _on_menu_button_pressed() -> void:
+	$ButtonClick.play()
 	process_mode = PROCESS_MODE_DISABLED
 	Composer.load_scene("res://src/MainMenu/MainMenu.tscn")
 	Lobby.clear_peer()
 
 
 func _on_resume_button_pressed() -> void:
+	$ButtonClick.play()
 	pause_panel.hide()
-
 
 func _on_wave_system_update_info_text(text: String) -> void:
 	if not is_dead:

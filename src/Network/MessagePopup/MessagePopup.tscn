@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://dh142p5x70jmf"]
+[gd_scene load_steps=8 format=3 uid="uid://dh142p5x70jmf"]
 
 [ext_resource type="Script" path="res://src/Network/MessagePopup/message_popup.gd" id="1_gyr7p"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uloyk"]
-bg_color = Color(0.197937, 0.197937, 0.197937, 1)
+[ext_resource type="Texture2D" uid="uid://cwgil6drkq2da" path="res://assets/images/Panel.png" id="2_30tq5"]
+[ext_resource type="AudioStream" uid="uid://dhrsubpnktvwv" path="res://assets/audio/error.mp3" id="2_qn2wb"]
+[ext_resource type="AudioStream" uid="uid://pm1ijge6oue1" path="res://assets/audio/buttonClick.mp3" id="3_dmr5s"]
+[ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="3_xx6yb"]
+[ext_resource type="Texture2D" uid="uid://bsudayvhfm1nh" path="res://assets/images/Default.png" id="4_0vqjh"]
+[ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="5_wauyf"]
 
 [node name="MessagePopup" type="Control"]
 layout_mode = 3
@@ -14,37 +17,49 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gyr7p")
 
-[node name="Panel" type="PanelContainer" parent="."]
+[node name="Panel" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -276.0
+offset_top = -360.0
+offset_right = 276.0
+offset_bottom = 235.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_uloyk")
+texture = ExtResource("2_30tq5")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-custom_minimum_size = Vector2(500, 350)
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -112.5
+offset_right = 150.0
+offset_bottom = 212.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 15
 
 [node name="Title" type="Label" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_xx6yb")
 theme_override_font_sizes/font_size = 32
 text = "Alert"
 horizontal_alignment = 1
 
 [node name="Content" type="Label" parent="Panel/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 200)
+custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_xx6yb")
 theme_override_font_sizes/font_size = 16
 text = "Message content"
 horizontal_alignment = 1
@@ -52,20 +67,40 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Control" type="Control" parent="Panel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
 
-[node name="OkButton" type="Button" parent="Panel/VBoxContainer/Control"]
+[node name="OkButton" type="TextureButton" parent="Panel/VBoxContainer/Control"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -75.0
-offset_right = 75.0
-offset_bottom = 50.0
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "OK"
+texture_normal = ExtResource("4_0vqjh")
+texture_hover = ExtResource("5_wauyf")
 
-[connection signal="pressed" from="Panel/VBoxContainer/Control/OkButton" to="." method="_on_ok_button_pressed"]
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Control/OkButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_xx6yb")
+theme_override_font_sizes/font_size = 26
+text = "LEAVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Error" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_qn2wb")
+volume_db = 10.0
+bus = &"SFX"
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_dmr5s")
+bus = &"SFX"

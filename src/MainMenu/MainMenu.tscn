@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://b4dnsk44n2fp"]
+[gd_scene load_steps=13 format=4 uid="uid://b4dnsk44n2fp"]
 
 [ext_resource type="Script" path="res://src/MainMenu/MainMenu.gd" id="1_edpc0"]
 [ext_resource type="PackedScene" uid="uid://bsdhfmi104332" path="res://src/MainMenu/LobbyCreate/LobbyCreate.tscn" id="1_m0b8u"]
@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://dxv4kf348go2a" path="res://src/MainMenu/JoinMenu/JoinMenu.tscn" id="4_jybw2"]
 [ext_resource type="PackedScene" uid="uid://d2b4tkxtwc3op" path="res://src/Network/LobbyMenu/LobbyMenu.tscn" id="5_25oyt"]
 [ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="5_t2kaj"]
+[ext_resource type="AudioStream" uid="uid://3a3lqi7nnxkw" path="res://assets/audio/menu.mp3" id="10_oebds"]
+[ext_resource type="PackedScene" uid="uid://cc4dykxxq0ax5" path="res://src/MainMenu/Settings/Settings.tscn" id="10_snbiu"]
+[ext_resource type="AudioStream" uid="uid://pm1ijge6oue1" path="res://assets/audio/buttonClick.mp3" id="11_w5qgu"]
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_edpc0")
@@ -124,6 +127,13 @@ visible = false
 
 [node name="LobbyMenu" parent="." instance=ExtResource("5_25oyt")]
 visible = false
+offset_top = 50.0
+offset_bottom = 50.0
+
+[node name="Settings" parent="." instance=ExtResource("10_snbiu")]
+visible = false
+offset_top = 50.0
+offset_bottom = 50.0
 
 [node name="VersionText" type="Label" parent="."]
 anchors_preset = 3
@@ -139,7 +149,16 @@ theme_override_fonts/font = ExtResource("2_a1vwl")
 theme_override_font_sizes/font_size = 18
 text = "v0.0.0.1"
 
+[node name="MenuTheme" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_oebds")
+bus = &"Music"
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_w5qgu")
+bus = &"SFX"
+
 [connection signal="pressed" from="Menu/ButtonBox/MultiButton" to="." method="_on_multi_button_pressed"]
+[connection signal="pressed" from="Menu/ButtonBox/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control/HostGameButton" to="." method="_on_host_game_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control2/JoinGameButton" to="." method="_on_join_game_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control3/MenuButton" to="." method="_on_menu_button_pressed"]
@@ -147,8 +166,10 @@ text = "v0.0.0.1"
 [connection signal="pressed" from="LobbyCreate/Panel/VBoxContainer/Control2/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="JoinMenu/Panel/VBoxContainer/Control2/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="LobbyMenu/PanelContainer/VBoxContainer/Control2/LeaveButton" to="." method="_on_leave_button_pressed"]
+[connection signal="pressed" from="Settings/PanelContainer/VBoxContainer/Control2/MenuButton" to="." method="_on_settings_menu_button_pressed"]
 
 [editable path="GameSelect"]
 [editable path="LobbyCreate"]
 [editable path="JoinMenu"]
 [editable path="LobbyMenu"]
+[editable path="Settings"]

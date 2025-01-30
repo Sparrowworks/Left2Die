@@ -1,0 +1,138 @@
+[gd_scene load_steps=6 format=3 uid="uid://cc4dykxxq0ax5"]
+
+[ext_resource type="Texture2D" uid="uid://cwgil6drkq2da" path="res://assets/images/Panel.png" id="1_450fo"]
+[ext_resource type="Script" path="res://src/MainMenu/Settings/settings.gd" id="1_nunhr"]
+[ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="2_huwgh"]
+[ext_resource type="Texture2D" uid="uid://bsudayvhfm1nh" path="res://assets/images/Default.png" id="4_ihj2j"]
+[ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="5_u2583"]
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nunhr")
+
+[node name="PanelContainer" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -345.0
+offset_top = -100.0
+offset_right = 345.0
+offset_bottom = 643.75
+grow_horizontal = 2
+texture = ExtResource("1_450fo")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -142.5
+offset_top = -161.875
+offset_right = 142.5
+offset_bottom = 311.125
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 35
+
+[node name="Title" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_huwgh")
+theme_override_font_sizes/font_size = 36
+text = "SETTings:"
+horizontal_alignment = 1
+
+[node name="MasterContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="MasterText" type="Label" parent="PanelContainer/VBoxContainer/MasterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_huwgh")
+theme_override_font_sizes/font_size = 24
+text = "Master Volume: 100"
+horizontal_alignment = 1
+
+[node name="MasterSlider" type="HSlider" parent="PanelContainer/VBoxContainer/MasterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 100.0
+rounded = true
+
+[node name="MusicContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="MusicText" type="Label" parent="PanelContainer/VBoxContainer/MusicContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_huwgh")
+theme_override_font_sizes/font_size = 24
+text = "Music Volume: 100"
+horizontal_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="PanelContainer/VBoxContainer/MusicContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 100.0
+rounded = true
+
+[node name="SfxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="SfxText" type="Label" parent="PanelContainer/VBoxContainer/SfxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_huwgh")
+theme_override_font_sizes/font_size = 24
+text = "SFX Volume: 100"
+horizontal_alignment = 1
+
+[node name="SfxSlider" type="HSlider" parent="PanelContainer/VBoxContainer/SfxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 100.0
+rounded = true
+
+[node name="Control2" type="Control" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 85)
+layout_mode = 2
+
+[node name="MenuButton" type="TextureButton" parent="PanelContainer/VBoxContainer/Control2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
+grow_horizontal = 2
+texture_normal = ExtResource("4_ihj2j")
+texture_hover = ExtResource("5_u2583")
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/Control2/MenuButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_huwgh")
+theme_override_font_sizes/font_size = 26
+text = "Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="value_changed" from="PanelContainer/VBoxContainer/MasterContainer/MasterSlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="PanelContainer/VBoxContainer/MusicContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="PanelContainer/VBoxContainer/SfxContainer/SfxSlider" to="." method="_on_sfx_slider_value_changed"]

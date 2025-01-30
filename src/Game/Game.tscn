@@ -1,14 +1,15 @@
-[gd_scene load_steps=17 format=4 uid="uid://6g7tcubrkmpk"]
+[gd_scene load_steps=18 format=4 uid="uid://6g7tcubrkmpk"]
 
 [ext_resource type="Script" path="res://src/Game/Game.gd" id="1_ecail"]
 [ext_resource type="Script" path="res://src/Game/GameManager/GameManager.gd" id="3_lqwi1"]
 [ext_resource type="PackedScene" uid="uid://bwpcx00qej3h7" path="res://src/Game/WaveSystem/WaveSystem.tscn" id="3_n0ebj"]
 [ext_resource type="TileSet" uid="uid://dqhvr481fnr7v" path="res://assets/GroundTileSet.tres" id="4_nt570"]
-[ext_resource type="Texture2D" uid="uid://bl8k24dwfa2fh" path="res://assets/images/tile_01.png" id="5_5np3a"]
 [ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="5_jaams"]
 [ext_resource type="Texture2D" uid="uid://cwgil6drkq2da" path="res://assets/images/Panel.png" id="7_q4edt"]
 [ext_resource type="Texture2D" uid="uid://bsudayvhfm1nh" path="res://assets/images/Default.png" id="8_weaar"]
 [ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="9_trgkw"]
+[ext_resource type="AudioStream" uid="uid://kenenf5tfumr" path="res://assets/audio/gameover.mp3" id="10_x2vs5"]
+[ext_resource type="AudioStream" uid="uid://pm1ijge6oue1" path="res://assets/audio/buttonClick.mp3" id="11_vbvp0"]
 
 [sub_resource type="Curve2D" id="Curve2D_ji02s"]
 _data = {
@@ -148,19 +149,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-metadata/_edit_lock_ = true
 
-[node name="Panel" type="TextureRect" parent="UI/LoadingScreen"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_5np3a")
-stretch_mode = 1
-
-[node name="Loading" type="Label" parent="UI/LoadingScreen/Panel"]
+[node name="Loading" type="Label" parent="UI/LoadingScreen"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -178,7 +168,7 @@ theme_override_font_sizes/font_size = 96
 text = "Loading game..."
 horizontal_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/LoadingScreen/Panel/Loading"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/LoadingScreen/Loading"]
 unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_scb1j")
@@ -507,6 +497,14 @@ theme_override_font_sizes/font_size = 26
 text = "MENU"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="GameOver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_x2vs5")
+bus = &"Music"
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_vbvp0")
+bus = &"SFX"
 
 [connection signal="update_info_text" from="WaveSystem" to="." method="_on_wave_system_update_info_text"]
 [connection signal="wave_ended" from="WaveSystem" to="." method="_on_wave_system_wave_ended"]

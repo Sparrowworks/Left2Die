@@ -9,6 +9,13 @@ signal wave_ended()
 
 @onready var zombie_spawn_timer: Timer = $ZombieSpawnTimer
 @onready var anticipation_timer: Timer = $AnticipationTimer
+@onready var game_theme: AudioStreamPlayer = $GameTheme
+
+var game_themes: Array = [
+	preload("res://assets/audio/game1.mp3"),
+	preload("res://assets/audio/game2.mp3"),
+	preload("res://assets/audio/game3.mp3")
+]
 
 var game: Game
 var current_wave: int = 0
@@ -40,6 +47,7 @@ func start() -> void:
 func stop() -> void:
 	anticipation_timer.stop()
 	zombie_spawn_timer.stop()
+	game_theme.stop()
 
 func _start_anticipation() -> void:
 	this_anticipation_time = 0
@@ -55,8 +63,14 @@ func _start_wave() -> void:
 
 	zombie_spawn_timer.start()
 
+	game_theme.stream = game_themes.pick_random()
+	game_theme.play()
+
 func _end_wave() -> void:
 	await get_tree().create_timer(2).timeout
+
+	game_theme.stop()
+	$WaveSurvived.start()
 
 	update_info_text.emit("Wave " + str(current_wave) + " is over!")
 	wave_ended.emit()

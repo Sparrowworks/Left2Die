@@ -37,6 +37,7 @@ var magazine: int = 30:
 			health = val
 			health_bar.value = health
 			if health <= 0:
+				$DeathSound.play()
 				game.rpc("kill_player", multiplayer.get_unique_id())
 
 var score: int = 0
@@ -87,11 +88,14 @@ func shoot() -> void:
 
 func reload() -> void:
 	if reload_timer.time_left <= 0 and magazine < 30:
+		$ReloadSound.play()
 		ammo_text.text = "Reloading..."
 		reload_timer.start()
 
 @rpc("any_peer", "call_local", "reliable",1)
 func create_bullet(p_pos: Vector2, p_rot: float, id: int) -> void:
+	$ShootSound.play()
+
 	var bullet: Bullet = BULLET.instantiate()
 	game.bullets.add_child(bullet, true)
 	bullet.player_id = id

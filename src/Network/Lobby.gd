@@ -8,6 +8,10 @@ signal join_failed(quiet: bool)
 signal host_game_ready()
 signal host_player_ready()
 
+var master_volume: float = 100
+var music_volume: float = 100
+var sfx_volume: float = 100
+
 var peer: ENetMultiplayerPeer = null
 var join_timer: Timer
 
@@ -29,6 +33,7 @@ func _ready() -> void:
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 	join_timer = Timer.new()
+	join_timer.one_shot = true
 	join_timer.wait_time = 10
 	join_timer.timeout.connect(func() -> void: join_failed.emit(false))
 	add_child(join_timer)

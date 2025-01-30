@@ -3,19 +3,20 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cwgil6drkq2da"
-path="res://.godot/imported/Panel.png-7e8e1773b73fe2dda9dab4743a871514.ctex"
+path.s3tc="res://.godot/imported/Panel.png-7e8e1773b73fe2dda9dab4743a871514.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/images/Panel.png"
-dest_files=["res://.godot/imported/Panel.png-7e8e1773b73fe2dda9dab4743a871514.ctex"]
+dest_files=["res://.godot/imported/Panel.png-7e8e1773b73fe2dda9dab4743a871514.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

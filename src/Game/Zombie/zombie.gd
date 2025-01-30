@@ -167,8 +167,10 @@ func clean() -> void:
 		else:
 			game_manager.rpc_id(1, "add_dead_zombie", self.name, multiplayer.get_unique_id())
 
-	synchronizer.public_visibility = false
+	if health <= 0:
+		$ZombieDead.play()
 
+	synchronizer.public_visibility = false
 	collision_shape_2d.set_deferred("disabled",true)
 	hide()
 	set_physics_process(false)

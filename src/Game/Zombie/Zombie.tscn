@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://ci4flqsp5bb67"]
+[gd_scene load_steps=8 format=3 uid="uid://ci4flqsp5bb67"]
 
-[ext_resource type="Texture2D" uid="uid://csho1uolbj8by" path="res://assets/images/zombie.png" id="1_hl5if"]
+[ext_resource type="Texture2D" uid="uid://d32utsfjphh30" path="res://assets/images/zombie.png" id="1_hl5if"]
 [ext_resource type="Script" path="res://src/Game/Zombie/zombie.gd" id="1_pckpu"]
 [ext_resource type="PackedScene" uid="uid://j7bux8t31qy5" path="res://src/Game/Zombie/SoftCollision/SoftCollision.tscn" id="3_tyahi"]
+[ext_resource type="AudioStream" uid="uid://xm7pilhf50ya" path="res://assets/audio/zombieDeath.mp3" id="4_ed4td"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qwv03"]
 size = Vector2(34, 48)
@@ -40,5 +41,9 @@ replication_config = SubResource("SceneReplicationConfig_j751h")
 public_visibility = false
 
 [node name="SoftCollision" parent="." instance=ExtResource("3_tyahi")]
+
+[node name="ZombieDead" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ed4td")
+bus = &"SFX"
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

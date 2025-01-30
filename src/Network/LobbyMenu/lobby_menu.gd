@@ -4,11 +4,14 @@ extends Control
 @onready var player_list: VBoxContainer = %PlayerList
 @onready var start_button: TextureButton = %StartButton
 
+var menu: MainMenu
+
 var has_player_joined: Dictionary = {
 
 }
 
 func _ready() -> void:
+	menu = get_parent()
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
@@ -52,6 +55,7 @@ func peer_respond_back(id: int) -> void:
 	check_if_game_can_start()
 
 func _on_start_button_pressed() -> void:
+	menu.button_click.play()
 	if multiplayer.is_server():
 		Lobby.game_started()
 

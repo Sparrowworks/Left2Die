@@ -4,7 +4,7 @@ signal ok_pressed()
 
 @onready var title: Label = %Title
 @onready var content: Label = %Content
-@onready var ok_button: Button = %OkButton
+@onready var ok_button: TextureButton = %OkButton
 
 @export var message_title: String = "Alert":
 	set(val):
@@ -21,9 +21,11 @@ signal ok_pressed()
 		content.text = val
 
 func _ready() -> void:
+	$Error.play()
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	ok_button.pressed.connect(default_ok)
 
 func default_ok() -> void:
+	$ButtonClick.play()
 	ok_pressed.emit()
 	self.queue_free()
