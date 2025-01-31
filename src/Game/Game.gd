@@ -221,13 +221,13 @@ func _on_wave_system_update_info_text(text: String) -> void:
 func _on_wave_system_wave_started() -> void:
 	%InfoAnimation.play("WaveStart")
 
-func _on_wave_system_wave_ended() -> void:
+func _on_wave_system_wave_ended(wave: int) -> void:
 	%InfoAnimation.play("RESET")
 
 	if multiplayer.get_unique_id() == 1:
 		for id: int in player_scores.keys():
 			if not is_player_dead[id]:
-				player_scores[id]["wave"] += 1
+				player_scores[id]["wave"] = wave
 
 	var player: Player = players.get_node_or_null(str(multiplayer.get_unique_id()))
 	if player:

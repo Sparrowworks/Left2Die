@@ -5,7 +5,7 @@ signal update_info_text(text: String)
 signal zombie_spawned(health: float, speed: float)
 
 signal wave_started()
-signal wave_ended()
+signal wave_ended(wave: int)
 
 @onready var zombie_spawn_timer: Timer = $ZombieSpawnTimer
 @onready var anticipation_timer: Timer = $AnticipationTimer
@@ -74,7 +74,7 @@ func _end_wave() -> void:
 	$WaveSurvived.play()
 
 	update_info_text.emit("Wave " + str(current_wave) + " is over!")
-	wave_ended.emit()
+	wave_ended.emit(current_wave)
 	zombie_spawn_timer.stop()
 
 	this_wave_zombies += 5
