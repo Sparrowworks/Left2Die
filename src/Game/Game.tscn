@@ -500,6 +500,7 @@ vertical_alignment = 1
 
 [node name="GameOver" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_x2vs5")
+volume_db = -10.0
 bus = &"Music"
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]

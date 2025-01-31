@@ -6,11 +6,14 @@ extends Control
 @onready var music_slider: HSlider = %MusicSlider
 @onready var sfx_text: Label = %SfxText
 @onready var sfx_slider: HSlider = %SfxSlider
+@onready var nick_edit: LineEdit = %NickEdit
 
 func _ready() -> void:
 	update()
 
 func update() -> void:
+	nick_edit.text = Lobby.player_username
+
 	update_text()
 	update_sliders()
 	update_buses()
@@ -41,3 +44,6 @@ func _on_music_slider_value_changed(value: float) -> void:
 func _on_sfx_slider_value_changed(value: float) -> void:
 	Lobby.sfx_volume = value
 	update()
+
+func _on_nick_edit_text_changed(new_text: String) -> void:
+	Lobby.player_username = new_text

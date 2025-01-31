@@ -25,7 +25,7 @@ func _ready() -> void:
 	game = get_parent()
 
 	if multiplayer.get_unique_id() == 1:
-		for idx in Lobby.connected_peers:
+		for idx: int in Lobby.connected_peers.keys():
 			has_launched_game[idx] = false
 			has_players_spawned[idx] = false
 
@@ -41,7 +41,7 @@ func add_zombie(zombie_name: String, z_pos: Vector2, health: float, speed: float
 	is_zombie_dead[zombie_name] = {}
 
 	if multiplayer.get_unique_id() == 1:
-		for idx in Lobby.connected_peers:
+		for idx: int in Lobby.connected_peers.keys():
 			is_zombie_spawned[zombie_name][idx] = false
 			is_zombie_dead[zombie_name][idx] = false
 

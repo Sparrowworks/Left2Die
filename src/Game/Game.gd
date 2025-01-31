@@ -63,22 +63,23 @@ func _process(delta: float) -> void:
 		pause_panel.visible = not pause_panel.visible
 
 func spawn_players() -> void:
-	for idx in range(0, Lobby.connected_peers.size()):
+	for idx in range(0, Lobby.connected_peers.keys().size()):
+		var p_id: int = Lobby.connected_peers.keys()[idx]
 		var player: Player = PLAYER.instantiate()
-		player.name = str(Lobby.connected_peers[idx])
+		player.name = str(p_id)
 		player.global_position = player_pos.get_child(idx).global_position
 		player.sync_pos = player_pos.get_child(idx).global_position
 		players.add_child(player)
 
 		player.sprite.texture = player_sprites[idx]
-		player.set_multiplayer_authority(Lobby.connected_peers[idx])
+		player.set_multiplayer_authority(p_id)
 
 		if not is_instance_valid(player):
 			await player.ready
 
 		if multiplayer.get_unique_id() == 1:
-			is_player_dead[Lobby.connected_peers[idx]] = false
-			player_scores[Lobby.connected_peers[idx]] = {"score": 0, "kills": 0, "wave": 0}
+			is_player_dead[p_id] = false
+			player_scores[p_id] = {"score": 0, "kills": 0, "wave": 0}
 
 	if multiplayer.get_unique_id() != 1:
 		game_manager.rpc_id(1,"add_players_spawned",multiplayer.get_unique_id())
@@ -134,20 +135,21 @@ func end_game(scores: Dictionary) -> void:
 		if child.name == "HBoxContainer": continue
 
 		var actual_index: int = idx - 1
-		if Lobby.connected_peers.size() <= actual_index:
+		if Lobby.connected_peers.keys().size() <= actual_index:
 			break
 
 		child.show()
 		var p_nick: Label = child.get_child(0)
-		p_nick.text = str(Lobby.connected_peers[actual_index]) + ":"
-		if Lobby.connected_peers[actual_index] == multiplayer.get_unique_id():
+		var p_id: int = Lobby.connected_peers.keys()[actual_index]
+		p_nick.text = str(Lobby.connected_peers[p_id]) + ":"
+		if p_id == multiplayer.get_unique_id():
 			p_nick.modulate = Color.GREEN
 
 		var p_score: Label = child.get_child(1)
-		p_score.text = str(scores[Lobby.connected_peers[actual_index]]["score"])
+		p_score.text = str(scores[p_id]["score"])
 
 		var p_kills: Label = child.get_child(2)
-		p_kills.text = str(scores[Lobby.connected_peers[actual_index]]["kills"])
+		p_kills.text = str(scores[p_id]["kills"])
 
 	game_end_panel.show()
 
@@ -187,8 +189,6 @@ func _on_zombie_killed(id: int) -> void:
 func _on_player_disconnected(id: int) -> void:
 	kill_player(id)
 	game_manager.clear_peer(id)
-
-	Lobby.connected_peers.erase(id)
 
 func _on_server_disconnected() -> void:
 	process_mode = PROCESS_MODE_DISABLED

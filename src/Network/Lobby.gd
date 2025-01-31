@@ -18,8 +18,14 @@ var join_timer: Timer
 var lobby_ip: String = ""
 var lobby_port: int = 9999
 var lobby_max: int = 4
+var lobby_menu: LobbyMenu
 
-var connected_peers: Array[int] = []
+var player_username: String = ""
+var game_version: String = ProjectSettings.get_setting("application/config/version") as String
+
+var connected_peers: Dictionary = {
+
+}
 
 var has_game_started: bool = false
 
@@ -51,7 +57,7 @@ func create_server(port: int, max_players: int) -> Error:
 
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	multiplayer.multiplayer_peer = peer
-	connected_peers.append(1)
+	connected_peers[1] = Lobby.player_username
 	return error
 
 func create_client(ip: String, port: int) -> Error:
@@ -105,31 +111,63 @@ func set_host_game_ready() -> void:
 	is_host_game_ready = true
 	host_game_ready.emit()
 
-func _on_peer_connected(id: int) -> void:
-	if connected_peers.size() == lobby_max:
-		if multiplayer.is_server():
-			rpc_id(id,"kick_peer","Lobby is full","You cannot join this game, because the lobby is full.")
+@rpc("authority","call_remote","reliable")
+func greet_peer() -> void:
+	rpc_id(1,"peer_send_info", multiplayer.get_unique_id(), Lobby.player_username, Lobby.game_version)
+
+@rpc("any_peer","call_remote","reliable")
+func peer_send_info(id: int, username: String, version: String) -> void:
+	if Lobby.game_version != version:
+		printerr("Invalid game version for peer ", str(id))
+		rpc_id(id,"kick_peer","Invalid Version","To join the lobby, both the host and the client must have the same game version.")
 		return
 
+	if connected_peers.keys().has(id):
+		connected_peers[id] = username
+		lobby_menu.has_player_joined[id] = true
+		lobby_menu.check_if_game_can_start()
+		lobby_menu.rpc("draw_lobby", connected_peers, lobby_max)
+
+func _on_peer_connected(id: int) -> void:
 	if has_game_started:
 		if multiplayer.is_server():
 			rpc_id(id,"kick_peer","Game has started","You cannot join this game, because the game has already started.")
 		return
 
-	connected_peers.append(id)
+	if connected_peers.size() == lobby_max:
+		if multiplayer.is_server():
+			rpc_id(id,"kick_peer","Lobby is full","You cannot join this game, because the lobby is full.")
+		return
+
+	connected_peers[id] = ""
+
+	if multiplayer.is_server():
+		rpc_id(id, "greet_peer")
+		lobby_menu.has_player_joined[id] = false
+		lobby_menu.check_if_game_can_start()
 
 	Messenger.message(str(id) + " Has connected")
 
 func _on_peer_disconnected(id: int) -> void:
 	connected_peers.erase(id)
-
 	Messenger.message(str(id) + " Has disconnected")
+
+	if has_game_started:
+		return
+
+	lobby_menu.has_player_joined.erase(id)
+	lobby_menu.check_if_game_can_start()
+
+	lobby_menu.rpc("draw_lobby", connected_peers, lobby_max)
 
 ### CLIENT SIGNALS
 
 func _on_connected_to_server() -> void:
 	if join_timer:
 		join_timer.stop()
+
+	if lobby_menu:
+		lobby_menu.lobby_title.text = "Please wait, joining..."
 
 	Messenger.message("Connected to server")
 	join_success.emit()
@@ -139,3 +177,21 @@ func _on_connection_failed() -> void:
 
 func _on_server_disconnected() -> void:
 	player_kicked.emit("Host Left","The game has ended because host has left.")
+
+func get_error_title(error: Error) -> String:
+	match error:
+		ERR_ALREADY_IN_USE:
+			return "Server Exists"
+		ERR_CANT_CREATE:
+			return "Server Failed"
+		_:
+			return "Unknown Error"
+
+func get_error_text(error: Error) -> String:
+	match error:
+		ERR_ALREADY_IN_USE:
+			return "There already exists a peer listening on this port. Try using a different port."
+		ERR_CANT_CREATE:
+			return "The peer couldn't be created."
+		_:
+			return "Unknown Error has occured. Error code: " + str(error)

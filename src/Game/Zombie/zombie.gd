@@ -120,6 +120,8 @@ func get_target(id: int) -> Player:
 
 @rpc("authority", "call_local", "reliable", 2)
 func update_score_on_hit(id: int, score: int) -> void:
+	if not $ZombieHit.playing:
+		$ZombieHit.play()
 	score_updated.emit(id, score)
 
 @rpc("authority", "call_local", "reliable", 2)
@@ -132,6 +134,8 @@ func _on_area_entered(area: Area2D) -> void:
 		health -= 5.0
 
 		if last_player_hit == 1:
+			if not $ZombieHit.playing:
+				$ZombieHit.play()
 			score_updated.emit(last_player_hit, hit_score)
 		else:
 			print(last_player_hit)

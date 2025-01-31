@@ -53,8 +53,8 @@ func _start_anticipation() -> void:
 	this_anticipation_time = 0
 	current_wave += 1
 
+	$Ambience.play()
 	anticipation_timer.start()
-
 	update_info_text.emit("Wave " + str(current_wave) + " in 10 seconds...")
 
 func _start_wave() -> void:
@@ -63,6 +63,7 @@ func _start_wave() -> void:
 
 	zombie_spawn_timer.start()
 
+	$Ambience.stop()
 	game_theme.stream = game_themes.pick_random()
 	game_theme.play()
 
@@ -70,7 +71,7 @@ func _end_wave() -> void:
 	await get_tree().create_timer(2).timeout
 
 	game_theme.stop()
-	$WaveSurvived.start()
+	$WaveSurvived.play()
 
 	update_info_text.emit("Wave " + str(current_wave) + " is over!")
 	wave_ended.emit()
@@ -113,3 +114,7 @@ func _update_zombie_remaining() -> void:
 
 	if this_wave_spawned == this_wave_zombies and this_wave_remaining <= 0:
 		_end_wave()
+
+
+func _on_wave_survived_finished() -> void:
+	$Ambience.play()

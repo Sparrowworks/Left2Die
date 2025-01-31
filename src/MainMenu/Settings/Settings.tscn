@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://cc4dykxxq0ax5"]
+[gd_scene load_steps=8 format=3 uid="uid://cc4dykxxq0ax5"]
 
 [ext_resource type="Texture2D" uid="uid://cwgil6drkq2da" path="res://assets/images/Panel.png" id="1_450fo"]
 [ext_resource type="Script" path="res://src/MainMenu/Settings/settings.gd" id="1_nunhr"]
 [ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="2_huwgh"]
 [ext_resource type="Texture2D" uid="uid://bsudayvhfm1nh" path="res://assets/images/Default.png" id="4_ihj2j"]
+[ext_resource type="Texture2D" uid="uid://o0nfxhatn0ex" path="res://assets/images/LineEdit.png" id="4_qck0f"]
 [ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="5_u2583"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3ypdf"]
+texture = ExtResource("4_qck0f")
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -41,7 +45,7 @@ offset_right = 142.5
 offset_bottom = 311.125
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 35
+theme_override_constants/separation = 15
 
 [node name="Title" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -104,6 +108,38 @@ layout_mode = 2
 value = 100.0
 rounded = true
 
+[node name="UsernameContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="SfxText" type="Label" parent="PanelContainer/VBoxContainer/UsernameContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_huwgh")
+theme_override_font_sizes/font_size = 24
+text = "current username:"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="PanelContainer/VBoxContainer/UsernameContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="NickEdit" type="LineEdit" parent="PanelContainer/VBoxContainer/UsernameContainer/Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_right = 100.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_huwgh")
+theme_override_styles/normal = SubResource("StyleBoxTexture_3ypdf")
+placeholder_text = "username"
+alignment = 1
+max_length = 20
+
 [node name="Control2" type="Control" parent="PanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 85)
 layout_mode = 2
@@ -136,3 +172,4 @@ vertical_alignment = 1
 [connection signal="value_changed" from="PanelContainer/VBoxContainer/MasterContainer/MasterSlider" to="." method="_on_master_slider_value_changed"]
 [connection signal="value_changed" from="PanelContainer/VBoxContainer/MusicContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="PanelContainer/VBoxContainer/SfxContainer/SfxSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="text_changed" from="PanelContainer/VBoxContainer/UsernameContainer/Control/NickEdit" to="." method="_on_nick_edit_text_changed"]

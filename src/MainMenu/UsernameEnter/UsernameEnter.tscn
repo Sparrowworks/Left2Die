@@ -1,0 +1,149 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6l0gso53jtub"]
+
+[ext_resource type="Script" path="res://src/MainMenu/UsernameEnter/username_enter.gd" id="1_64xxy"]
+[ext_resource type="Texture2D" uid="uid://cwgil6drkq2da" path="res://assets/images/Panel.png" id="1_fsgve"]
+[ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="2_b3w7v"]
+[ext_resource type="Texture2D" uid="uid://o0nfxhatn0ex" path="res://assets/images/LineEdit.png" id="3_gqw4u"]
+[ext_resource type="Texture2D" uid="uid://bsudayvhfm1nh" path="res://assets/images/Default.png" id="4_4lve1"]
+[ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="5_2bk8o"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vtqfq"]
+texture = ExtResource("3_gqw4u")
+
+[node name="UsernameEnter" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_64xxy")
+
+[node name="Panel" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -276.0
+offset_top = -360.0
+offset_right = 276.0
+offset_bottom = 235.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_fsgve")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -137.5
+offset_right = 150.0
+offset_bottom = 249.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_b3w7v")
+theme_override_font_sizes/font_size = 32
+text = "Enter username:"
+horizontal_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Desc" type="Label" parent="Panel/VBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(300, 90)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_b3w7v")
+text = "To play multiplayer you need a username. enter it in the field below. The username cannot have more than 20 characters. You can also edit this in the settings menu."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Control" type="Control" parent="Panel/VBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="NickEdit" type="LineEdit" parent="Panel/VBoxContainer/VBoxContainer2/Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_right = 100.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_b3w7v")
+theme_override_styles/normal = SubResource("StyleBoxTexture_vtqfq")
+placeholder_text = "username"
+alignment = 1
+max_length = 20
+
+[node name="Control" type="Control" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 85)
+layout_mode = 2
+
+[node name="ConfirmButton" type="TextureButton" parent="Panel/VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
+grow_horizontal = 2
+texture_normal = ExtResource("4_4lve1")
+texture_hover = ExtResource("5_2bk8o")
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Control/ConfirmButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_b3w7v")
+theme_override_font_sizes/font_size = 26
+text = "ENTER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control2" type="Control" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 85)
+layout_mode = 2
+
+[node name="BackButton" type="TextureButton" parent="Panel/VBoxContainer/Control2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 85.0
+grow_horizontal = 2
+texture_normal = ExtResource("4_4lve1")
+texture_hover = ExtResource("5_2bk8o")
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Control2/BackButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_b3w7v")
+theme_override_font_sizes/font_size = 26
+text = "BACK"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://b4dnsk44n2fp"]
+[gd_scene load_steps=15 format=4 uid="uid://b4dnsk44n2fp"]
 
 [ext_resource type="Script" path="res://src/MainMenu/MainMenu.gd" id="1_edpc0"]
 [ext_resource type="PackedScene" uid="uid://bsdhfmi104332" path="res://src/MainMenu/LobbyCreate/LobbyCreate.tscn" id="1_m0b8u"]
@@ -9,9 +9,11 @@
 [ext_resource type="PackedScene" uid="uid://dxv4kf348go2a" path="res://src/MainMenu/JoinMenu/JoinMenu.tscn" id="4_jybw2"]
 [ext_resource type="PackedScene" uid="uid://d2b4tkxtwc3op" path="res://src/Network/LobbyMenu/LobbyMenu.tscn" id="5_25oyt"]
 [ext_resource type="Texture2D" uid="uid://booyeg25k66q5" path="res://assets/images/Hover.png" id="5_t2kaj"]
+[ext_resource type="PackedScene" uid="uid://c6l0gso53jtub" path="res://src/MainMenu/UsernameEnter/UsernameEnter.tscn" id="6_e7ogq"]
 [ext_resource type="AudioStream" uid="uid://3a3lqi7nnxkw" path="res://assets/audio/menu.mp3" id="10_oebds"]
 [ext_resource type="PackedScene" uid="uid://cc4dykxxq0ax5" path="res://src/MainMenu/Settings/Settings.tscn" id="10_snbiu"]
 [ext_resource type="AudioStream" uid="uid://pm1ijge6oue1" path="res://assets/audio/buttonClick.mp3" id="11_w5qgu"]
+[ext_resource type="PackedScene" uid="uid://begtqkewe4a8m" path="res://src/MainMenu/Credits/Credits.tscn" id="12_auyjx"]
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_edpc0")
@@ -47,12 +49,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -80.0
-offset_top = -177.5
+offset_top = -207.5
 offset_right = 80.0
-offset_bottom = 177.5
+offset_bottom = 207.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 25
 alignment = 1
 
 [node name="MultiButton" type="TextureButton" parent="Menu/ButtonBox"]
@@ -112,6 +114,28 @@ text = "settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Credits" type="TextureButton" parent="Menu/ButtonBox"]
+layout_mode = 2
+texture_normal = ExtResource("2_sod4v")
+texture_hover = ExtResource("5_t2kaj")
+
+[node name="Label" type="Label" parent="Menu/ButtonBox/Credits"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_a1vwl")
+theme_override_font_sizes/font_size = 26
+text = "Credits"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UsernameEnter" parent="." instance=ExtResource("6_e7ogq")]
+visible = false
+
 [node name="GameSelect" parent="." instance=ExtResource("3_qirse")]
 visible = false
 
@@ -135,19 +159,34 @@ visible = false
 offset_top = 50.0
 offset_bottom = 50.0
 
-[node name="VersionText" type="Label" parent="."]
+[node name="Credits" parent="." instance=ExtResource("12_auyjx")]
+visible = false
+offset_top = 50.0
+offset_bottom = 50.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -66.0
-offset_top = -21.0
+offset_top = -40.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[node name="UsernameText" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_a1vwl")
+theme_override_font_sizes/font_size = 18
+text = "Username: NOne"
+
+[node name="VersionText" type="Label" parent="VBoxContainer"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2_a1vwl")
 theme_override_font_sizes/font_size = 18
 text = "v0.0.0.1"
+horizontal_alignment = 2
 
 [node name="MenuTheme" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_oebds")
@@ -159,6 +198,8 @@ bus = &"SFX"
 
 [connection signal="pressed" from="Menu/ButtonBox/MultiButton" to="." method="_on_multi_button_pressed"]
 [connection signal="pressed" from="Menu/ButtonBox/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Menu/ButtonBox/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="UsernameEnter/Panel/VBoxContainer/Control/ConfirmButton" to="." method="_on_confirm_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control/HostGameButton" to="." method="_on_host_game_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control2/JoinGameButton" to="." method="_on_join_game_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control3/MenuButton" to="." method="_on_menu_button_pressed"]
@@ -167,9 +208,12 @@ bus = &"SFX"
 [connection signal="pressed" from="JoinMenu/Panel/VBoxContainer/Control2/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="LobbyMenu/PanelContainer/VBoxContainer/Control2/LeaveButton" to="." method="_on_leave_button_pressed"]
 [connection signal="pressed" from="Settings/PanelContainer/VBoxContainer/Control2/MenuButton" to="." method="_on_settings_menu_button_pressed"]
+[connection signal="pressed" from="Credits/PanelContainer/VBoxContainer/Control2/MenuButton" to="." method="_on_settings_menu_button_pressed"]
 
+[editable path="UsernameEnter"]
 [editable path="GameSelect"]
 [editable path="LobbyCreate"]
 [editable path="JoinMenu"]
 [editable path="LobbyMenu"]
 [editable path="Settings"]
+[editable path="Credits"]

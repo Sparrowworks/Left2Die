@@ -1,13 +1,17 @@
 class_name MainMenu extends CanvasLayer
 
 @onready var main_menu: Control = $Menu
+@onready var username_enter: UsernameEnter = $UsernameEnter
 @onready var game_select: Control = $GameSelect
 @onready var lobby_create: Control = $LobbyCreate
 @onready var join_menu: Control = $JoinMenu
 @onready var lobby_menu: Control = $LobbyMenu
 @onready var settings: Control = $Settings
+@onready var credits: Control = $Credits
 
 @onready var button_click: AudioStreamPlayer = $ButtonClick
+@onready var username_text: Label = $VBoxContainer/UsernameText
+@onready var version_text: Label = $VBoxContainer/VersionText
 
 func _ready() -> void:
 	$MenuTheme.play()
@@ -15,12 +19,26 @@ func _ready() -> void:
 	Lobby.join_success.connect(_on_game_created)
 	Lobby.player_kicked.connect(_on_player_kicked)
 
-	$VersionText.text = "v" + ProjectSettings.get_setting("application/config/version")
+	version_text.text = "v" + ProjectSettings.get_setting("application/config/version")
 
 func _on_multi_button_pressed() -> void:
 	button_click.play()
 	main_menu.hide()
-	game_select.show()
+
+	if Lobby.player_username == "":
+		username_enter.show()
+	else:
+		game_select.show()
+
+func _on_confirm_button_pressed() -> void:
+	username_enter.reset()
+
+	if username_enter.is_username_correct():
+		Lobby.player_username = username_enter.nick_edit.text
+		username_text.text = "Username: " + str(Lobby.player_username)
+
+		username_enter.hide()
+		game_select.show()
 
 func _on_host_game_button_pressed() -> void:
 	button_click.play()
@@ -66,15 +84,19 @@ func _on_game_created() -> void:
 	join_menu.hide()
 
 	lobby_menu.show()
-
 	lobby_menu.draw_lobby(Lobby.connected_peers, Lobby.lobby_max)
-
 
 func _on_settings_pressed() -> void:
 	main_menu.hide()
 	settings.show()
 
+func _on_credits_pressed() -> void:
+	main_menu.hide()
+	credits.show()
 
 func _on_settings_menu_button_pressed() -> void:
+	username_text.text = "Username: " + Lobby.player_username
+
 	main_menu.show()
 	settings.hide()
+	credits.hide()
