@@ -54,7 +54,7 @@ func _ready() -> void:
 
 	if name.to_int() == multiplayer.get_unique_id():
 		player_camera.enabled = true
-		username_text.text = name
+		username_text.text = Lobby.connected_peers[multiplayer.get_unique_id()]
 		ui.show()
 
 func _physics_process(delta: float) -> void:
@@ -86,7 +86,7 @@ func shoot() -> void:
 	if firerate_timer.time_left <= 0 and reload_timer.time_left <= 0 and magazine > 0:
 		magazine -= 1
 		firerate_timer.start()
-		rpc("create_bullet", bullet_pos.global_position, self.rotation, name.to_int())
+		rpc("create_bullet", bullet_pos.global_position, self.rotation, multiplayer.get_unique_id())
 
 func reload() -> void:
 	if reload_timer.time_left <= 0 and magazine < 30:

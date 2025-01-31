@@ -57,7 +57,7 @@ func create_server(port: int, max_players: int) -> Error:
 
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	multiplayer.multiplayer_peer = peer
-	connected_peers[1] = Lobby.player_username
+	connected_peers[1] = player_username
 	return error
 
 func create_client(ip: String, port: int) -> Error:
@@ -112,21 +112,28 @@ func set_host_game_ready() -> void:
 	host_game_ready.emit()
 
 @rpc("authority","call_remote","reliable")
-func greet_peer() -> void:
-	rpc_id(1,"peer_send_info", multiplayer.get_unique_id(), Lobby.player_username, Lobby.game_version)
+func greet_peer(peers: Dictionary, max_players: int) -> void:
+	connected_peers = peers
+	lobby_max = max_players
+
+	connected_peers[multiplayer.get_unique_id()] = player_username
+
+	rpc("peer_send_info", multiplayer.get_unique_id(), player_username, game_version)
 
 @rpc("any_peer","call_remote","reliable")
 func peer_send_info(id: int, username: String, version: String) -> void:
-	if Lobby.game_version != version:
+	if multiplayer.is_server() and game_version != version:
 		printerr("Invalid game version for peer ", str(id))
 		rpc_id(id,"kick_peer","Invalid Version","To join the lobby, both the host and the client must have the same game version.")
 		return
 
 	if connected_peers.keys().has(id):
 		connected_peers[id] = username
-		lobby_menu.has_player_joined[id] = true
-		lobby_menu.check_if_game_can_start()
-		lobby_menu.rpc("draw_lobby", connected_peers, lobby_max)
+
+		if multiplayer.is_server():
+			lobby_menu.has_player_joined[id] = true
+			lobby_menu.check_if_game_can_start()
+			lobby_menu.rpc("draw_lobby", connected_peers, lobby_max)
 
 func _on_peer_connected(id: int) -> void:
 	if has_game_started:
@@ -142,7 +149,7 @@ func _on_peer_connected(id: int) -> void:
 	connected_peers[id] = ""
 
 	if multiplayer.is_server():
-		rpc_id(id, "greet_peer")
+		rpc_id(id, "greet_peer", connected_peers, lobby_max)
 		lobby_menu.has_player_joined[id] = false
 		lobby_menu.check_if_game_can_start()
 

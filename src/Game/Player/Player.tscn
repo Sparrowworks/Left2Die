@@ -144,6 +144,7 @@ stream = ExtResource("5_a07sd")
 bus = &"SFX"
 
 [node name="UI" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="Control" type="Control" parent="UI"]
 layout_mode = 3

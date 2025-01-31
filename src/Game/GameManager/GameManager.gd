@@ -29,6 +29,8 @@ func _ready() -> void:
 			has_launched_game[idx] = false
 			has_players_spawned[idx] = false
 
+		print(has_launched_game, has_players_spawned)
+
 		add_launched_game(1)
 	else:
 		if not Lobby.is_host_game_ready:
