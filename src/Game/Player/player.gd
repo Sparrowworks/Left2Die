@@ -13,6 +13,8 @@ class_name Player extends Area2D
 @onready var kills_text: Label = %KillsText
 @onready var ammo_text: Label = %AmmoText
 @onready var health_bar: ProgressBar = %HealthBar
+@onready var score_animation: AnimationPlayer = %ScoreAnimation
+@onready var kill_animation: AnimationPlayer = %KillAnimation
 
 @onready var synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
 @onready var player_camera: Camera2D = $Camera2D
@@ -123,8 +125,12 @@ func _on_zombie_score_updated(id: int, value: int) -> void:
 	if id == multiplayer.get_unique_id():
 		score += value
 		score_text.text = "Score: " + str(score)
+		if not score_animation.is_playing():
+			score_animation.play("ScoreUpdate")
 
 func _on_zombie_killed(id: int) -> void:
 	if id == multiplayer.get_unique_id():
 		kills += 1
 		kills_text.text = "Kills: " + str(kills)
+		if not kill_animation.is_playing():
+			kill_animation.play("KillUpdate")

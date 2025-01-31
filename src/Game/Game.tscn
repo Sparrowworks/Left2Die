@@ -276,6 +276,7 @@ text = "Kills:"
 horizontal_alignment = 1
 
 [node name="Player1Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Player1" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player1Box"]
@@ -300,6 +301,7 @@ text = "0"
 horizontal_alignment = 1
 
 [node name="Player2Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Player2" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player2Box"]
@@ -324,6 +326,7 @@ text = "0"
 horizontal_alignment = 1
 
 [node name="Player3Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Player3" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player3Box"]
@@ -348,6 +351,7 @@ text = "0"
 horizontal_alignment = 1
 
 [node name="Player4Box" type="HBoxContainer" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Player4" type="Label" parent="UI/GameHUD/GameEndPanel/VBoxContainer/PlayerScoreContainer/Player4Box"]

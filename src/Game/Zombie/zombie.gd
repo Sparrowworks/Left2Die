@@ -129,17 +129,21 @@ func update_kill(id: int) -> void:
 	zombie_killed.emit(id)
 
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("Bullets") && is_multiplayer_authority():
-		last_player_hit = area.player_id
-		health -= 5.0
+	if area.is_in_group("Bullets"):
+		if not $AnimationPlayer.is_playing():
+			$AnimationPlayer.play("Hit")
 
-		if last_player_hit == 1:
-			if not $ZombieHit.playing:
-				$ZombieHit.play()
-			score_updated.emit(last_player_hit, hit_score)
-		else:
-			print(last_player_hit)
-			rpc_id(last_player_hit, "update_score_on_hit", last_player_hit, hit_score)
+		if is_multiplayer_authority():
+			last_player_hit = area.player_id
+			health -= 5.0
+
+			if last_player_hit == 1:
+				if not $ZombieHit.playing:
+					$ZombieHit.play()
+				score_updated.emit(last_player_hit, hit_score)
+			else:
+				print(last_player_hit)
+				rpc_id(last_player_hit, "update_score_on_hit", last_player_hit, hit_score)
 
 func _on_zombie_ready(zombie_name: String) -> void:
 	if self.name == zombie_name:

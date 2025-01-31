@@ -83,10 +83,6 @@ func _end_wave() -> void:
 	this_wave_health += 5.0
 	this_wave_speed = clampf(this_wave_speed + 10.0, 100.0, 250.0)
 
-	await get_tree().create_timer(5).timeout
-
-	_start_anticipation()
-
 func _on_anticipation_timer_timeout() -> void:
 	this_anticipation_time += 1
 
@@ -118,3 +114,5 @@ func _update_zombie_remaining() -> void:
 
 func _on_wave_survived_finished() -> void:
 	$Ambience.play()
+
+	_start_anticipation()
