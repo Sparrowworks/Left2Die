@@ -71,27 +71,8 @@ offset_bottom = -11.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_a1vwl")
-theme_override_font_sizes/font_size = 20
-text = "MULTIPLAYER"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="SoloButton" type="TextureButton" parent="Menu/ButtonBox"]
-layout_mode = 2
-texture_normal = ExtResource("2_sod4v")
-texture_hover = ExtResource("5_t2kaj")
-
-[node name="Label" type="Label" parent="Menu/ButtonBox/SoloButton"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = -11.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_a1vwl")
-theme_override_font_sizes/font_size = 20
-text = "Singleplayer"
+theme_override_font_sizes/font_size = 24
+text = "Play game"
 horizontal_alignment = 1
 vertical_alignment = 1
 
