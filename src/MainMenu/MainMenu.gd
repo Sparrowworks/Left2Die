@@ -100,3 +100,4 @@ func _on_settings_menu_button_pressed() -> void:
 	main_menu.show()
 	settings.hide()
 	credits.hide()
+	username_enter.hide()

@@ -200,6 +200,7 @@ bus = &"SFX"
 [connection signal="pressed" from="Menu/ButtonBox/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Menu/ButtonBox/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="UsernameEnter/Panel/VBoxContainer/Control/ConfirmButton" to="." method="_on_confirm_button_pressed"]
+[connection signal="pressed" from="UsernameEnter/Panel/VBoxContainer/Control2/BackButton" to="." method="_on_settings_menu_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control/HostGameButton" to="." method="_on_host_game_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control2/JoinGameButton" to="." method="_on_join_game_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control3/MenuButton" to="." method="_on_menu_button_pressed"]
