@@ -77,6 +77,9 @@ func _end_wave() -> void:
 	wave_ended.emit(current_wave)
 	zombie_spawn_timer.stop()
 
+	this_wave_spawned = 0
+	this_wave_remaining = 0
+
 	this_wave_zombies += 5
 	this_wave_wait_time = clampf(this_wave_wait_time - 0.05, 0.5, 2.0)
 

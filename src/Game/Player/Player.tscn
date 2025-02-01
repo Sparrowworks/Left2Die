@@ -18,13 +18,13 @@ properties/1/path = NodePath(".:sync_rot")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[sub_resource type="Animation" id="Animation_87cqi"]
-resource_name = "ScoreUpdate"
+[sub_resource type="Animation" id="Animation_4cg67"]
+resource_name = "KillUpdate"
 length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%ScoreText:modulate")
+tracks/0/path = NodePath("%KillsText:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -61,13 +61,13 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_4cg67"]
-resource_name = "KillUpdate"
+[sub_resource type="Animation" id="Animation_87cqi"]
+resource_name = "ScoreUpdate"
 length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%KillsText:modulate")
+tracks/0/path = NodePath("%ScoreText:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {

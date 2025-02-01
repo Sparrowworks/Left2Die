@@ -50,7 +50,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if is_multiplayer_authority():
-		#prints(multiplayer.get_unique_id(), name, health, sync_health)
 		target_id = get_closest_target_id()
 
 		sync_pos = global_position
@@ -63,7 +62,6 @@ func _physics_process(delta: float) -> void:
 		global_position = global_position.lerp(sync_pos, synchronizer.replication_interval)
 		rotation_degrees = lerpf(rotation_degrees, sync_rot, synchronizer.replication_interval)
 
-		#prints(multiplayer.get_unique_id(), name, sync_health, health)
 		if sync_health <= health:
 			health = sync_health
 
@@ -122,6 +120,7 @@ func get_target(id: int) -> Player:
 func update_score_on_hit(id: int, score: int) -> void:
 	if not $ZombieHit.playing:
 		$ZombieHit.play()
+
 	score_updated.emit(id, score)
 
 @rpc("authority", "call_local", "reliable", 2)
@@ -133,17 +132,17 @@ func _on_area_entered(area: Area2D) -> void:
 		if not $AnimationPlayer.is_playing():
 			$AnimationPlayer.play("Hit")
 
+		if not $ZombieHit.playing:
+			$ZombieHit.play()
+
 		if is_multiplayer_authority():
 			last_player_hit = area.player_id
 			health -= 5.0
 
-			if last_player_hit == 1:
-				if not $ZombieHit.playing:
-					$ZombieHit.play()
-				score_updated.emit(last_player_hit, hit_score)
-			else:
-				print(last_player_hit)
+			if last_player_hit != 1:
 				rpc_id(last_player_hit, "update_score_on_hit", last_player_hit, hit_score)
+
+			score_updated.emit(last_player_hit, hit_score)
 
 func _on_zombie_ready(zombie_name: String) -> void:
 	if self.name == zombie_name:
@@ -166,12 +165,12 @@ func clean() -> void:
 		if multiplayer.get_unique_id() == 1:
 			game_manager.add_dead_zombie(self.name, 1)
 
-			if last_player_hit == 1:
-				score_updated.emit(last_player_hit, kill_score)
-				zombie_killed.emit(last_player_hit)
-			else:
+			if last_player_hit != 1:
 				rpc("update_score_on_hit", last_player_hit, kill_score)
 				rpc("update_kill", last_player_hit)
+
+			score_updated.emit(last_player_hit, kill_score)
+			zombie_killed.emit(last_player_hit)
 		else:
 			game_manager.rpc_id(1, "add_dead_zombie", self.name, multiplayer.get_unique_id())
 

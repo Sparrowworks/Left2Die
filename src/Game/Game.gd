@@ -110,8 +110,6 @@ func spawn_zombie(z_pos: Vector2, health: float, speed: float) -> void:
 		zombie.score_updated.connect(player._on_zombie_score_updated)
 		zombie.zombie_killed.connect(player._on_zombie_killed)
 
-	print("Spawning zombie for: ", str(multiplayer.get_unique_id(), " " , str(get_multiplayer_authority())))
-
 func start_game() -> void:
 	for plr: Player in players.get_children():
 		plr.synchronizer.public_visibility = true

@@ -31,6 +31,7 @@ func _on_multi_button_pressed() -> void:
 		game_select.show()
 
 func _on_confirm_button_pressed() -> void:
+	button_click.play()
 	username_enter.reset()
 
 	if username_enter.is_username_correct():
@@ -87,14 +88,17 @@ func _on_game_created() -> void:
 	lobby_menu.draw_lobby(Lobby.connected_peers, Lobby.lobby_max)
 
 func _on_settings_pressed() -> void:
+	button_click.play()
 	main_menu.hide()
 	settings.show()
 
 func _on_credits_pressed() -> void:
+	button_click.play()
 	main_menu.hide()
 	credits.show()
 
 func _on_settings_menu_button_pressed() -> void:
+	button_click.play()
 	username_text.text = "Username: " + Lobby.player_username
 
 	main_menu.show()

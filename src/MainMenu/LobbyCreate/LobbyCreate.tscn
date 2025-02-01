@@ -86,7 +86,6 @@ offset_bottom = 31.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("5_tyg46")
 theme_override_styles/normal = SubResource("StyleBoxTexture_dv1qx")
-text = "9999"
 placeholder_text = "9999"
 alignment = 1
 max_length = 5

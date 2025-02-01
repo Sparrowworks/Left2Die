@@ -28,6 +28,7 @@ var connected_peers: Dictionary = {
 }
 
 var has_game_started: bool = false
+var has_game_ended: bool = false
 
 var is_host_game_ready: bool = false
 
@@ -52,7 +53,7 @@ func create_server(port: int, max_players: int) -> Error:
 
 	var error: Error = peer.create_server(lobby_port, lobby_max)
 	if error != OK:
-		prints("Cannot host due to error",error)
+		printerr("Cannot host due to error",error)
 		return error
 
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
@@ -68,7 +69,7 @@ func create_client(ip: String, port: int) -> Error:
 
 	var error: Error = peer.create_client(lobby_ip, lobby_port)
 	if error != OK:
-		prints("Cannot join due to error",error)
+		printerr("Cannot host due to error",error)
 		return error
 
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
@@ -79,6 +80,7 @@ func create_client(ip: String, port: int) -> Error:
 	return error
 
 func clear_peer() -> void:
+	has_game_ended = false
 	has_game_started = false
 	is_host_game_ready = false
 
@@ -97,6 +99,7 @@ func kick_peer(title: String, content: String) -> void:
 
 @rpc("authority","call_local","reliable")
 func start_game() -> void:
+	has_game_started = true
 	Composer.load_scene("res://src/Game/Game.tscn")
 
 func game_started() -> void:
@@ -107,7 +110,6 @@ func game_started() -> void:
 
 @rpc("authority","call_local","reliable")
 func set_host_game_ready() -> void:
-	prints(multiplayer.get_unique_id(), "set_host_game_ready DONE")
 	is_host_game_ready = true
 	host_game_ready.emit()
 
@@ -183,6 +185,9 @@ func _on_connection_failed() -> void:
 	Messenger.message("Couldn't connect")
 
 func _on_server_disconnected() -> void:
+	if has_game_ended:
+		return
+
 	player_kicked.emit("Host Left","The game has ended because host has left.")
 
 func get_error_title(error: Error) -> String:

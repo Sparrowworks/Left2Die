@@ -29,8 +29,6 @@ func _ready() -> void:
 			has_launched_game[idx] = false
 			has_players_spawned[idx] = false
 
-		print(has_launched_game, has_players_spawned)
-
 		add_launched_game(1)
 	else:
 		if not Lobby.is_host_game_ready:
@@ -68,7 +66,6 @@ func set_zombie_ready(zombie_name: String) -> void:
 func add_dead_zombie(zombie_name: String, idx: int = 0) -> void:
 	if idx > 0:
 		is_zombie_dead[zombie_name][idx] = true
-		prints(is_zombie_dead)
 
 	if not is_zombie_dead[zombie_name].values().has(false):
 		rpc("set_zombie_dead", zombie_name)

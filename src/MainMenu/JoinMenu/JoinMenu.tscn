@@ -86,8 +86,7 @@ offset_bottom = 31.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("3_8hiaa")
 theme_override_styles/normal = SubResource("StyleBoxTexture_nwxlg")
-text = "192.168.0.148"
-placeholder_text = "192.168.0.0"
+placeholder_text = "0.0.0.0"
 alignment = 1
 max_length = 15
 
@@ -118,7 +117,6 @@ offset_bottom = 31.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("3_8hiaa")
 theme_override_styles/normal = SubResource("StyleBoxTexture_pfmoo")
-text = "9999"
 placeholder_text = "9999"
 alignment = 1
 max_length = 5
