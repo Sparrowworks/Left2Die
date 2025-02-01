@@ -11,8 +11,8 @@ It features:
 - Functional gameplay mechanics 
 
 ### Installation
-- [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) or download the repository.
-- Alternatively, download the project from [Itch](https://sp4r0w.itch.io/left2die)
+- Download the project from [Itch](https://sp4r0w.itch.io/left2die) and follow the instructions on how to play the game.
+- You can also [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) or download the repository and play it through Godot Editor.
 
 ### Screenshots
 <img src="https://img.itch.zone/aW1hZ2UvMzI0NDM2Mi8xOTY2MDc4Mi5wbmc=/original/qTmArR.png">
