@@ -34,6 +34,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(40, 50)
 layout_mode = 2
 size_flags_horizontal = 4
+mouse_filter = 1
 
 [node name="KickButton" type="Button" parent="HBoxContainer/Control"]
 layout_mode = 1
@@ -55,4 +56,4 @@ text = "Kick"
 stream = ExtResource("4_pvi26")
 bus = &"SFX"
 
-[connection signal="pressed" from="HBoxContainer/Control/KickButton" to="HBoxContainer" method="_on_kick_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Control/KickButton" to="." method="_on_kick_button_pressed"]

@@ -26,6 +26,7 @@ func draw_lobby(players: Dictionary, max_players: int) -> void:
 
 	for idx in range(0, player_list.get_child_count()):
 		var lobby_player: LobbyPlayer = player_list.get_child(idx)
+
 		if players.size() <= idx:
 			lobby_player.hide()
 			continue

@@ -129,4 +129,8 @@ text = "LEAVE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer" to="." method="_on_lobby_player_player_kicked"]
+[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer2" to="." method="_on_lobby_player_player_kicked"]
+[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer3" to="." method="_on_lobby_player_player_kicked"]
+[connection signal="player_kicked" from="PanelContainer/VBoxContainer/PlayerList/LobbyPlayer4" to="." method="_on_lobby_player_player_kicked"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Control/StartButton" to="." method="_on_start_button_pressed"]
