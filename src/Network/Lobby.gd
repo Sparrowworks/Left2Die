@@ -53,7 +53,7 @@ func create_server(port: int, max_players: int) -> Error:
 
 	var error: Error = peer.create_server(lobby_port, lobby_max)
 	if error != OK:
-		printerr("Cannot host due to error",error)
+		printerr("Cannot host due to error ",error)
 		return error
 
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
@@ -69,7 +69,7 @@ func create_client(ip: String, port: int) -> Error:
 
 	var error: Error = peer.create_client(lobby_ip, lobby_port)
 	if error != OK:
-		printerr("Cannot host due to error",error)
+		printerr("Cannot host due to error ",error)
 		return error
 
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)

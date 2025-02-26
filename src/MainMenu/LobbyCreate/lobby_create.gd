@@ -13,7 +13,13 @@ func _ready() -> void:
 func _on_host_button_pressed() -> void:
 	menu.button_click.play()
 
+	if port_edit.text == "":
+		var popup: MessagePopup = Messenger.create_popup("Invalid Port", "The port number cannot be empty.")
+		add_child(popup)
+		return
+
 	var error: Error = Lobby.create_server(int(port_edit.text),player_amount_field.value)
+	print(error)
 	if error == OK:
 		game_created.emit()
 	else:
