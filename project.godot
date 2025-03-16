@@ -11,9 +11,10 @@ config_version=5
 [application]
 
 config/name="Left2Die"
-config/version="1.0.0.2"
+config/version="1.0.3"
 run/main_scene="res://src/MainMenu/MainMenu.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.4", "GL Compatibility")
+boot_splash/image="uid://cok8kdongn4wx"
 config/icon="res://icon.svg"
 
 [autoload]

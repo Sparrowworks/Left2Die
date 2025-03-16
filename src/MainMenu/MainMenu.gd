@@ -19,7 +19,18 @@ func _ready() -> void:
 	Lobby.join_success.connect(_on_game_created)
 	Lobby.player_kicked.connect(_on_player_kicked)
 
-	version_text.text = "v" + ProjectSettings.get_setting("application/config/version")
+	set_version_text()
+
+func set_version_text() -> void:
+	var version: String = ProjectSettings.get_setting("application/config/version") as String
+	var how_many_zeroes: int = version.count("0")
+
+	if how_many_zeroes == 1:
+		version_text.text = "v" + version.trim_suffix(".0")
+	elif how_many_zeroes > 1:
+		version_text.text = "v" + version.trim_suffix(".0.0")
+	else:
+		version_text.text = "v" + version
 
 func _on_multi_button_pressed() -> void:
 	button_click.play()

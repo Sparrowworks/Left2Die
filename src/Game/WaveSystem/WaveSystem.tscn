@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bwpcx00qej3h7"]
 
-[ext_resource type="Script" path="res://src/Game/WaveSystem/WaveSystem.gd" id="1_02e3c"]
+[ext_resource type="Script" uid="uid://372k7bwn3bj1" path="res://src/Game/WaveSystem/WaveSystem.gd" id="1_02e3c"]
 [ext_resource type="AudioStream" uid="uid://b6y76mxvqi36x" path="res://assets/audio/waveSurvived.mp3" id="2_8ipg0"]
 [ext_resource type="AudioStream" uid="uid://crrad33fs7xk3" path="res://assets/audio/ambience.mp3" id="2_kxwep"]
 

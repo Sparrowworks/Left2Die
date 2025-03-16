@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://d2b4tkxtwc3op"]
 
-[ext_resource type="Script" path="res://src/Network/LobbyMenu/lobby_menu.gd" id="1_ko31f"]
+[ext_resource type="Script" uid="uid://dpynhegal0544" path="res://src/Network/LobbyMenu/lobby_menu.gd" id="1_ko31f"]
 [ext_resource type="Texture2D" uid="uid://cwgil6drkq2da" path="res://assets/images/Panel.png" id="2_3aj2o"]
 [ext_resource type="PackedScene" uid="uid://blw0l3qkfjeho" path="res://src/Network/LobbyMenu/LobbyPlayer/LobbyPlayer.tscn" id="2_lnl3i"]
 [ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="3_yqpec"]

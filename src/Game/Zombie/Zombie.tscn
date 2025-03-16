@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://ci4flqsp5bb67"]
 
 [ext_resource type="Texture2D" uid="uid://d32utsfjphh30" path="res://assets/images/zombie.png" id="1_hl5if"]
-[ext_resource type="Script" path="res://src/Game/Zombie/zombie.gd" id="1_pckpu"]
+[ext_resource type="Script" uid="uid://c12w4l5q8xukc" path="res://src/Game/Zombie/zombie.gd" id="1_pckpu"]
 [ext_resource type="PackedScene" uid="uid://j7bux8t31qy5" path="res://src/Game/Zombie/SoftCollision/SoftCollision.tscn" id="3_tyahi"]
 [ext_resource type="AudioStream" uid="uid://xm7pilhf50ya" path="res://assets/audio/zombieDeath.mp3" id="4_ed4td"]
 [ext_resource type="AudioStream" uid="uid://kf550wisu4jm" path="res://assets/audio/zombieHit.mp3" id="5_tuhu1"]
@@ -55,8 +55,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o3ewq"]
 _data = {
-"Hit": SubResource("Animation_eskaq"),
-"RESET": SubResource("Animation_vhlat")
+&"Hit": SubResource("Animation_eskaq"),
+&"RESET": SubResource("Animation_vhlat")
 }
 
 [node name="Zombie" type="Area2D" groups=["Zombies"]]

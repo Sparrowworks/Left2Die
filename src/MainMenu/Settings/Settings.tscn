@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://cc4dykxxq0ax5"]
 
 [ext_resource type="Texture2D" uid="uid://cwgil6drkq2da" path="res://assets/images/Panel.png" id="1_450fo"]
-[ext_resource type="Script" path="res://src/MainMenu/Settings/settings.gd" id="1_nunhr"]
+[ext_resource type="Script" uid="uid://cowkbwlasewi2" path="res://src/MainMenu/Settings/settings.gd" id="1_nunhr"]
 [ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="2_huwgh"]
 [ext_resource type="Texture2D" uid="uid://bsudayvhfm1nh" path="res://assets/images/Default.png" id="4_ihj2j"]
 [ext_resource type="Texture2D" uid="uid://o0nfxhatn0ex" path="res://assets/images/LineEdit.png" id="4_qck0f"]

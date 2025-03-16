@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=4 uid="uid://b4dnsk44n2fp"]
 
-[ext_resource type="Script" path="res://src/MainMenu/MainMenu.gd" id="1_edpc0"]
+[ext_resource type="Script" uid="uid://b6hopk6ajt7mk" path="res://src/MainMenu/MainMenu.gd" id="1_edpc0"]
 [ext_resource type="PackedScene" uid="uid://bsdhfmi104332" path="res://src/MainMenu/LobbyCreate/LobbyCreate.tscn" id="1_m0b8u"]
 [ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="2_a1vwl"]
 [ext_resource type="TileSet" uid="uid://dqhvr481fnr7v" path="res://assets/GroundTileSet.tres" id="2_pu3oi"]

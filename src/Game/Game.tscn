@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=4 uid="uid://6g7tcubrkmpk"]
 
-[ext_resource type="Script" path="res://src/Game/Game.gd" id="1_ecail"]
-[ext_resource type="Script" path="res://src/Game/GameManager/GameManager.gd" id="3_lqwi1"]
+[ext_resource type="Script" uid="uid://cqgq34lmu51x8" path="res://src/Game/Game.gd" id="1_ecail"]
+[ext_resource type="Script" uid="uid://cqmx8lhbfmkwk" path="res://src/Game/GameManager/GameManager.gd" id="3_lqwi1"]
 [ext_resource type="PackedScene" uid="uid://bwpcx00qej3h7" path="res://src/Game/WaveSystem/WaveSystem.tscn" id="3_n0ebj"]
 [ext_resource type="TileSet" uid="uid://dqhvr481fnr7v" path="res://assets/GroundTileSet.tres" id="4_nt570"]
 [ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="5_jaams"]
@@ -51,8 +51,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_scb1j"]
 _data = {
-"Load": SubResource("Animation_kxf6k"),
-"RESET": SubResource("Animation_pcejs")
+&"Load": SubResource("Animation_kxf6k"),
+&"RESET": SubResource("Animation_pcejs")
 }
 
 [sub_resource type="Animation" id="Animation_wtuae"]
@@ -89,8 +89,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mfjah"]
 _data = {
-"RESET": SubResource("Animation_wtuae"),
-"WaveStart": SubResource("Animation_hb2nm")
+&"RESET": SubResource("Animation_wtuae"),
+&"WaveStart": SubResource("Animation_hb2nm")
 }
 
 [node name="Game" type="Node2D"]

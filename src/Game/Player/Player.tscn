@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://dbhb0foyyu6wx"]
 
-[ext_resource type="Script" path="res://src/Game/Player/player.gd" id="1_5cqo4"]
+[ext_resource type="Script" uid="uid://dx5la7il72hes" path="res://src/Game/Player/player.gd" id="1_5cqo4"]
 [ext_resource type="Texture2D" uid="uid://b2uqhbk6wy1o5" path="res://assets/images/player1.png" id="1_rglww"]
 [ext_resource type="FontFile" uid="uid://cx1s85o8g7b4u" path="res://assets/Kenney Future Square.ttf" id="3_rtd01"]
 [ext_resource type="AudioStream" uid="uid://c4u32k0kdq3pa" path="res://assets/audio/shoot.mp3" id="3_vk6r1"]
@@ -79,9 +79,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mdds6"]
 _data = {
-"KillUpdate": SubResource("Animation_4cg67"),
-"RESET": SubResource("Animation_cyprw"),
-"ScoreUpdate": SubResource("Animation_87cqi")
+&"KillUpdate": SubResource("Animation_4cg67"),
+&"RESET": SubResource("Animation_cyprw"),
+&"ScoreUpdate": SubResource("Animation_87cqi")
 }
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f3tpj"]
