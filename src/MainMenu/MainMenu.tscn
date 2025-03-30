@@ -23,14 +23,24 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAA
 tile_set = ExtResource("2_pu3oi")
 metadata/_edit_lock_ = true
 
-[node name="Title" type="Label" parent="."]
+[node name="Text" type="VBoxContainer" parent="."]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 108.0
 grow_horizontal = 2
+
+[node name="Title" type="Label" parent="Text"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2_a1vwl")
 theme_override_font_sizes/font_size = 96
 text = "LEFT2DIE"
+horizontal_alignment = 1
+
+[node name="DevTitle" type="Label" parent="Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_a1vwl")
+theme_override_font_sizes/font_size = 24
+text = "developed by sparrowworks"
 horizontal_alignment = 1
 
 [node name="Menu" type="Control" parent="."]
@@ -116,9 +126,13 @@ vertical_alignment = 1
 
 [node name="UsernameEnter" parent="." instance=ExtResource("6_e7ogq")]
 visible = false
+offset_top = 50.0
+offset_bottom = 50.0
 
 [node name="GameSelect" parent="." instance=ExtResource("3_qirse")]
 visible = false
+offset_top = 50.0
+offset_bottom = 50.0
 
 [node name="Panel" parent="GameSelect" index="0"]
 offset_top = -360.0
@@ -126,24 +140,28 @@ offset_bottom = 235.0
 
 [node name="LobbyCreate" parent="." instance=ExtResource("1_m0b8u")]
 visible = false
+offset_top = 50.0
+offset_bottom = 50.0
 
 [node name="JoinMenu" parent="." instance=ExtResource("4_jybw2")]
 visible = false
+offset_top = 50.0
+offset_bottom = 50.0
 
 [node name="LobbyMenu" parent="." instance=ExtResource("5_25oyt")]
 visible = false
-offset_top = 50.0
-offset_bottom = 50.0
+offset_top = 100.0
+offset_bottom = 100.0
 
 [node name="Settings" parent="." instance=ExtResource("10_snbiu")]
 visible = false
-offset_top = 50.0
-offset_bottom = 50.0
+offset_top = 100.0
+offset_bottom = 100.0
 
 [node name="Credits" parent="." instance=ExtResource("12_auyjx")]
 visible = false
-offset_top = 50.0
-offset_bottom = 50.0
+offset_top = 100.0
+offset_bottom = 100.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchors_preset = 3
@@ -180,6 +198,7 @@ bus = &"SFX"
 [connection signal="pressed" from="Menu/ButtonBox/MultiButton" to="." method="_on_multi_button_pressed"]
 [connection signal="pressed" from="Menu/ButtonBox/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Menu/ButtonBox/Credits" to="." method="_on_credits_pressed"]
+[connection signal="text_submitted" from="UsernameEnter/Panel/VBoxContainer/VBoxContainer2/Control/NickEdit" to="." method="_on_nick_edit_text_submitted"]
 [connection signal="pressed" from="UsernameEnter/Panel/VBoxContainer/Control/ConfirmButton" to="." method="_on_confirm_button_pressed"]
 [connection signal="pressed" from="UsernameEnter/Panel/VBoxContainer/Control2/BackButton" to="." method="_on_settings_menu_button_pressed"]
 [connection signal="pressed" from="GameSelect/Panel/VBoxContainer/Control/HostGameButton" to="." method="_on_host_game_button_pressed"]

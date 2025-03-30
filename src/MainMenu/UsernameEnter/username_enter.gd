@@ -14,3 +14,6 @@ func is_username_correct() -> bool:
 		return false
 
 	return true
+
+func _on_nick_edit_text_submitted(new_text: String) -> void:
+	pass # Replace with function body.

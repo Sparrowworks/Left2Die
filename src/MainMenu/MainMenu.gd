@@ -38,8 +38,12 @@ func _on_multi_button_pressed() -> void:
 
 	if Lobby.player_username == "":
 		username_enter.show()
+		username_enter.nick_edit.grab_focus()
 	else:
 		game_select.show()
+
+func _on_nick_edit_text_submitted(new_text: String) -> void:
+	_on_confirm_button_pressed()
 
 func _on_confirm_button_pressed() -> void:
 	button_click.play()
@@ -51,6 +55,8 @@ func _on_confirm_button_pressed() -> void:
 
 		username_enter.hide()
 		game_select.show()
+	else:
+		username_enter.nick_edit.grab_focus()
 
 func _on_host_game_button_pressed() -> void:
 	button_click.play()
