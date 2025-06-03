@@ -122,7 +122,7 @@ func set_player_ready() -> void:
 	players_ready.emit()
 
 func clear_peer(id: int) -> void:
-	# When a peer leaves during the game, remove all mention of him
+	# Remove all references to a peer who leaves during the game.
 	has_launched_game.erase(id)
 	if not is_game_ready:
 		add_launched_game()
