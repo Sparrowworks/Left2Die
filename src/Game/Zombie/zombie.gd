@@ -62,7 +62,7 @@ func _physics_process(delta: float) -> void:
 		if health <= 0:
 			clean()
 	else:
-		# Smooth movement to account for pauses between the info about the new position
+		# Smooth movement to offset delays in position updates.
 		global_position = global_position.lerp(sync_pos, synchronizer.replication_interval)
 		rotation_degrees = lerpf(rotation_degrees, sync_rot, synchronizer.replication_interval)
 
