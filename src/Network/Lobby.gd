@@ -123,7 +123,7 @@ func set_host_game_ready() -> void:
 @rpc("authority","call_remote","reliable")
 func greet_peer(peers: Dictionary, max_players: int) -> void:
 	# This function is sent from the host to a client upon joining.
-	# It sends the info about the server for the UI display and asks for the info about the client
+	# Send server info for the UI and request client info.
 	connected_peers = peers
 	lobby_max = max_players
 
