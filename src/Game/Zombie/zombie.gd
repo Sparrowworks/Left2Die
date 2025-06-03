@@ -172,7 +172,7 @@ func activate() -> void:
 	collision_shape_2d.set_deferred("disabled",false)
 
 func clean() -> void:
-	# Hide the zombie before actually removing it to prevent any bugs and desync
+	# Hide the zombie before removing it to avoid bugs and desync.
 	if game_manager:
 		if multiplayer.get_unique_id() == 1:
 			game_manager.add_dead_zombie(self.name, 1)
