@@ -48,7 +48,7 @@ func draw_lobby(players: Dictionary, max_players: int) -> void:
 		lobby_player.show()
 
 func check_if_game_can_start() -> void:
-	# Only allow starting the game if everyone has joined and there are no inbound connections
+	# Start the game only when all players have joined and no connections are pending.
 	if multiplayer.is_server():
 		start_button.disabled = has_player_joined.values().has(false)
 
