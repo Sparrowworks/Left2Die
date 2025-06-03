@@ -116,7 +116,7 @@ func kick_peer(title: String, content: String) -> void:
 
 @rpc("authority","call_local","reliable")
 func set_host_game_ready() -> void:
-	# Notify everyone that the host has successfully joined the game and can be sent messages (rpc calls)
+	# Notify all clients that the host has joined and can receive RPCs.
 	is_host_game_ready = true
 	host_game_ready.emit()
 
