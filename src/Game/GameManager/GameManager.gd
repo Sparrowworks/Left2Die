@@ -57,7 +57,7 @@ func add_spawned_zombie(zombie_name: String, idx: int = 0) -> void:
 	if idx > 0:
 		is_zombie_spawned[zombie_name][idx] = true
 
-	# If he has, then activate him
+	# If spawned, activate him
 	if not is_zombie_spawned[zombie_name].values().has(false):
 		rpc("set_zombie_ready", zombie_name)
 
