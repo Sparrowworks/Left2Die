@@ -42,7 +42,7 @@ func add_zombie(zombie_name: String, z_pos: Vector2, health: float, speed: float
 	is_zombie_spawned[zombie_name] = {}
 	is_zombie_dead[zombie_name] = {}
 
-	# Keep a list if a zombie spawned/despawned for each client
+	# Track zombie spawns and despawns per client.
 	if multiplayer.get_unique_id() == 1:
 		for idx: int in Lobby.connected_peers.keys():
 			is_zombie_spawned[zombie_name][idx] = false
