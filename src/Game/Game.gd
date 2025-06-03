@@ -237,7 +237,7 @@ func _on_wave_system_wave_ended(wave: int) -> void:
 			if not is_player_dead[id]:
 				player_scores[id]["wave"] = wave
 
-	# Heal the players back to 100 after each wave
+	# After each wave, Heal players back to 100
 	var player: Player = players.get_node_or_null(str(multiplayer.get_unique_id()))
 	if player:
 		player.health = 100
