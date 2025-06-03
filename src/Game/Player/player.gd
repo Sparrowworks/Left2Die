@@ -52,7 +52,7 @@ var is_dead: bool:
 func _ready() -> void:
 	game = get_parent().get_parent()
 
-	# Allow to control and show the UI for the client that's meant to control this player
+	# Enable controls and UI for the client assigned to this player.
 	if name.to_int() == multiplayer.get_unique_id():
 		player_camera.enabled = true
 		username_text.text = Lobby.connected_peers[multiplayer.get_unique_id()]
