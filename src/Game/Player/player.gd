@@ -65,7 +65,7 @@ func _physics_process(delta: float) -> void:
 		rotation_degrees = lerpf(rotation_degrees, sync_rot, synchronizer.replication_interval)
 		return
 
-	# Only allow this to be processed by the controlling client
+	# Restrict processing to the controlling client only.
 	if Input.is_action_pressed("shoot"):
 		shoot()
 
