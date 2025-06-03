@@ -97,7 +97,7 @@ func add_launched_game(idx: int = 0) -> void:
 
 		has_launched_game[idx] = true
 
-	# If it did, then start spawning the players
+	# If it did, then spawn players
 	if not has_launched_game.values().has(false):
 		rpc("set_game_ready")
 
