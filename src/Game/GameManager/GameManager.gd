@@ -92,7 +92,7 @@ func add_launched_game(idx: int = 0) -> void:
 	# Check if the game has launched for every client
 	if idx > 0:
 		if idx == 1:
-			# If it launched for the host, notify the clients that the host can receive messages
+			# Once the host has launched, notify clients it can receive messages.
 			Lobby.rpc("set_host_game_ready")
 
 		has_launched_game[idx] = true
