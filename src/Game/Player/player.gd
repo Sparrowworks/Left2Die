@@ -52,17 +52,20 @@ var is_dead: bool:
 func _ready() -> void:
 	game = get_parent().get_parent()
 
+	# Allow to control and show the UI for the client that's meant to control this player
 	if name.to_int() == multiplayer.get_unique_id():
 		player_camera.enabled = true
 		username_text.text = Lobby.connected_peers[multiplayer.get_unique_id()]
 		ui.show()
 
 func _physics_process(delta: float) -> void:
+	# Lag compensation for other clients that are not controlling this player
 	if get_multiplayer_authority() != multiplayer.get_unique_id():
 		global_position = global_position.lerp(sync_pos, synchronizer.replication_interval)
 		rotation_degrees = lerpf(rotation_degrees, sync_rot, synchronizer.replication_interval)
 		return
 
+	# Only allow this to be processed by the controlling client
 	if Input.is_action_pressed("shoot"):
 		shoot()
 
@@ -86,9 +89,11 @@ func shoot() -> void:
 	if firerate_timer.time_left <= 0 and reload_timer.time_left <= 0 and magazine > 0:
 		magazine -= 1
 		firerate_timer.start()
+		# Create the same bullet for every client present
 		rpc("create_bullet", bullet_pos.global_position, self.rotation, multiplayer.get_unique_id())
 
 func reload() -> void:
+	# Reload the weapon, happens locally
 	if reload_timer.time_left <= 0 and magazine < 30:
 		$ReloadSound.play()
 		ammo_text.text = "Reloading..."
@@ -114,6 +119,7 @@ func _on_area_exited(area: Area2D) -> void:
 		attack_timer.stop()
 
 func _on_attack_timer_timeout() -> void:
+	# Only take damage on the controlling client
 	if is_multiplayer_authority():
 		health -= 10.0
 
@@ -122,6 +128,7 @@ func _on_reload_timer_timeout() -> void:
 		magazine = 30
 
 func _on_zombie_score_updated(id: int, value: int) -> void:
+	# Update the score when a zombie is hit
 	if id == multiplayer.get_unique_id():
 		score += value
 		score_text.text = "Score: " + str(score)
@@ -129,6 +136,7 @@ func _on_zombie_score_updated(id: int, value: int) -> void:
 			score_animation.play("ScoreUpdate")
 
 func _on_zombie_killed(id: int) -> void:
+	# Update the kill count
 	if id == multiplayer.get_unique_id():
 		kills += 1
 		kills_text.text = "Kills: " + str(kills)
