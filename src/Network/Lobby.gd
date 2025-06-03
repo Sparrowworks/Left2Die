@@ -39,6 +39,7 @@ func _ready() -> void:
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
+	# A timer that serves as an indication if the player is taking too long to join a server
 	join_timer = Timer.new()
 	join_timer.one_shot = true
 	join_timer.wait_time = 10
@@ -46,6 +47,7 @@ func _ready() -> void:
 	add_child(join_timer)
 
 func create_server(port: int, max_players: int) -> Error:
+	# Creates a server as a host and a multiplayer peer (host)
 	lobby_port = port
 	lobby_max = max_players
 
@@ -62,6 +64,7 @@ func create_server(port: int, max_players: int) -> Error:
 	return error
 
 func create_client(ip: String, port: int) -> Error:
+	# Creates a client and tries to join the given server (lobby)
 	lobby_ip = ip
 	lobby_port = port
 
@@ -80,6 +83,7 @@ func create_client(ip: String, port: int) -> Error:
 	return error
 
 func clear_peer() -> void:
+	# Clear everything from the current session
 	has_game_ended = false
 	has_game_started = false
 	is_host_game_ready = false
@@ -92,16 +96,6 @@ func clear_peer() -> void:
 
 	peer = null
 
-@rpc("authority","call_remote","reliable")
-func kick_peer(title: String, content: String) -> void:
-	player_kicked.emit(title, content)
-	join_failed.emit(true)
-
-@rpc("authority","call_local","reliable")
-func start_game() -> void:
-	has_game_started = true
-	Composer.load_scene("res://src/Game/Game.tscn")
-
 func game_started() -> void:
 	if multiplayer.is_server():
 		has_game_started = true
@@ -109,12 +103,27 @@ func game_started() -> void:
 		rpc("start_game")
 
 @rpc("authority","call_local","reliable")
+func start_game() -> void:
+	# Starts the game for every player in the lobby
+	has_game_started = true
+	Composer.load_scene("res://src/Game/Game.tscn")
+
+@rpc("authority","call_remote","reliable")
+func kick_peer(title: String, content: String) -> void:
+	# Kicks the player from the server. This function can only be triggered by a host on other clients.
+	player_kicked.emit(title, content)
+	join_failed.emit(true)
+
+@rpc("authority","call_local","reliable")
 func set_host_game_ready() -> void:
+	# Notify everyone that the host has successfully joined the game and can be sent messages (rpc calls)
 	is_host_game_ready = true
 	host_game_ready.emit()
 
 @rpc("authority","call_remote","reliable")
 func greet_peer(peers: Dictionary, max_players: int) -> void:
+	# This function is sent from the host to a client upon joining.
+	# It sends the info about the server for the UI display and asks for the info about the client
 	connected_peers = peers
 	lobby_max = max_players
 
@@ -124,6 +133,10 @@ func greet_peer(peers: Dictionary, max_players: int) -> void:
 
 @rpc("any_peer","call_remote","reliable")
 func peer_send_info(id: int, username: String, version: String) -> void:
+	# This function is sent from a client to the host after greet_peer
+	# It sends the info about the client to everyone else in the lobby
+
+	# Check if the client is running the same game version
 	if multiplayer.is_server() and game_version != version:
 		printerr("Invalid game version for peer ", str(id))
 		rpc_id(id,"kick_peer","Invalid Version","To join the lobby, both the host and the client must have the same game version.")
@@ -138,16 +151,19 @@ func peer_send_info(id: int, username: String, version: String) -> void:
 			lobby_menu.rpc("draw_lobby", connected_peers, lobby_max)
 
 func _on_peer_connected(id: int) -> void:
+	# Do not allow players to join if the game is started
 	if has_game_started:
 		if multiplayer.is_server():
 			rpc_id(id,"kick_peer","Game has started","You cannot join this game, because the game has already started.")
 		return
 
+	# Do not allow players to join if we're exceeding the lobby size
 	if connected_peers.size() == lobby_max:
 		if multiplayer.is_server():
 			rpc_id(id,"kick_peer","Lobby is full","You cannot join this game, because the lobby is full.")
 		return
 
+	# Wait for the data of the peer to be sent
 	connected_peers[id] = ""
 
 	if multiplayer.is_server():
@@ -158,6 +174,8 @@ func _on_peer_connected(id: int) -> void:
 	Messenger.message(str(id) + " Has connected")
 
 func _on_peer_disconnected(id: int) -> void:
+	# Remove the peer from the lobby or game
+
 	connected_peers.erase(id)
 	Messenger.message(str(id) + " Has disconnected")
 

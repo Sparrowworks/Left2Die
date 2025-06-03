@@ -18,12 +18,14 @@ func _ready() -> void:
 
 @rpc("authority", "call_local", "reliable")
 func draw_lobby(players: Dictionary, max_players: int) -> void:
+	# Only allow the game to be started by the host
 	if multiplayer.get_unique_id() == 1:
 		start_button_control.show()
 
 	if players.size() > 0:
 		lobby_title.text = "Players in Lobby (" + str(players.size()) + "/" + str(max_players) + "):"
 
+	# Show the players that are present in the lobby, alongside with their usernames
 	for idx in range(0, player_list.get_child_count()):
 		var lobby_player: LobbyPlayer = player_list.get_child(idx)
 
@@ -35,15 +37,18 @@ func draw_lobby(players: Dictionary, max_players: int) -> void:
 		var peer_nick: String = players[peer_id]
 
 		lobby_player.player_name = peer_nick
+		# Only show the kick button for the host
 		if peer_id == 1 or not multiplayer.is_server():
 			lobby_player.remove_kick()
 
+		# Mark the player's username with green
 		if peer_id == multiplayer.get_unique_id():
 			lobby_player.player_name_text.modulate = Color.GREEN
 
 		lobby_player.show()
 
 func check_if_game_can_start() -> void:
+	# Only allow starting the game if everyone has joined and there are no inbound connections
 	if multiplayer.is_server():
 		start_button.disabled = has_player_joined.values().has(false)
 
