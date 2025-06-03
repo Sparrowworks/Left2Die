@@ -117,7 +117,7 @@ func spawn_zombie(z_pos: Vector2, health: float, speed: float) -> void:
 		zombie.zombie_killed.connect(player._on_zombie_killed)
 
 func start_game() -> void:
-	# Start synchronizing the players once the game has started
+	# When the game starts, synchronize all players.
 	for plr: Player in players.get_children():
 		plr.synchronizer.public_visibility = true
 
