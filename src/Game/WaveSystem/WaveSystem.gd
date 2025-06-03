@@ -102,7 +102,7 @@ func _on_zombie_spawn_timer_timeout() -> void:
 	this_wave_spawned += 1
 	this_wave_remaining += 1
 
-	# Clamp the amount of zombies that can spawn in this wave
+	# Limit the number of zombies that can spawn this wave.
 	if this_wave_spawned == this_wave_zombies:
 		zombie_spawn_timer.stop()
 
