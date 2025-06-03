@@ -87,7 +87,7 @@ func _physics_process(delta: float) -> void:
 		global_position += direction.rotated(rotation) * speed * delta
 
 func get_closest_target_id() -> int:
-	# Get the closest alive player to the zombie and targets them
+	# Find the nearest player alive and target them.
 	var players: Array[Node] = get_tree().get_nodes_in_group("Players")
 	var player_amount: int = players.size()
 
