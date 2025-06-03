@@ -110,7 +110,7 @@ func start_game() -> void:
 
 @rpc("authority","call_remote","reliable")
 func kick_peer(title: String, content: String) -> void:
-	# Kicks the player from the server. This function can only be triggered by a host on other clients.
+	# Kicks a player from the server, only the host can trigger this on other clients.
 	player_kicked.emit(title, content)
 	join_failed.emit(true)
 
