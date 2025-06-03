@@ -24,7 +24,7 @@ var game: Game
 func _ready() -> void:
 	game = get_parent()
 
-	# Keep a list of who has already launched into the game and who's still loading
+	# Track which players have launched and which are still loading.
 	if multiplayer.get_unique_id() == 1:
 		for idx: int in Lobby.connected_peers.keys():
 			has_launched_game[idx] = false
