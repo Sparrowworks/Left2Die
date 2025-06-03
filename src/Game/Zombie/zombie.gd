@@ -50,7 +50,7 @@ func _ready() -> void:
 		game_manager.rpc_id(1, "add_spawned_zombie", self.name, multiplayer.get_unique_id())
 
 func _physics_process(delta: float) -> void:
-	# The selection of which player to chase happens on the host and gets synched to others later
+	# The host selects the target player, then syncs it with other clients.
 	if is_multiplayer_authority():
 		target_id = get_closest_target_id()
 
