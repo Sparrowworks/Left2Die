@@ -93,7 +93,7 @@ func spawn_players() -> void:
 
 @rpc("call_remote","authority","reliable",1)
 func spawn_zombie(z_pos: Vector2, health: float, speed: float) -> void:
-	# Spawn the zombie for each client
+	# Spawn zombie for each client
 	var zombie: Zombie = ZOMBIE.instantiate()
 
 	zombie.global_position = z_pos
