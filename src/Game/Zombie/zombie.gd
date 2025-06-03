@@ -43,7 +43,7 @@ func _ready() -> void:
 
 	game_manager.add_zombie(self.name, global_position, health, speed)
 
-	# Send info about the spawned
+	# Notify the host that the zombie has spawned for the client
 	if multiplayer.get_unique_id() == 1:
 		game_manager.add_spawned_zombie(self.name, 1)
 	else:
