@@ -16,6 +16,7 @@ func _ready() -> void:
 func _on_join_button_pressed() -> void:
 	menu.button_click.play()
 
+	# Check for valid IP and port number
 	if ip_edit.text == "":
 		var popup: MessagePopup = Messenger.create_popup("Invalid IP", "The IP address cannot be empty.")
 		add_child(popup)
@@ -26,6 +27,7 @@ func _on_join_button_pressed() -> void:
 		add_child(popup)
 		return
 
+	# Attempt to join a server
 	var error: Error = Lobby.create_client(ip_edit.text, int(port_edit.text))
 	if error != OK:
 		var popup: MessagePopup = Messenger.create_popup("Unknown error", "Unknown error has been returned with code: " + str(error))

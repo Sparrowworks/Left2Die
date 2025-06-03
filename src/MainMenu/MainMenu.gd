@@ -14,47 +14,43 @@ class_name MainMenu extends CanvasLayer
 @onready var version_text: Label = $VBoxContainer/VersionText
 
 func _ready() -> void:
+	print(int("ab1"))
 	$MenuTheme.play()
 
+	# Connect the signals from the Lobby singleton
 	Lobby.join_success.connect(_on_game_created)
 	Lobby.player_kicked.connect(_on_player_kicked)
 
-	set_version_text()
-
-func set_version_text() -> void:
-	var version: String = ProjectSettings.get_setting("application/config/version") as String
-	var how_many_zeroes: int = version.count("0")
-
-	if how_many_zeroes == 1:
-		version_text.text = "v" + version.trim_suffix(".0")
-	elif how_many_zeroes > 1:
-		version_text.text = "v" + version.trim_suffix(".0.0")
-	else:
-		version_text.text = "v" + version
+	version_text.text = "v" + ProjectSettings.get_setting("application/config/version")
 
 func _on_multi_button_pressed() -> void:
 	button_click.play()
 	main_menu.hide()
 
+	# If the player hasn't entered a username yet, force the input
 	if Lobby.player_username == "":
+		# Reset the username enter window to its base status
 		username_enter.show()
 		username_enter.nick_edit.grab_focus()
+		username_enter.desc.text = "To play multiplayer you need a username. enter it in the field below. The username cannot have more than 20 characters."
 	else:
 		game_select.show()
 
 func _on_nick_edit_text_submitted(new_text: String) -> void:
+	# Allow submitting the username with 'Enter'
 	_on_confirm_button_pressed()
 
 func _on_confirm_button_pressed() -> void:
 	button_click.play()
 	username_enter.reset()
 
+	# Verify if the username is correct
 	if username_enter.is_username_correct():
 		Lobby.player_username = username_enter.nick_edit.text
 		username_text.text = "Username: " + str(Lobby.player_username)
 
 		username_enter.hide()
-		game_select.show()
+		game_select.show() # Allow to join the game after entering the username
 	else:
 		username_enter.nick_edit.grab_focus()
 
@@ -71,6 +67,7 @@ func _on_menu_button_pressed() -> void:
 func _on_back_button_pressed() -> void:
 	button_click.play()
 	Lobby.clear_peer()
+
 	lobby_create.hide()
 	join_menu.hide()
 	game_select.show()

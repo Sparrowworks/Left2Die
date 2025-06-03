@@ -24,6 +24,7 @@ var game: Game
 func _ready() -> void:
 	game = get_parent()
 
+	# Track which players have launched and which are still loading.
 	if multiplayer.get_unique_id() == 1:
 		for idx: int in Lobby.connected_peers.keys():
 			has_launched_game[idx] = false
@@ -31,6 +32,7 @@ func _ready() -> void:
 
 		add_launched_game(1)
 	else:
+		# If a client loads before the host, wait for host, then send a message
 		if not Lobby.is_host_game_ready:
 			await Lobby.host_game_ready
 
@@ -40,23 +42,28 @@ func add_zombie(zombie_name: String, z_pos: Vector2, health: float, speed: float
 	is_zombie_spawned[zombie_name] = {}
 	is_zombie_dead[zombie_name] = {}
 
+	# Track zombie spawns and despawns per client.
 	if multiplayer.get_unique_id() == 1:
 		for idx: int in Lobby.connected_peers.keys():
 			is_zombie_spawned[zombie_name][idx] = false
 			is_zombie_dead[zombie_name][idx] = false
 
+		# Spawn the zombie for everyone
 		game.rpc("spawn_zombie", z_pos, health, speed)
 
 @rpc("any_peer","call_remote","reliable",1)
 func add_spawned_zombie(zombie_name: String, idx: int = 0) -> void:
+	# Check if a zombie has spawned for every client
 	if idx > 0:
 		is_zombie_spawned[zombie_name][idx] = true
 
+	# If spawned, activate him
 	if not is_zombie_spawned[zombie_name].values().has(false):
 		rpc("set_zombie_ready", zombie_name)
 
 @rpc("authority","call_local","reliable",1)
 func set_zombie_ready(zombie_name: String) -> void:
+	# Activate the zombie
 	if multiplayer.get_unique_id() == 1:
 		is_zombie_spawned.erase(zombie_name)
 
@@ -64,14 +71,17 @@ func set_zombie_ready(zombie_name: String) -> void:
 
 @rpc("any_peer","call_remote","reliable",1)
 func add_dead_zombie(zombie_name: String, idx: int = 0) -> void:
+	# Check if a zombie has despawned for every client
 	if idx > 0:
 		is_zombie_dead[zombie_name][idx] = true
 
+	# If he has, then delete him
 	if not is_zombie_dead[zombie_name].values().has(false):
 		rpc("set_zombie_dead", zombie_name)
 
 @rpc("authority","call_local","reliable",1)
 func set_zombie_dead(zombie_name: String) -> void:
+	# Delete the zombie
 	if multiplayer.get_unique_id() == 1:
 		is_zombie_dead.erase(zombie_name)
 
@@ -79,12 +89,15 @@ func set_zombie_dead(zombie_name: String) -> void:
 
 @rpc("any_peer","call_remote","reliable",1)
 func add_launched_game(idx: int = 0) -> void:
+	# Check if the game has launched for every client
 	if idx > 0:
 		if idx == 1:
+			# Once the host has launched, notify clients it can receive messages.
 			Lobby.rpc("set_host_game_ready")
 
 		has_launched_game[idx] = true
 
+	# If it did, then spawn players
 	if not has_launched_game.values().has(false):
 		rpc("set_game_ready")
 
@@ -95,9 +108,11 @@ func set_game_ready() -> void:
 
 @rpc("any_peer","call_remote","reliable",1)
 func add_players_spawned(idx: int = 0) -> void:
+	# Check if the players have spawned for every client
 	if idx > 0:
 		has_players_spawned[idx] = true
 
+	# If they did, then the game can finally start
 	if not has_players_spawned.values().has(false):
 		rpc("set_player_ready")
 
@@ -107,6 +122,7 @@ func set_player_ready() -> void:
 	players_ready.emit()
 
 func clear_peer(id: int) -> void:
+	# Remove all references to a peer who leaves during the game.
 	has_launched_game.erase(id)
 	if not is_game_ready:
 		add_launched_game()

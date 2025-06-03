@@ -147,5 +147,3 @@ theme_override_font_sizes/font_size = 26
 text = "BACK"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[connection signal="text_submitted" from="Panel/VBoxContainer/VBoxContainer2/Control/NickEdit" to="." method="_on_nick_edit_text_submitted"]

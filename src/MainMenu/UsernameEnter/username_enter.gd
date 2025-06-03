@@ -7,6 +7,7 @@ func reset() -> void:
 	desc.text = "To play multiplayer you need a username. enter it in the field below. The username cannot have more than 20 characters."
 
 func is_username_correct() -> bool:
+	# Check if the username isn't empty
 	var username: String = nick_edit.text.strip_edges()
 
 	if username == "":
@@ -14,6 +15,3 @@ func is_username_correct() -> bool:
 		return false
 
 	return true
-
-func _on_nick_edit_text_submitted(new_text: String) -> void:
-	pass # Replace with function body.

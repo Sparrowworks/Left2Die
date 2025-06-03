@@ -15,7 +15,7 @@ config/version="1.0.4"
 run/main_scene="res://src/MainMenu/MainMenu.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/image="uid://cok8kdongn4wx"
-config/icon="res://icon.svg"
+config/icon="uid://dfxmnyiyjlh1i"
 
 [autoload]
 

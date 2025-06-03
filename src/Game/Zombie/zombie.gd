@@ -43,15 +43,18 @@ func _ready() -> void:
 
 	game_manager.add_zombie(self.name, global_position, health, speed)
 
+	# Notify the host that the zombie has spawned for the client
 	if multiplayer.get_unique_id() == 1:
 		game_manager.add_spawned_zombie(self.name, 1)
 	else:
 		game_manager.rpc_id(1, "add_spawned_zombie", self.name, multiplayer.get_unique_id())
 
 func _physics_process(delta: float) -> void:
+	# The host selects the target player, then syncs it with other clients.
 	if is_multiplayer_authority():
 		target_id = get_closest_target_id()
 
+		# Special variables for lag compensation
 		sync_pos = global_position
 		sync_rot = rotation_degrees
 
@@ -59,6 +62,7 @@ func _physics_process(delta: float) -> void:
 		if health <= 0:
 			clean()
 	else:
+		# Smooth movement to offset delays in position updates.
 		global_position = global_position.lerp(sync_pos, synchronizer.replication_interval)
 		rotation_degrees = lerpf(rotation_degrees, sync_rot, synchronizer.replication_interval)
 
@@ -68,11 +72,14 @@ func _physics_process(delta: float) -> void:
 		if health <= 0:
 			clean()
 
+	# If there is no target, stop moving
 	if target == null:
 		return
 
+	# Move and look towards the chased player
 	look_at(target.global_position)
 
+	# Avoid overlapping with other zombies
 	if soft_collision.check_for_overlap():
 		global_position += soft_collision.get_push_vector() * delta * 50.0
 
@@ -80,6 +87,7 @@ func _physics_process(delta: float) -> void:
 		global_position += direction.rotated(rotation) * speed * delta
 
 func get_closest_target_id() -> int:
+	# Find the nearest player alive and target them.
 	var players: Array[Node] = get_tree().get_nodes_in_group("Players")
 	var player_amount: int = players.size()
 
@@ -125,6 +133,7 @@ func update_score_on_hit(id: int, score: int) -> void:
 
 @rpc("authority", "call_local", "reliable", 2)
 func update_kill(id: int) -> void:
+	# Notify that the zombie is dead on this client
 	zombie_killed.emit(id)
 
 func _on_area_entered(area: Area2D) -> void:
@@ -135,6 +144,7 @@ func _on_area_entered(area: Area2D) -> void:
 		if not $ZombieHit.playing:
 			$ZombieHit.play()
 
+		# Take hit only on the host
 		if is_multiplayer_authority():
 			last_player_hit = area.player_id
 			health -= 5.0
@@ -153,6 +163,7 @@ func _on_zombie_dead(zombie_name: String) -> void:
 		kill()
 
 func activate() -> void:
+	# Start synchronizing the zombie once its spawned for everyone
 	synchronizer.public_visibility = true
 	health_synchronizer.public_visibility = true
 
@@ -161,6 +172,7 @@ func activate() -> void:
 	collision_shape_2d.set_deferred("disabled",false)
 
 func clean() -> void:
+	# Hide the zombie before removing it to avoid bugs and desync.
 	if game_manager:
 		if multiplayer.get_unique_id() == 1:
 			game_manager.add_dead_zombie(self.name, 1)
