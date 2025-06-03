@@ -25,7 +25,7 @@ func draw_lobby(players: Dictionary, max_players: int) -> void:
 	if players.size() > 0:
 		lobby_title.text = "Players in Lobby (" + str(players.size()) + "/" + str(max_players) + "):"
 
-	# Show the players that are present in the lobby, alongside with their usernames
+	# Display all players and their usernames in the lobby.
 	for idx in range(0, player_list.get_child_count()):
 		var lobby_player: LobbyPlayer = player_list.get_child(idx)
 
