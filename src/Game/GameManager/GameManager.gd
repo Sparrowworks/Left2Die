@@ -32,7 +32,7 @@ func _ready() -> void:
 
 		add_launched_game(1)
 	else:
-		# If a client loaded in faster than the host, wait till the host loads then send a message
+		# If a client loads before the host, wait for host, then send a message
 		if not Lobby.is_host_game_ready:
 			await Lobby.host_game_ready
 
