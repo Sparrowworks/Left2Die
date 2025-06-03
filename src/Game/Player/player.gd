@@ -59,7 +59,7 @@ func _ready() -> void:
 		ui.show()
 
 func _physics_process(delta: float) -> void:
-	# Lag compensation for other clients that are not controlling this player
+	# Apply lag compensation for other clients.
 	if get_multiplayer_authority() != multiplayer.get_unique_id():
 		global_position = global_position.lerp(sync_pos, synchronizer.replication_interval)
 		rotation_degrees = lerpf(rotation_degrees, sync_rot, synchronizer.replication_interval)
