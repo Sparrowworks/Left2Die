@@ -65,7 +65,7 @@ func _process(delta: float) -> void:
 		pause_panel.visible = not pause_panel.visible
 
 func spawn_players() -> void:
-	# Spawn the players for each client and handle the control powers
+	# Spawn players for each client and assign authorities
 	for idx in range(0, Lobby.connected_peers.keys().size()):
 		var p_id: int = Lobby.connected_peers.keys()[idx]
 		var player: Player = PLAYER.instantiate()
