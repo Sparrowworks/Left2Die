@@ -29,15 +29,12 @@ var player_sprites: Array = [
 	preload("res://assets/images/player4.png")
 ]
 
-var player_scores: Dictionary = {
+var player_scores: Dictionary = {}
 
-}
-
-var is_player_dead: Dictionary = {
-
-}
+var is_player_dead: Dictionary = {}
 
 var is_dead: bool = false
+
 
 func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
@@ -60,9 +57,11 @@ func _ready() -> void:
 
 	start_game()
 
+
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("exit"):
 		pause_panel.visible = not pause_panel.visible
+
 
 func spawn_players() -> void:
 	# Spawn players for each client and assign authorities
@@ -87,11 +86,12 @@ func spawn_players() -> void:
 			player_scores[p_id] = {"score": 0, "kills": 0, "wave": 0}
 
 	if multiplayer.get_unique_id() != 1:
-		game_manager.rpc_id(1,"add_players_spawned",multiplayer.get_unique_id())
+		game_manager.rpc_id(1, "add_players_spawned", multiplayer.get_unique_id())
 	else:
 		game_manager.add_players_spawned(1)
 
-@rpc("call_remote","authority","reliable",1)
+
+@rpc("call_remote", "authority", "reliable", 1)
 func spawn_zombie(z_pos: Vector2, health: float, speed: float) -> void:
 	# Spawn zombie for each client
 	var zombie: Zombie = ZOMBIE.instantiate()
@@ -116,6 +116,7 @@ func spawn_zombie(z_pos: Vector2, health: float, speed: float) -> void:
 		zombie.score_updated.connect(player._on_zombie_score_updated)
 		zombie.zombie_killed.connect(player._on_zombie_killed)
 
+
 func start_game() -> void:
 	# When the game starts, synchronize all players.
 	for plr: Player in players.get_children():
@@ -128,17 +129,23 @@ func start_game() -> void:
 
 	wave_system.start()
 
-@rpc("authority","call_local","reliable",1)
+
+@rpc("authority", "call_local", "reliable", 1)
 func end_game(scores: Dictionary) -> void:
 	# Show the game over panel and the scores sent by the host for each client
-	$UI/GameHUD/GameEndPanel/VBoxContainer/Title.text = "Game Over!\nYou survived for " + str(scores[multiplayer.get_unique_id()]["wave"]) + " waves.\nPlayers' stats:"
+	$UI/GameHUD/GameEndPanel/VBoxContainer/Title.text = (
+		"Game Over!\nYou survived for "
+		+ str(scores[multiplayer.get_unique_id()]["wave"])
+		+ " waves.\nPlayers' stats:"
+	)
 
 	wave_system.stop()
 	$GameOver.play()
 
 	for idx in range(0, player_score_container.get_child_count()):
 		var child: HBoxContainer = player_score_container.get_child(idx)
-		if child.name == "HBoxContainer": continue
+		if child.name == "HBoxContainer":
+			continue
 
 		var actual_index: int = idx - 1
 		if Lobby.connected_peers.keys().size() <= actual_index:
@@ -161,7 +168,8 @@ func end_game(scores: Dictionary) -> void:
 
 	set_process(false)
 
-@rpc("any_peer","call_local","reliable",1)
+
+@rpc("any_peer", "call_local", "reliable", 1)
 func kill_player(id: int) -> void:
 	# Kill the player for every client
 	for player in players.get_children():
@@ -181,6 +189,7 @@ func kill_player(id: int) -> void:
 		if not is_player_dead.values().has(false):
 			rpc("end_game", player_scores)
 
+
 func _on_zombie_spawned(health: float, speed: float) -> void:
 	# Randomize the zombie spawn location
 	zombie_spawn_point.progress_ratio = randf()
@@ -188,17 +197,21 @@ func _on_zombie_spawned(health: float, speed: float) -> void:
 	if multiplayer.get_unique_id() == 1:
 		spawn_zombie(zombie_spawn_point.global_position, health, speed)
 
+
 func _on_zombie_score_updated(id: int, value: int) -> void:
 	if multiplayer.get_unique_id() == 1:
 		player_scores[id]["score"] += value
+
 
 func _on_zombie_killed(id: int) -> void:
 	if multiplayer.get_unique_id() == 1:
 		player_scores[id]["kills"] += 1
 
+
 func _on_player_disconnected(id: int) -> void:
 	kill_player(id)
 	game_manager.clear_peer(id)
+
 
 func _on_server_disconnected() -> void:
 	# Kick everyone once the host has left or disconnected
@@ -212,22 +225,27 @@ func _on_server_disconnected() -> void:
 	)
 	ui.add_child(popup)
 
+
 func _on_menu_button_pressed() -> void:
 	$ButtonClick.play()
 	process_mode = PROCESS_MODE_DISABLED
 	Composer.load_scene("res://src/MainMenu/MainMenu.tscn")
 	Lobby.clear_peer()
 
+
 func _on_resume_button_pressed() -> void:
 	$ButtonClick.play()
 	pause_panel.hide()
+
 
 func _on_wave_system_update_info_text(text: String) -> void:
 	if not is_dead:
 		info_text.text = text
 
+
 func _on_wave_system_wave_started() -> void:
 	%InfoAnimation.play("WaveStart")
+
 
 func _on_wave_system_wave_ended(wave: int) -> void:
 	%InfoAnimation.play("RESET")

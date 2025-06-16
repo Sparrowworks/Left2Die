@@ -1,6 +1,6 @@
 class_name MessagePopup extends Control
 
-signal ok_pressed()
+signal ok_pressed
 
 @onready var title: Label = %Title
 @onready var content: Label = %Content
@@ -20,10 +20,12 @@ signal ok_pressed()
 
 		content.text = val
 
+
 func _ready() -> void:
 	$Error.play()
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	ok_button.pressed.connect(default_ok)
+
 
 func default_ok() -> void:
 	$ButtonClick.play()

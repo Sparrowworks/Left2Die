@@ -1,17 +1,13 @@
 class_name GameManager extends Node
 
-signal game_ready()
-signal players_ready()
+signal game_ready
+signal players_ready
 signal zombie_ready(zombie_name: String)
 signal zombie_dead(zombie_name: String)
 
-var has_launched_game: Dictionary = {
+var has_launched_game: Dictionary = {}
 
-}
-
-var has_players_spawned: Dictionary = {
-
-}
+var has_players_spawned: Dictionary = {}
 
 var is_game_ready: bool = false
 var are_players_ready: bool = false
@@ -20,6 +16,7 @@ var is_zombie_spawned: Dictionary = {}
 var is_zombie_dead: Dictionary = {}
 
 var game: Game
+
 
 func _ready() -> void:
 	game = get_parent()
@@ -36,7 +33,8 @@ func _ready() -> void:
 		if not Lobby.is_host_game_ready:
 			await Lobby.host_game_ready
 
-		rpc_id(1,"add_launched_game",multiplayer.get_unique_id())
+		rpc_id(1, "add_launched_game", multiplayer.get_unique_id())
+
 
 func add_zombie(zombie_name: String, z_pos: Vector2, health: float, speed: float) -> void:
 	is_zombie_spawned[zombie_name] = {}
@@ -51,7 +49,8 @@ func add_zombie(zombie_name: String, z_pos: Vector2, health: float, speed: float
 		# Spawn the zombie for everyone
 		game.rpc("spawn_zombie", z_pos, health, speed)
 
-@rpc("any_peer","call_remote","reliable",1)
+
+@rpc("any_peer", "call_remote", "reliable", 1)
 func add_spawned_zombie(zombie_name: String, idx: int = 0) -> void:
 	# Check if a zombie has spawned for every client
 	if idx > 0:
@@ -61,7 +60,8 @@ func add_spawned_zombie(zombie_name: String, idx: int = 0) -> void:
 	if not is_zombie_spawned[zombie_name].values().has(false):
 		rpc("set_zombie_ready", zombie_name)
 
-@rpc("authority","call_local","reliable",1)
+
+@rpc("authority", "call_local", "reliable", 1)
 func set_zombie_ready(zombie_name: String) -> void:
 	# Activate the zombie
 	if multiplayer.get_unique_id() == 1:
@@ -69,7 +69,8 @@ func set_zombie_ready(zombie_name: String) -> void:
 
 	zombie_ready.emit(zombie_name)
 
-@rpc("any_peer","call_remote","reliable",1)
+
+@rpc("any_peer", "call_remote", "reliable", 1)
 func add_dead_zombie(zombie_name: String, idx: int = 0) -> void:
 	# Check if a zombie has despawned for every client
 	if idx > 0:
@@ -79,7 +80,8 @@ func add_dead_zombie(zombie_name: String, idx: int = 0) -> void:
 	if not is_zombie_dead[zombie_name].values().has(false):
 		rpc("set_zombie_dead", zombie_name)
 
-@rpc("authority","call_local","reliable",1)
+
+@rpc("authority", "call_local", "reliable", 1)
 func set_zombie_dead(zombie_name: String) -> void:
 	# Delete the zombie
 	if multiplayer.get_unique_id() == 1:
@@ -87,7 +89,8 @@ func set_zombie_dead(zombie_name: String) -> void:
 
 	zombie_dead.emit(zombie_name)
 
-@rpc("any_peer","call_remote","reliable",1)
+
+@rpc("any_peer", "call_remote", "reliable", 1)
 func add_launched_game(idx: int = 0) -> void:
 	# Check if the game has launched for every client
 	if idx > 0:
@@ -101,12 +104,14 @@ func add_launched_game(idx: int = 0) -> void:
 	if not has_launched_game.values().has(false):
 		rpc("set_game_ready")
 
-@rpc("authority","call_local","reliable",1)
+
+@rpc("authority", "call_local", "reliable", 1)
 func set_game_ready() -> void:
 	is_game_ready = true
 	game_ready.emit()
 
-@rpc("any_peer","call_remote","reliable",1)
+
+@rpc("any_peer", "call_remote", "reliable", 1)
 func add_players_spawned(idx: int = 0) -> void:
 	# Check if the players have spawned for every client
 	if idx > 0:
@@ -116,10 +121,12 @@ func add_players_spawned(idx: int = 0) -> void:
 	if not has_players_spawned.values().has(false):
 		rpc("set_player_ready")
 
-@rpc("authority","call_local","reliable",1)
+
+@rpc("authority", "call_local", "reliable", 1)
 func set_player_ready() -> void:
 	are_players_ready = true
 	players_ready.emit()
+
 
 func clear_peer(id: int) -> void:
 	# Remove all references to a peer who leaves during the game.

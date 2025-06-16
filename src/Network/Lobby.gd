@@ -2,11 +2,11 @@ extends Node
 
 signal player_kicked(error_title: String, error_content: String)
 
-signal join_success()
+signal join_success
 signal join_failed(quiet: bool)
 
-signal host_game_ready()
-signal host_player_ready()
+signal host_game_ready
+signal host_player_ready
 
 var master_volume: float = 100
 var music_volume: float = 100
@@ -23,14 +23,13 @@ var lobby_menu: LobbyMenu
 var player_username: String = ""
 var game_version: String = ProjectSettings.get_setting("application/config/version") as String
 
-var connected_peers: Dictionary = {
-
-}
+var connected_peers: Dictionary = {}
 
 var has_game_started: bool = false
 var has_game_ended: bool = false
 
 var is_host_game_ready: bool = false
+
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -46,6 +45,7 @@ func _ready() -> void:
 	join_timer.timeout.connect(func() -> void: join_failed.emit(false))
 	add_child(join_timer)
 
+
 func create_server(port: int, max_players: int) -> Error:
 	# Creates a server as a host and a multiplayer peer (host)
 	lobby_port = port
@@ -55,13 +55,14 @@ func create_server(port: int, max_players: int) -> Error:
 
 	var error: Error = peer.create_server(lobby_port, lobby_max)
 	if error != OK:
-		printerr("Cannot host due to error ",error)
+		printerr("Cannot host due to error ", error)
 		return error
 
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	multiplayer.multiplayer_peer = peer
 	connected_peers[1] = player_username
 	return error
+
 
 func create_client(ip: String, port: int) -> Error:
 	# Creates a client and tries to join the given server (lobby)
@@ -72,7 +73,7 @@ func create_client(ip: String, port: int) -> Error:
 
 	var error: Error = peer.create_client(lobby_ip, lobby_port)
 	if error != OK:
-		printerr("Cannot host due to error ",error)
+		printerr("Cannot host due to error ", error)
 		return error
 
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
@@ -81,6 +82,7 @@ func create_client(ip: String, port: int) -> Error:
 	join_timer.start()
 
 	return error
+
 
 func clear_peer() -> void:
 	# Clear everything from the current session
@@ -96,31 +98,36 @@ func clear_peer() -> void:
 
 	peer = null
 
+
 func game_started() -> void:
 	if multiplayer.is_server():
 		has_game_started = true
 
 		rpc("start_game")
 
-@rpc("authority","call_local","reliable")
+
+@rpc("authority", "call_local", "reliable")
 func start_game() -> void:
 	# Starts the game for every player in the lobby
 	has_game_started = true
 	Composer.load_scene("res://src/Game/Game.tscn")
 
-@rpc("authority","call_remote","reliable")
+
+@rpc("authority", "call_remote", "reliable")
 func kick_peer(title: String, content: String) -> void:
 	# Kicks a player from the server, only the host can trigger this on other clients.
 	player_kicked.emit(title, content)
 	join_failed.emit(true)
 
-@rpc("authority","call_local","reliable")
+
+@rpc("authority", "call_local", "reliable")
 func set_host_game_ready() -> void:
 	# Notify all clients that the host has joined and can receive RPCs.
 	is_host_game_ready = true
 	host_game_ready.emit()
 
-@rpc("authority","call_remote","reliable")
+
+@rpc("authority", "call_remote", "reliable")
 func greet_peer(peers: Dictionary, max_players: int) -> void:
 	# This function is sent from the host to a client upon joining.
 	# Send server info for the UI and request client info.
@@ -131,7 +138,8 @@ func greet_peer(peers: Dictionary, max_players: int) -> void:
 
 	rpc("peer_send_info", multiplayer.get_unique_id(), player_username, game_version)
 
-@rpc("any_peer","call_remote","reliable")
+
+@rpc("any_peer", "call_remote", "reliable")
 func peer_send_info(id: int, username: String, version: String) -> void:
 	# This function is sent from a client to the host after greet_peer
 	# It sends the info about the client to everyone else in the lobby
@@ -139,7 +147,12 @@ func peer_send_info(id: int, username: String, version: String) -> void:
 	# Check if the client is running the same game version
 	if multiplayer.is_server() and game_version != version:
 		printerr("Invalid game version for peer ", str(id))
-		rpc_id(id,"kick_peer","Invalid Version","To join the lobby, both the host and the client must have the same game version.")
+		rpc_id(
+			id,
+			"kick_peer",
+			"Invalid Version",
+			"To join the lobby, both the host and the client must have the same game version."
+		)
 		return
 
 	if connected_peers.keys().has(id):
@@ -150,17 +163,28 @@ func peer_send_info(id: int, username: String, version: String) -> void:
 			lobby_menu.check_if_game_can_start()
 			lobby_menu.rpc("draw_lobby", connected_peers, lobby_max)
 
+
 func _on_peer_connected(id: int) -> void:
 	# Do not allow players to join if the game is started
 	if has_game_started:
 		if multiplayer.is_server():
-			rpc_id(id,"kick_peer","Game has started","You cannot join this game, because the game has already started.")
+			rpc_id(
+				id,
+				"kick_peer",
+				"Game has started",
+				"You cannot join this game, because the game has already started."
+			)
 		return
 
 	# Do not allow players to join if we're exceeding the lobby size
 	if connected_peers.size() == lobby_max:
 		if multiplayer.is_server():
-			rpc_id(id,"kick_peer","Lobby is full","You cannot join this game, because the lobby is full.")
+			rpc_id(
+				id,
+				"kick_peer",
+				"Lobby is full",
+				"You cannot join this game, because the lobby is full."
+			)
 		return
 
 	# Wait for the data of the peer to be sent
@@ -172,6 +196,7 @@ func _on_peer_connected(id: int) -> void:
 		lobby_menu.check_if_game_can_start()
 
 	Messenger.message(str(id) + " Has connected")
+
 
 func _on_peer_disconnected(id: int) -> void:
 	# Remove the peer from the lobby or game
@@ -187,7 +212,9 @@ func _on_peer_disconnected(id: int) -> void:
 
 	lobby_menu.rpc("draw_lobby", connected_peers, lobby_max)
 
+
 ### CLIENT SIGNALS
+
 
 func _on_connected_to_server() -> void:
 	if join_timer:
@@ -199,14 +226,17 @@ func _on_connected_to_server() -> void:
 	Messenger.message("Connected to server")
 	join_success.emit()
 
+
 func _on_connection_failed() -> void:
 	Messenger.message("Couldn't connect")
+
 
 func _on_server_disconnected() -> void:
 	if has_game_ended:
 		return
 
-	player_kicked.emit("Host Left","The game has ended because host has left.")
+	player_kicked.emit("Host Left", "The game has ended because host has left.")
+
 
 func get_error_title(error: Error) -> String:
 	match error:
@@ -216,6 +246,7 @@ func get_error_title(error: Error) -> String:
 			return "Server Failed"
 		_:
 			return "Unknown Error"
+
 
 func get_error_text(error: Error) -> String:
 	match error:

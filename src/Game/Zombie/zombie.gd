@@ -34,6 +34,7 @@ var target: Player = null
 var game_manager: GameManager
 var last_player_hit: int
 
+
 func _ready() -> void:
 	clean()
 
@@ -48,6 +49,7 @@ func _ready() -> void:
 		game_manager.add_spawned_zombie(self.name, 1)
 	else:
 		game_manager.rpc_id(1, "add_spawned_zombie", self.name, multiplayer.get_unique_id())
+
 
 func _physics_process(delta: float) -> void:
 	# The host selects the target player, then syncs it with other clients.
@@ -86,6 +88,7 @@ func _physics_process(delta: float) -> void:
 	if not global_position.distance_squared_to(target.global_position) < 350:
 		global_position += direction.rotated(rotation) * speed * delta
 
+
 func get_closest_target_id() -> int:
 	# Find the nearest player alive and target them.
 	var players: Array[Node] = get_tree().get_nodes_in_group("Players")
@@ -108,12 +111,16 @@ func get_closest_target_id() -> int:
 			continue
 
 		if closest_target:
-			if global_position.distance_squared_to(player.global_position) < global_position.distance_squared_to(closest_target.global_position):
+			if (
+				global_position.distance_squared_to(player.global_position)
+				< global_position.distance_squared_to(closest_target.global_position)
+			):
 				closest_target = player
 		else:
 			closest_target = player
 
 	return closest_target.name.to_int()
+
 
 func get_target(id: int) -> Player:
 	var players: Array[Node] = get_tree().get_nodes_in_group("Players")
@@ -124,6 +131,7 @@ func get_target(id: int) -> Player:
 
 	return null
 
+
 @rpc("authority", "call_local", "reliable", 2)
 func update_score_on_hit(id: int, score: int) -> void:
 	if not $ZombieHit.playing:
@@ -131,10 +139,12 @@ func update_score_on_hit(id: int, score: int) -> void:
 
 	score_updated.emit(id, score)
 
+
 @rpc("authority", "call_local", "reliable", 2)
 func update_kill(id: int) -> void:
 	# Notify that the zombie is dead on this client
 	zombie_killed.emit(id)
+
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Bullets"):
@@ -154,13 +164,16 @@ func _on_area_entered(area: Area2D) -> void:
 
 			score_updated.emit(last_player_hit, hit_score)
 
+
 func _on_zombie_ready(zombie_name: String) -> void:
 	if self.name == zombie_name:
 		activate()
 
+
 func _on_zombie_dead(zombie_name: String) -> void:
 	if self.name == zombie_name:
 		kill()
+
 
 func activate() -> void:
 	# Start synchronizing the zombie once its spawned for everyone
@@ -169,7 +182,8 @@ func activate() -> void:
 
 	show()
 	set_physics_process(true)
-	collision_shape_2d.set_deferred("disabled",false)
+	collision_shape_2d.set_deferred("disabled", false)
+
 
 func clean() -> void:
 	# Hide the zombie before removing it to avoid bugs and desync.
@@ -190,9 +204,10 @@ func clean() -> void:
 		$ZombieDead.play()
 
 	synchronizer.public_visibility = false
-	collision_shape_2d.set_deferred("disabled",true)
+	collision_shape_2d.set_deferred("disabled", true)
 	hide()
 	set_physics_process(false)
+
 
 func kill() -> void:
 	health_synchronizer.public_visibility = false

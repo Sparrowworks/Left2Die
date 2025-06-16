@@ -49,6 +49,7 @@ var is_dead: bool:
 	get():
 		return health <= 0.0
 
+
 func _ready() -> void:
 	game = get_parent().get_parent()
 
@@ -57,6 +58,7 @@ func _ready() -> void:
 		player_camera.enabled = true
 		username_text.text = Lobby.connected_peers[multiplayer.get_unique_id()]
 		ui.show()
+
 
 func _physics_process(delta: float) -> void:
 	# Apply lag compensation for other clients.
@@ -77,7 +79,7 @@ func _physics_process(delta: float) -> void:
 	sync_pos = global_position
 	sync_rot = rotation_degrees
 
-	var movement_vector: Vector2 = Input.get_vector("left","right","up","down")
+	var movement_vector: Vector2 = Input.get_vector("left", "right", "up", "down")
 	if movement_vector:
 		global_position = Vector2(
 			clampf(global_position.x + movement_vector.x * speed * delta, 0, 1280),
@@ -92,6 +94,7 @@ func shoot() -> void:
 		# Create the same bullet for every client present
 		rpc("create_bullet", bullet_pos.global_position, self.rotation, multiplayer.get_unique_id())
 
+
 func reload() -> void:
 	# Reload the weapon, happens locally
 	if reload_timer.time_left <= 0 and magazine < 30:
@@ -99,7 +102,8 @@ func reload() -> void:
 		ammo_text.text = "Reloading..."
 		reload_timer.start()
 
-@rpc("any_peer", "call_local", "reliable",1)
+
+@rpc("any_peer", "call_local", "reliable", 1)
 func create_bullet(p_pos: Vector2, p_rot: float, id: int) -> void:
 	$ShootSound.play()
 
@@ -110,22 +114,27 @@ func create_bullet(p_pos: Vector2, p_rot: float, id: int) -> void:
 	bullet.rotation = p_rot
 	bullet.set_multiplayer_authority(1)
 
+
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Zombies") && is_multiplayer_authority():
 		attack_timer.start()
 
+
 func _on_area_exited(area: Area2D) -> void:
 	if area.is_in_group("Zombies") && is_multiplayer_authority():
 		attack_timer.stop()
+
 
 func _on_attack_timer_timeout() -> void:
 	# Only take damage on the controlling client
 	if is_multiplayer_authority():
 		health -= 10.0
 
+
 func _on_reload_timer_timeout() -> void:
 	if is_multiplayer_authority():
 		magazine = 30
+
 
 func _on_zombie_score_updated(id: int, value: int) -> void:
 	# Update the score when a zombie is hit
@@ -134,6 +143,7 @@ func _on_zombie_score_updated(id: int, value: int) -> void:
 		score_text.text = "Score: " + str(score)
 		if not score_animation.is_playing():
 			score_animation.play("ScoreUpdate")
+
 
 func _on_zombie_killed(id: int) -> void:
 	# Update the kill count
