@@ -7,14 +7,14 @@ class_name LobbyMenu extends Control
 
 var menu: MainMenu
 
-var has_player_joined: Dictionary = {
+var has_player_joined: Dictionary = {}
 
-}
 
 func _ready() -> void:
 	menu = get_parent()
 	Lobby.lobby_menu = self
 	lobby_title.text = "Please wait, joining..."
+
 
 @rpc("authority", "call_local", "reliable")
 func draw_lobby(players: Dictionary, max_players: int) -> void:
@@ -23,7 +23,9 @@ func draw_lobby(players: Dictionary, max_players: int) -> void:
 		start_button_control.show()
 
 	if players.size() > 0:
-		lobby_title.text = "Players in Lobby (" + str(players.size()) + "/" + str(max_players) + "):"
+		lobby_title.text = (
+			"Players in Lobby (" + str(players.size()) + "/" + str(max_players) + "):"
+		)
 
 	# Display all players and their usernames in the lobby.
 	for idx in range(0, player_list.get_child_count()):
@@ -47,19 +49,25 @@ func draw_lobby(players: Dictionary, max_players: int) -> void:
 
 		lobby_player.show()
 
+
 func check_if_game_can_start() -> void:
 	# Start the game only when all players have joined and no connections are pending.
 	if multiplayer.is_server():
 		start_button.disabled = has_player_joined.values().has(false)
+
 
 func _on_start_button_pressed() -> void:
 	menu.button_click.play()
 	if multiplayer.is_server():
 		Lobby.game_started()
 
+
 func _on_lobby_player_player_kicked(player_name: String) -> void:
 	if multiplayer.is_server():
-		Lobby.rpc_id(player_name.to_int(),"kick_peer", "Kicked", "You have been kicked from the lobby.")
+		Lobby.rpc_id(
+			player_name.to_int(), "kick_peer", "Kicked", "You have been kicked from the lobby."
+		)
+
 
 func _exit_tree() -> void:
 	Lobby.lobby_menu = null
